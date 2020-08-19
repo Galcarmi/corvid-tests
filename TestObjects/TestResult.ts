@@ -7,9 +7,9 @@ export class TestResult implements ITestResult {
   private _passed: boolean;
   private _timePassed:number;
   private _errorString:string;
-  private _startAt:string;
+  private _startAt:Date;
 
-  constructor(passed:boolean, timePassed:number, description:string, errorString:string|null, startAt:string){
+  constructor(passed:boolean, timePassed:number, description:string, errorString:string|null, startAt:Date){
       this._startAt = startAt;
       this._passed = passed;
       this._timePassed = timePassed;
@@ -19,11 +19,11 @@ export class TestResult implements ITestResult {
       }
   }
 
-  get StartAt(): string {
+  get StartAt(): Date {
     return this._startAt;
   }
 
-  set StartAt(val:string){
+  set StartAt(val:Date){
     this._startAt = val;
   }
 

@@ -11,6 +11,6 @@ export function testTemplate(matcher:IMatcher, actualTest:Function, errorValue:s
     matcher.after();
 
     const errorString = matcherResult?null:errorTemplate(JSON.stringify(matcher.ExpectedValue),JSON.stringify(errorValue));
-    matcher.Result = new TestResult(matcherResult, matcher.Performance.getCountMS(), matcher.Description, errorString, matcher.StartAt.toLocaleString());
+    matcher.Result = new TestResult(matcherResult, matcher.Performance.getCountMS(), matcher.Description, errorString, matcher.StartAt);
     return matcher.Result;
 }

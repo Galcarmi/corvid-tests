@@ -12,7 +12,7 @@ export interface ITestResult{
     TimePassed:number;
     Description:string;
     ErrorString:string;
-    StartAt:string;
+    StartAt:Date;
 
 
     toString():string;

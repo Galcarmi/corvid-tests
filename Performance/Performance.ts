@@ -1,18 +1,20 @@
+import now from 'performance-now'
+
 export class TestPerformance{
-    startTime:Date;
-    endTime:Date;
+    startTime:number;
+    endTime:number;
     resultMS:number;
     resultSEC:number;
 
     constructor(){}
 
     startCount(){
-        this.startTime = new Date();
+        this.startTime = now();
     }
 
     endCount(){
-        this.endTime = new Date();
-        this.resultMS = this.endTime.getTime() - this.startTime.getTime();
+        this.endTime = now();
+        this.resultMS = this.endTime - this.startTime;
         this.resultSEC = this.resultMS /= 1000;
     }
 
