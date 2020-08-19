@@ -3,13 +3,14 @@ import { TestPerformance } from '../Performance/Performance';
 
 export interface IMatcher{
 
-    //private fields
-    _result:ITestResult;
-    _description:string;
-    _performance: TestPerformance;
-    _startAt:Date;
-    _beforeFunctions:Function[];
-    _afterFunctions:Function[];
+    // //private fields
+    // _result:ITestResult;
+    // _description:string;
+    // _performance: TestPerformance;
+    // _startAt:Date;
+    // _beforeFunctions:Function[];
+    // _afterFunctions:Function[];
+   
 
     //access modifiers
     Result:ITestResult;
@@ -18,6 +19,7 @@ export interface IMatcher{
     StartAt:Date;
     BeforeFunctions:Function[];
     AfterFunctions:Function[];
+    ExpectedValue:any;
 
     
 

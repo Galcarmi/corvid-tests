@@ -6,19 +6,28 @@ import {testTemplate} from '../TestTemplates/MatcherTemplate'
 import {deepObjectEquals} from './ComplicatedEqualers'
 
 export class Matcher implements IMatcher {
-  _startAt: Date;
-  _errorString: string;
-  _description:string;
-  _result: ITestResult;
-  _performance: TestPerformance;
-  _beforeFunctions: Function[];
-  _afterFunctions: Function[];
+  
+  private _startAt: Date;
+  private _errorString: string;
+  private _description:string;
+  private _result: ITestResult;
+  private _performance: TestPerformance;
+  private _beforeFunctions: Function[];
+  private _afterFunctions: Function[];
 
-  constructor(private expectedValue: any, beforeFunctions:Function[], afterFunctions:Function[], description:string) {
+  constructor(private _expectedValue: any, beforeFunctions:Function[], afterFunctions:Function[], description:string) {
     this._performance = new TestPerformance();
     this._beforeFunctions = beforeFunctions;
     this._afterFunctions = afterFunctions;
     this._description = description;
+  }
+
+  get ExpectedValue(): any {
+    return this._expectedValue;
+  }
+
+  set ExpectedValue(val:any){
+    this._expectedValue = val;
   }
 
   get Result(): ITestResult {
@@ -75,7 +84,7 @@ export class Matcher implements IMatcher {
   set AfterFunctions(val:Function[]){
     this._afterFunctions = val;
   }
-  
+
   initMatcher(): void {
     this._beforeFunctions.push(()=>{
       this._performance.startCount();
@@ -101,60 +110,60 @@ export class Matcher implements IMatcher {
 
 
   toBeTrue(): ITestResult {
-    return testTemplate(this,()=>{this.expectedValue === true})
+    return testTemplate(this,()=>{this._expectedValue === true},'false')
   }
   toBeFalse():ITestResult{
-    return testTemplate(this,()=>this.expectedValue === false)
+    return testTemplate(this,()=>this._expectedValue === false, 'true')
   }
 
   toBeTruthy():ITestResult{
     return testTemplate(this,()=>{
-      if(this.expectedValue){
+      if(this._expectedValue){
         return true;
       }
       else{
         return false;
       }
-    })
+    },'falsy')
   }
 
   toBeFalsy():ITestResult{
     return testTemplate(this,()=>{
-      if(this.expectedValue){
+      if(this._expectedValue){
         return false;
       }
       else{
         return true;
       }
-    })
+    },'truthy')
   }
 
   equalValue(param:any):ITestResult{
-    return testTemplate(this, ()=>this.expectedValue === param)
+    return testTemplate(this, ()=>this._expectedValue === param, param)
   }
 
   notEqualValue(param:any):ITestResult{
-    return testTemplate(this, ()=>this.expectedValue !== param)
+    return testTemplate(this, ()=>this._expectedValue !== param, param)
   }
 
   toBeLessThan(param:number):ITestResult{
-    return testTemplate(this, ()=>this.expectedValue < param)
+    return testTemplate(this, ()=>this._expectedValue < param, param.toString())
   }
 
   toBeLessThanOrEqual(param:number):ITestResult{
-    return testTemplate(this, ()=>this.expectedValue <= param)
+    return testTemplate(this, ()=>this._expectedValue <= param, param.toString())
   }
 
   toBeGreaterThan(param:number):ITestResult{
-    return testTemplate(this, ()=>this.expectedValue > param)
+    return testTemplate(this, ()=>this._expectedValue > param, param.toString())
   }
 
   toBeGreaterThanOrEqual(param:number):ITestResult{
-    return testTemplate(this, ()=>this.expectedValue >= param)
+    return testTemplate(this, ()=>this._expectedValue >= param, param.toString())
   }
 
   objectDeepEquals(obj:any):ITestResult{
-    return testTemplate(this, ()=>deepObjectEquals(this.expectedValue,obj))
+    return testTemplate(this, ()=>deepObjectEquals(this._expectedValue,obj), obj)
   }
   
 }

@@ -1,13 +1,13 @@
 import { ITest } from "./ITest";
-import { TestResult } from "../TestObjects/TestResult";
+import { ITestResult } from "./ITestResult";
 
 export interface ITestSuite{
 
-    //private fields
-    _tests : ITest[]
-    _description:string;
-    _beforeEach: Function[];
-    _afterEach: Function[];
+    // //private fields
+    // _tests : ITest[]
+    // _description:string;
+    // _beforeEach: Function[];
+    // _afterEach: Function[];
 
     //access modifiers
     Tests : ITest[]
@@ -20,5 +20,5 @@ export interface ITestSuite{
     addBeforeEach(funcBefore:Function):ITestSuite;
     addAfterEach(funcAfter:Function):ITestSuite;
 
-    getResults():Array<TestResult>
+    getResults():Array<ITestResult>
 }

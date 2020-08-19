@@ -5,10 +5,10 @@ import { ITestResult } from "../interfaces/ITestResult";
 
 export class TestSuite implements ITestSuite {
   
-  _beforeEach: Function[];
-  _afterEach: Function[];
-  _tests: ITest[];
-  _description: string;
+  private _beforeEach: Function[];
+  private _afterEach: Function[];
+  private _tests: ITest[];
+  private _description: string;
 
   constructor(description: string) {
     this._tests = [];

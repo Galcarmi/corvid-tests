@@ -1,13 +1,18 @@
 export interface ITestResult{
-    _passed:boolean
-    _timePassed:number;
-    _description:string;
-    _errorString:string;
 
+    //private fields
+    // _passed:boolean
+    // _timePassed:number;
+    // _description:string;
+    // _errorString:string;
+    // _startAt:Date;
+
+    //access modifiers
     Passed:boolean
     TimePassed:number;
     Description:string;
     ErrorString:string;
+    StartAt:string;
 
 
     toString():string;

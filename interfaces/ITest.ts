@@ -2,11 +2,14 @@ import { IMatcher } from "./IMatcher";
 import {AsyncFunction} from '../types/AsyncFunction'
 
 export interface ITest{
-    _matcher:IMatcher
-    _description:string;
-    _beforeFunctions :Function[];
-    _afterFunctions :Function[];
 
+    // //private fields
+    // _matcher:IMatcher
+    // _description:string;
+    // _beforeFunctions :Function[];
+    // _afterFunctions :Function[];
+
+    //access modifiers
     Matcher:IMatcher;
     Description:string;
     BeforeFunctions :Function[];

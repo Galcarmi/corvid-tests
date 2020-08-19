@@ -1,3 +1,3 @@
-export function errorTemplate(x:string,y:string):string{
-    return `expected ${x}, but got ${y}`
+export function errorTemplate(expected:string,actualValue:string):string{
+    return `expected ${expected}, but got ${actualValue}`
 }

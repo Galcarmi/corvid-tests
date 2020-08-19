@@ -5,12 +5,18 @@ const Performance_1 = require("../Performance/Performance");
 const MatcherTemplate_1 = require("../TestTemplates/MatcherTemplate");
 const ComplicatedEqualers_1 = require("./ComplicatedEqualers");
 class Matcher {
-    constructor(expectedValue, beforeFunctions, afterFunctions, description) {
-        this.expectedValue = expectedValue;
+    constructor(_expectedValue, beforeFunctions, afterFunctions, description) {
+        this._expectedValue = _expectedValue;
         this._performance = new Performance_1.TestPerformance();
         this._beforeFunctions = beforeFunctions;
         this._afterFunctions = afterFunctions;
         this._description = description;
+    }
+    get ExpectedValue() {
+        return this._expectedValue;
+    }
+    set ExpectedValue(val) {
+        this._expectedValue = val;
     }
     get Result() {
         return this._result;
@@ -74,51 +80,51 @@ class Matcher {
         }
     }
     toBeTrue() {
-        return MatcherTemplate_1.testTemplate(this, () => { this.expectedValue === true; });
+        return MatcherTemplate_1.testTemplate(this, () => { this._expectedValue === true; }, 'false');
     }
     toBeFalse() {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue === false);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue === false, 'true');
     }
     toBeTruthy() {
         return MatcherTemplate_1.testTemplate(this, () => {
-            if (this.expectedValue) {
+            if (this._expectedValue) {
                 return true;
             }
             else {
                 return false;
             }
-        });
+        }, 'falsy');
     }
     toBeFalsy() {
         return MatcherTemplate_1.testTemplate(this, () => {
-            if (this.expectedValue) {
+            if (this._expectedValue) {
                 return false;
             }
             else {
                 return true;
             }
-        });
+        }, 'truthy');
     }
     equalValue(param) {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue === param);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue === param, param);
     }
     notEqualValue(param) {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue !== param);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue !== param, param);
     }
     toBeLessThan(param) {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue < param);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue < param, param.toString());
     }
     toBeLessThanOrEqual(param) {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue <= param);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue <= param, param.toString());
     }
     toBeGreaterThan(param) {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue > param);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue > param, param.toString());
     }
     toBeGreaterThanOrEqual(param) {
-        return MatcherTemplate_1.testTemplate(this, () => this.expectedValue >= param);
+        return MatcherTemplate_1.testTemplate(this, () => this._expectedValue >= param, param.toString());
     }
     objectDeepEquals(obj) {
-        return MatcherTemplate_1.testTemplate(this, () => ComplicatedEqualers_1.deepObjectEquals(this.expectedValue, obj));
+        return MatcherTemplate_1.testTemplate(this, () => ComplicatedEqualers_1.deepObjectEquals(this._expectedValue, obj), obj);
     }
 }
 exports.Matcher = Matcher;

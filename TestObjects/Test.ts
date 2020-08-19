@@ -4,10 +4,10 @@ import { Matcher } from "./Matcher";
 import { AsyncFunction } from "../types/AsyncFunction";
 
 export class Test implements ITest {
-  _description: string;
-  _matcher: IMatcher;
-  _beforeFunctions :Function[];
-  _afterFunctions :Function[];
+  private _description: string;
+  private _matcher: IMatcher;
+  private _beforeFunctions :Function[];
+  private _afterFunctions :Function[];
 
   constructor(description: string, beforeFunctions:Function[], afterFunctions:Function[]) {
     this._description = description;
