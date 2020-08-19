@@ -89,11 +89,11 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
   }
 
   initMatcher(): void {
-    this.Matcher.BeforeFunctions.push(()=>{
+    this.Matcher.BeforeFunctions.unshift(()=>{
       this.Matcher.Performance.startCount();
     })
 
-    this.Matcher.AfterFunctions.unshift(()=>{
+    this.Matcher.AfterFunctions.push(()=>{
       this.Matcher.Performance.endCount();
     })
   }

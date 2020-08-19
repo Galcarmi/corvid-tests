@@ -1,21 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const AsyncTestSuite_1 = require("./TestObjects/AsyncTestSuite");
-class Person {
-    constructor(age) {
-        this._age = age;
-    }
-    get Age() {
-        return this._age;
-    }
-    set Age(val) {
-        this._age = val;
-    }
-    celebrateBirthday() {
-        this._age++;
-        return this._age;
-    }
-}
 async function tests() {
     //   const ts = new TestSuite('my first suite');
     //   let gal = new Person(25);

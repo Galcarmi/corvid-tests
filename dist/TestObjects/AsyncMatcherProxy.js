@@ -65,10 +65,10 @@ class AsyncMatcherProxy {
         this._matcher = val;
     }
     initMatcher() {
-        this.Matcher.BeforeFunctions.push(() => {
+        this.Matcher.BeforeFunctions.unshift(() => {
             this.Matcher.Performance.startCount();
         });
-        this.Matcher.AfterFunctions.unshift(() => {
+        this.Matcher.AfterFunctions.push(() => {
             this.Matcher.Performance.endCount();
         });
     }
