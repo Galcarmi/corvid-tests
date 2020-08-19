@@ -4,10 +4,11 @@ import { Matcher } from "./Matcher";
 import { AsyncFunction } from "../types/AsyncFunction";
 import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
 import { IDescribable } from "../interfaces/IDescribable";
+import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
 
 export class Test implements ITest,IBeforeAfterFunc, IDescribable {
   private _description: string;
-  private _matcher: IMatcher;
+  private _matcher: IMatcher|AsyncMatcherProxy;
   private _beforeFunctions :Function[];
   private _afterFunctions :Function[];
 
@@ -25,11 +26,11 @@ export class Test implements ITest,IBeforeAfterFunc, IDescribable {
     this._description = val;
   }
 
-  get Matcher(): IMatcher {
+  get Matcher(): IMatcher|AsyncMatcherProxy {
     return this._matcher;
   }
 
-  set Matcher(val:IMatcher){
+  set Matcher(val:IMatcher|AsyncMatcherProxy){
     this._matcher = val;
   }
 
@@ -55,9 +56,8 @@ export class Test implements ITest,IBeforeAfterFunc, IDescribable {
     return this._matcher;
   }
 
-  async asyncExpect(asyncFunction:AsyncFunction):Promise<IMatcher>{
-    const asyncResult = await asyncFunction();
-    this._matcher = new Matcher(asyncResult, this._beforeFunctions, this._afterFunctions, this._description);
+   asyncExpect(asyncFunction:AsyncFunction):AsyncMatcherProxy{
+    this._matcher = new AsyncMatcherProxy(asyncFunction(), this._beforeFunctions, this._afterFunctions, this._description);
     return this._matcher;
 
   }

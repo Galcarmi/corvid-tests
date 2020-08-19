@@ -1,5 +1,6 @@
 import { IMatcher } from "./IMatcher";
 import {AsyncFunction} from '../types/AsyncFunction'
+import { AsyncMatcherProxy } from "../TestObjects/AsyncMatcherProxy";
 
 export interface ITest{
 
@@ -10,12 +11,12 @@ export interface ITest{
     // _afterFunctions :Function[];
 
     //access modifiers
-    Matcher:IMatcher;
+    Matcher:IMatcher|AsyncMatcherProxy;
 
 
 
     expect(result:any):IMatcher;
-    asyncExpect(asyncResult:(AsyncFunction)):Promise<IMatcher>
+    asyncExpect(asyncResult:(AsyncFunction)):AsyncMatcherProxy
     addBefore(beforeFunc:Function): ITest;
     addAfter(afterFunc:Function): ITest
     

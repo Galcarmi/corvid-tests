@@ -11,12 +11,14 @@ export interface IMatcher{
     // _beforeFunctions:Function[];
     // _afterFunctions:Function[];
    
-
+////todo merge interfaces
     //access modifiers
     Result:ITestResult;
     Performance: TestPerformance;
     StartAt:Date;
     ExpectedValue:any;
+    ErrorString:string;
+    Description:string;
 
     
 
@@ -26,7 +28,6 @@ export interface IMatcher{
     equalValue(param:any):ITestResult;
     toBeTrue(): ITestResult;
     toBeFalse():ITestResult;
-    equalValue(param:any):ITestResult;
     notEqualValue(param:any):ITestResult;
     toBeLessThan(param:number):ITestResult;
     toBeLessThanOrEqual(param:number):ITestResult;
