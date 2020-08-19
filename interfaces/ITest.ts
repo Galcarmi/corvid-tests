@@ -11,9 +11,6 @@ export interface ITest{
 
     //access modifiers
     Matcher:IMatcher;
-    Description:string;
-    BeforeFunctions :Function[];
-    AfterFunctions :Function[];
 
 
 

@@ -10,7 +10,6 @@ export interface ITestResult{
     //access modifiers
     Passed:boolean
     TimePassed:number;
-    Description:string;
     ErrorString:string;
     StartAt:Date;
 

@@ -2,8 +2,10 @@ import { TestResult } from "../TestObjects/TestResult";
 import { IMatcher } from "../interfaces/IMatcher";
 import {errorTemplate} from '../Utils/TemplateStrings'
 import { ITestResult } from "../interfaces/ITestResult";
+import {IDescribable} from '../interfaces/IDescribable'
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
 
-export function testTemplate(matcher:IMatcher, actualTest:Function, errorValue:string):ITestResult{
+export function testTemplate(matcher:IMatcher&IDescribable&IBeforeAfterFunc, actualTest:Function, errorValue:string):ITestResult{
     matcher.StartAt = new Date();
     matcher.initMatcher();
     matcher.before();

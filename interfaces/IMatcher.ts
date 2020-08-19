@@ -14,11 +14,8 @@ export interface IMatcher{
 
     //access modifiers
     Result:ITestResult;
-    Description:string;
     Performance: TestPerformance;
     StartAt:Date;
-    BeforeFunctions:Function[];
-    AfterFunctions:Function[];
     ExpectedValue:any;
 
     

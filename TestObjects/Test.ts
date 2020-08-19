@@ -2,8 +2,10 @@ import { ITest } from "../interfaces/ITest";
 import { IMatcher } from "../interfaces/IMatcher";
 import { Matcher } from "./Matcher";
 import { AsyncFunction } from "../types/AsyncFunction";
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
+import { IDescribable } from "../interfaces/IDescribable";
 
-export class Test implements ITest {
+export class Test implements ITest,IBeforeAfterFunc, IDescribable {
   private _description: string;
   private _matcher: IMatcher;
   private _beforeFunctions :Function[];

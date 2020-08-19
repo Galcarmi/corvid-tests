@@ -1,6 +1,7 @@
 import { ITestResult } from "../interfaces/ITestResult";
+import { IDescribable } from "../interfaces/IDescribable";
 
-export class TestResult implements ITestResult {
+export class TestResult implements ITestResult, IDescribable {
   
   
   private _description: string;

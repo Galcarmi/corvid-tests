@@ -4,8 +4,10 @@ import { ITestResult } from "../interfaces/ITestResult";
 import { TestPerformance } from "../Performance/Performance";
 import {testTemplate} from '../TestTemplates/MatcherTemplate'
 import {deepObjectEquals} from './ComplicatedEqualers'
+import {IBeforeAfterFunc} from '../interfaces/IBeforeAfterFunc'
+import {IDescribable} from '../interfaces/IDescribable'
 
-export class Matcher implements IMatcher {
+export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
   
   private _startAt: Date;
   private _errorString: string;

@@ -46,11 +46,31 @@ class TestSuite {
     run() {
         throw new Error("Method not implemented.");
     }
-    getResults() {
+    getAllTestsResults() {
         const resultsArr = this._tests.map((test) => {
             return test.Matcher.Result;
         });
         return resultsArr;
+    }
+    getPassedTestsResults() {
+        const passedTests = this._tests.filter((test) => {
+            return test.Matcher.Result.Passed;
+        });
+        const passedResults = [];
+        for (const failedTest of passedTests) {
+            passedResults.push(failedTest.Matcher.Result);
+        }
+        return passedResults;
+    }
+    getFailedTestsResults() {
+        const failedTests = this._tests.filter((test) => {
+            return !(test.Matcher.Result.Passed);
+        });
+        const failedResults = [];
+        for (const failedTest of failedTests) {
+            failedResults.push(failedTest.Matcher.Result);
+        }
+        return failedResults;
     }
     addBeforeEach(funcBefore) {
         this._beforeEach.push(funcBefore);

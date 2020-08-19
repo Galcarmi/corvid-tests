@@ -10,7 +10,7 @@ function testTemplate(matcher, actualTest, errorValue) {
     const matcherResult = actualTest();
     matcher.after();
     const errorString = matcherResult ? null : TemplateStrings_1.errorTemplate(JSON.stringify(matcher.ExpectedValue), JSON.stringify(errorValue));
-    matcher.Result = new TestResult_1.TestResult(matcherResult, matcher.Performance.getCountMS(), matcher.Description, errorString, matcher.StartAt.toLocaleString());
+    matcher.Result = new TestResult_1.TestResult(matcherResult, matcher.Performance.getCountMS(), matcher.Description, errorString, matcher.StartAt);
     return matcher.Result;
 }
 exports.testTemplate = testTemplate;

@@ -11,7 +11,6 @@ export interface ITestSuite{
 
     //access modifiers
     Tests : ITest[]
-    Description:string;
     BeforeEach: Function[];
     AfterEach: Function[];
 
@@ -20,5 +19,8 @@ export interface ITestSuite{
     addBeforeEach(funcBefore:Function):ITestSuite;
     addAfterEach(funcAfter:Function):ITestSuite;
 
-    getResults():Array<ITestResult>
+    getAllTestsResults():ITestResult[];
+    getPassedTestsResults():ITestResult[];
+    getFailedTestsResults():ITestResult[];
+
 }

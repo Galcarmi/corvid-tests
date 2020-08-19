@@ -2,8 +2,9 @@ import { ITestSuite } from "../interfaces/ITestSuite";
 import { ITest } from "../interfaces/ITest";
 import { Test } from "./Test";
 import { ITestResult } from "../interfaces/ITestResult";
+import { IDescribable } from "../interfaces/IDescribable";
 
-export class TestSuite implements ITestSuite {
+export class TestSuite implements ITestSuite, IDescribable {
   
   private _beforeEach: Function[];
   private _afterEach: Function[];
@@ -62,12 +63,37 @@ export class TestSuite implements ITestSuite {
     throw new Error("Method not implemented.");
   }
 
-  getResults(): ITestResult[] {
+  getAllTestsResults(): ITestResult[] {
     const resultsArr = this._tests.map((test) => {
       return test.Matcher.Result;
     });
 
     return resultsArr;
+  }
+
+  getPassedTestsResults(): ITestResult[]{
+    const passedTests = this._tests.filter((test) => {
+      return test.Matcher.Result.Passed;
+    });
+
+    const passedResults = [];
+    for(const failedTest of passedTests){
+      passedResults.push(failedTest.Matcher.Result);
+    }
+
+    return passedResults;
+  }
+  getFailedTestsResults(): ITestResult[] {
+    const failedTests = this._tests.filter((test) => {
+      return !(test.Matcher.Result.Passed);
+    });
+
+    const failedResults = [];
+    for(const failedTest of failedTests){
+      failedResults.push(failedTest.Matcher.Result);
+    }
+
+    return failedResults;
   }
 
   addBeforeEach(funcBefore: Function): ITestSuite {
@@ -78,5 +104,7 @@ export class TestSuite implements ITestSuite {
     this._afterEach.push(funcAfter);
     return this;
   }
+
+
 
 }
