@@ -3,45 +3,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Test = void 0;
 const Matcher_1 = require("./Matcher");
 class Test {
-    constructor(description, beforeFunctions, afterFunctions) {
-        this._description = description;
-        this._beforeFunctions = [...beforeFunctions];
-        this._afterFunctions = [...afterFunctions];
+    constructor(i_Description, i_BbeforeFunctions, i_AfterFunctions) {
+        this.m_Description = i_Description;
+        this.m_BeforeFunctions = [...i_BbeforeFunctions];
+        this.m_AfterFunctions = [...i_AfterFunctions];
     }
     get Description() {
-        return this._description;
+        return this.m_Description;
     }
     set Description(val) {
-        this._description = val;
+        this.m_Description = val;
     }
     get Matcher() {
-        return this._matcher;
+        return this.m_Matcher;
     }
     set Matcher(val) {
-        this._matcher = val;
+        this.m_Matcher = val;
     }
     get BeforeFunctions() {
-        return this._beforeFunctions;
+        return this.m_BeforeFunctions;
     }
     set BeforeFunctions(val) {
-        this._beforeFunctions = val;
+        this.m_BeforeFunctions = val;
     }
     get AfterFunctions() {
-        return this._afterFunctions;
+        return this.m_AfterFunctions;
     }
     set Result(val) {
-        this._afterFunctions = val;
+        this.m_AfterFunctions = val;
     }
-    expect(result) {
-        this._matcher = new Matcher_1.Matcher(result, this._beforeFunctions, this._afterFunctions, this._description);
-        return this._matcher;
+    expect(i_Result) {
+        this.m_Matcher = new Matcher_1.Matcher(i_Result, this.m_BeforeFunctions, this.m_AfterFunctions, this.m_Description);
+        return this.m_Matcher;
     }
-    addBefore(beforeFunc) {
-        this._beforeFunctions.push(beforeFunc);
+    addBefore(i_BeforeFunc) {
+        this.m_BeforeFunctions.push(i_BeforeFunc);
         return this;
     }
-    addAfter(afterFunc) {
-        this._afterFunctions.push(afterFunc);
+    addAfter(i_AfterFunc) {
+        this.m_AfterFunctions.push(i_AfterFunc);
         return this;
     }
 }

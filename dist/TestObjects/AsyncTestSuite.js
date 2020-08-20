@@ -3,40 +3,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AsyncTestSuite = void 0;
 const AsyncTest_1 = require("./AsyncTest");
 class AsyncTestSuite {
-    constructor(description) {
-        this._tests = [];
-        this._description = description;
-        this._beforeEach = [];
-        this._afterEach = [];
+    constructor(i_Description) {
+        this.m_Tests = [];
+        this.m_Description = i_Description;
+        this.m_BeforeEach = [];
+        this.m_AfterEach = [];
     }
     get Description() {
-        return this._description;
+        return this.m_Description;
     }
     set Description(val) {
-        this._description = val;
+        this.m_Description = val;
     }
     get Tests() {
-        return this._tests;
+        return this.m_Tests;
     }
     set Tests(val) {
-        this._tests = val;
+        this.m_Tests = val;
     }
     get BeforeEach() {
-        return this._beforeEach;
+        return this.m_BeforeEach;
     }
     set BeforeEach(val) {
-        this._beforeEach = val;
+        this.m_BeforeEach = val;
     }
     get AfterEach() {
-        return this._afterEach;
+        return this.m_AfterEach;
     }
     set AfterEach(val) {
-        this._afterEach = val;
+        this.m_AfterEach = val;
     }
-    addTest(testDescription) {
-        if (testDescription !== "") {
-            const test = new AsyncTest_1.AsyncTest(testDescription, this._beforeEach, this._afterEach);
-            this._tests.push(test);
+    addTest(i_testDescription) {
+        if (i_testDescription !== "") {
+            const test = new AsyncTest_1.AsyncTest(i_testDescription, this.m_BeforeEach, this.m_AfterEach);
+            this.m_Tests.push(test);
             return test;
         }
         else {
@@ -45,38 +45,38 @@ class AsyncTestSuite {
     }
     async getAllTestsResults() {
         await this.waitForTestsToBeResolved();
-        return this._results;
+        return this.m_Results;
     }
     async getPassedTestsResults() {
         await this.waitForTestsToBeResolved();
-        const passedTests = this._results.filter((result) => {
+        const passedTests = this.m_Results.filter((result) => {
             return result.Passed;
         });
         return passedTests;
     }
     async getFailedTestsResults() {
         await this.waitForTestsToBeResolved();
-        const failedTests = this._results.filter((result) => {
+        const failedTests = this.m_Results.filter((result) => {
             return !result.Passed;
         });
         return failedTests;
     }
     async waitForTestsToBeResolved() {
-        if (!this._allTestsResolved) {
-            const testResultsStatus = this._tests.map((test) => {
+        if (!this.m_AllTestsResolved) {
+            const testResultsStatus = this.m_Tests.map((test) => {
                 return test.Matcher.TestResultStatus;
             });
             const results = await Promise.all(testResultsStatus);
-            this._results = results;
-            this._allTestsResolved = true;
+            this.m_Results = results;
+            this.m_AllTestsResolved = true;
         }
     }
-    addBeforeEach(funcBefore) {
-        this._beforeEach.push(funcBefore);
+    addBeforeEach(i_FuncBefore) {
+        this.m_BeforeEach.push(i_FuncBefore);
         return this;
     }
-    addAfterEach(funcAfter) {
-        this._afterEach.push(funcAfter);
+    addAfterEach(i_FuncAfter) {
+        this.m_AfterEach.push(i_FuncAfter);
         return this;
     }
 }

@@ -21,20 +21,20 @@ export interface IAsyncMatcher {
   Description: string;
   BeforeFunctions: Function[];
   AfterFunctions: Function[];
-  TestResultStatus:Promise<any>;
+  TestResultStatus: Promise<any>;
 
-  resolveTestResult(testResult:ITestResult):void
+  resolveTestResult(i_testResult: ITestResult): void;
   toBeTruthy(): Promise<ITestResult>;
   toBeFalsy(): Promise<ITestResult>;
-  equalValue(param: any): Promise<ITestResult>;
+  equalValue(i_param: any): Promise<ITestResult>;
   toBeTrue(): Promise<ITestResult>;
   toBeFalse(): Promise<ITestResult>;
-  notEqualValue(param: any): Promise<ITestResult>;
-  toBeLessThan(param: number): Promise<ITestResult>;
-  toBeLessThanOrEqual(param: number): Promise<ITestResult>;
-  toBeGreaterThan(param: number): Promise<ITestResult>;
-  toBeGreaterThanOrEqual(param: number): Promise<ITestResult>;
-  objectDeepEquals(obj: any): Promise<ITestResult>;
+  notEqualValue(i_param: any): Promise<ITestResult>;
+  toBeLessThan(i_param: number): Promise<ITestResult>;
+  toBeLessThanOrEqual(i_param: number): Promise<ITestResult>;
+  toBeGreaterThan(i_param: number): Promise<ITestResult>;
+  toBeGreaterThanOrEqual(i_param: number): Promise<ITestResult>;
+  objectDeepEquals(i_obj: any): Promise<ITestResult>;
   before(): void;
   after(): void;
   initMatcher(): void;

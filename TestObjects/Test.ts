@@ -6,63 +6,71 @@ import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
 import { IDescribable } from "../interfaces/IDescribable";
 import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
 
-export class Test implements ITest,IBeforeAfterFunc, IDescribable {
-  private _description: string;
-  private _matcher: IMatcher;
-  private _beforeFunctions :Function[];
-  private _afterFunctions :Function[];
+export class Test implements ITest, IBeforeAfterFunc, IDescribable {
+  private m_Description: string;
+  private m_Matcher: IMatcher;
+  private m_BeforeFunctions: Function[];
+  private m_AfterFunctions: Function[];
 
-  constructor(description: string, beforeFunctions:Function[], afterFunctions:Function[]) {
-    this._description = description;
-    this._beforeFunctions = [...beforeFunctions];
-    this._afterFunctions = [...afterFunctions];
+  constructor(
+    i_Description: string,
+    i_BbeforeFunctions: Function[],
+    i_AfterFunctions: Function[]
+  ) {
+    this.m_Description = i_Description;
+    this.m_BeforeFunctions = [...i_BbeforeFunctions];
+    this.m_AfterFunctions = [...i_AfterFunctions];
   }
 
   get Description(): string {
-    return this._description;
+    return this.m_Description;
   }
 
-  set Description(val:string){
-    this._description = val;
+  set Description(val: string) {
+    this.m_Description = val;
   }
 
   get Matcher(): IMatcher {
-    return this._matcher;
+    return this.m_Matcher;
   }
 
-  set Matcher(val:IMatcher){
-    this._matcher = val;
+  set Matcher(val: IMatcher) {
+    this.m_Matcher = val;
   }
 
   get BeforeFunctions(): Function[] {
-    return this._beforeFunctions;
+    return this.m_BeforeFunctions;
   }
 
-  set BeforeFunctions(val:Function[]){
-    this._beforeFunctions = val;
+  set BeforeFunctions(val: Function[]) {
+    this.m_BeforeFunctions = val;
   }
 
   get AfterFunctions(): Function[] {
-    return this._afterFunctions;
+    return this.m_AfterFunctions;
   }
 
-  set Result(val:Function[]){
-    this._afterFunctions = val;
+  set Result(val: Function[]) {
+    this.m_AfterFunctions = val;
   }
 
-  public expect(result: any): IMatcher {
-    this._matcher = new Matcher(result, this._beforeFunctions, this._afterFunctions, this._description);
+  public expect(i_Result: any): IMatcher {
+    this.m_Matcher = new Matcher(
+      i_Result,
+      this.m_BeforeFunctions,
+      this.m_AfterFunctions,
+      this.m_Description
+    );
 
-    return this._matcher;
+    return this.m_Matcher;
   }
 
-  public addBefore(beforeFunc:Function): ITest {
-    this._beforeFunctions.push(beforeFunc);
+  public addBefore(i_BeforeFunc: Function): ITest {
+    this.m_BeforeFunctions.push(i_BeforeFunc);
     return this;
   }
-  public addAfter(afterFunc:Function): ITest {
-    this._afterFunctions.push(afterFunc);
+  public addAfter(i_AfterFunc: Function): ITest {
+    this.m_AfterFunctions.push(i_AfterFunc);
     return this;
   }
-
 }

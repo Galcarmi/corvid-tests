@@ -5,16 +5,16 @@ const AsyncMatcherTemplate_1 = require("../TestTemplates/AsyncMatcherTemplate");
 const ComplicatedEqualers_1 = require("./ComplicatedEqualers");
 const Matcher_1 = require("./Matcher");
 class AsyncMatcherProxy {
-    constructor(_expectedPromiseValue, beforeFunctions, afterFunctions, description) {
-        this._expectedPromiseValue = _expectedPromiseValue;
-        this._matcher = new Matcher_1.Matcher(null, beforeFunctions, afterFunctions, description);
-        this._testResultStatus = new Promise((res, rej) => { this._testResultResolver = res; });
+    constructor(m_ExpectedPromiseValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
+        this.m_ExpectedPromiseValue = m_ExpectedPromiseValue;
+        this.m_Matcher = new Matcher_1.Matcher(null, i_BeforeFunctions, i_AfterFunctions, i_Description);
+        this.m_TestResultStatus = new Promise((res, rej) => { this.m_TestResultResolver = res; });
     }
     get TestResultStatus() {
-        return this._testResultStatus;
+        return this.m_TestResultStatus;
     }
     set TestResultStatus(val) {
-        this._testResultStatus = val;
+        this.m_TestResultStatus = val;
     }
     get ExpectedValue() {
         return this.Matcher.ExpectedValue;
@@ -66,13 +66,13 @@ class AsyncMatcherProxy {
     }
     ///todo check why it has to be type of any
     get Matcher() {
-        return this._matcher;
+        return this.m_Matcher;
     }
     set Matcher(val) {
-        this._matcher = val;
+        this.m_Matcher = val;
     }
-    resolveTestResult(testResult) {
-        this._testResultResolver(testResult);
+    resolveTestResult(i_TestResult) {
+        this.m_TestResultResolver(i_TestResult);
     }
     initMatcher() {
         this.Matcher.BeforeFunctions.unshift(() => {
@@ -122,36 +122,36 @@ class AsyncMatcherProxy {
             }
         }, 'truthy');
     }
-    async equalValue(param) {
+    async equalValue(i_Param) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === param, param);
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === i_Param, i_Param);
     }
-    async notEqualValue(param) {
+    async notEqualValue(i_Param) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue !== param, param);
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue !== i_Param, i_Param);
     }
-    async toBeLessThan(param) {
+    async toBeLessThan(i_Param) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue < param, param.toString());
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue < i_Param, i_Param.toString());
     }
-    async toBeLessThanOrEqual(param) {
+    async toBeLessThanOrEqual(i_Param) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue <= param, param.toString());
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue <= i_Param, i_Param.toString());
     }
-    async toBeGreaterThan(param) {
+    async toBeGreaterThan(i_Param) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue > param, param.toString());
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue > i_Param, i_Param.toString());
     }
-    async toBeGreaterThanOrEqual(param) {
+    async toBeGreaterThanOrEqual(i_Param) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue >= param, param.toString());
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue >= i_Param, i_Param.toString());
     }
-    async objectDeepEquals(obj) {
+    async objectDeepEquals(i_Obj) {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => ComplicatedEqualers_1.deepObjectEquals(this.Matcher.ExpectedValue, obj), obj);
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => ComplicatedEqualers_1.deepObjectEquals(this.Matcher.ExpectedValue, i_Obj), i_Obj);
     }
     async prepareMatcher() {
-        let expectedValue = await this._expectedPromiseValue;
+        let expectedValue = await this.m_ExpectedPromiseValue;
         this.Matcher.ExpectedValue = expectedValue;
     }
 }

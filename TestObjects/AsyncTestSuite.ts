@@ -1,64 +1,67 @@
 import { ITestSuite } from "../interfaces/ITestSuite";
 import { ITest } from "../interfaces/ITest";
 import { ITestResult } from "../interfaces/ITestResult";
-import {AsyncFunction} from '../types/AsyncFunction'
+import { AsyncFunction } from "../types/AsyncFunction";
 import { IDescribable } from "../interfaces/IDescribable";
-import {AsyncTest} from './AsyncTest'
+import { AsyncTest } from "./AsyncTest";
 import { IAsyncTest } from "../interfaces/IAsyncTest";
 import { TestResult } from "./TestResult";
 
 export class AsyncTestSuite implements ITestSuite, IDescribable {
-  
-  private _beforeEach: (Function|AsyncFunction)[];
-  private _afterEach: (Function|AsyncFunction)[];
-  private _tests: AsyncTest[];
-  private _allTestsResolved:boolean;
-  private _results:TestResult[];
-  private _description: string;
+  private m_BeforeEach: (Function | AsyncFunction)[];
+  private m_AfterEach: (Function | AsyncFunction)[];
+  private m_Tests: AsyncTest[];
+  private m_AllTestsResolved: boolean;
+  private m_Results: TestResult[];
+  private m_Description: string;
 
-  constructor(description: string) {
-    this._tests = [];
-    this._description = description;
-    this._beforeEach = [];
-    this._afterEach = [];
+  constructor(i_Description: string) {
+    this.m_Tests = [];
+    this.m_Description = i_Description;
+    this.m_BeforeEach = [];
+    this.m_AfterEach = [];
   }
 
   get Description(): string {
-    return this._description;
+    return this.m_Description;
   }
 
-  set Description(val:string){
-    this._description = val;
+  set Description(val: string) {
+    this.m_Description = val;
   }
 
   get Tests(): AsyncTest[] {
-    return this._tests;
+    return this.m_Tests;
   }
 
-  set Tests(val:AsyncTest[]){
-    this._tests = val;
+  set Tests(val: AsyncTest[]) {
+    this.m_Tests = val;
   }
 
   get BeforeEach(): Function[] {
-    return this._beforeEach;
+    return this.m_BeforeEach;
   }
 
-  set BeforeEach(val:Function[]){
-    this._beforeEach = val;
+  set BeforeEach(val: Function[]) {
+    this.m_BeforeEach = val;
   }
 
   get AfterEach(): Function[] {
-    return this._afterEach;
+    return this.m_AfterEach;
   }
 
-  set AfterEach(val:Function[]){
-    this._afterEach = val;
+  set AfterEach(val: Function[]) {
+    this.m_AfterEach = val;
   }
 
-  public addTest(testDescription: string): IAsyncTest {
-    if (testDescription !== "") {
-      const test = new AsyncTest(testDescription, this._beforeEach, this._afterEach);
-      this._tests.push(test);
+  public addTest(i_testDescription: string): IAsyncTest {
+    if (i_testDescription !== "") {
+      const test = new AsyncTest(
+        i_testDescription,
+        this.m_BeforeEach,
+        this.m_AfterEach
+      );
+      this.m_Tests.push(test);
       return test;
     } else {
       throw new Error("test is null!");
@@ -67,16 +70,16 @@ export class AsyncTestSuite implements ITestSuite, IDescribable {
 
   public async getAllTestsResults(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
-    
-    return this._results;
+
+    return this.m_Results;
   }
 
-  public async getPassedTestsResults(): Promise<TestResult[]>{
+  public async getPassedTestsResults(): Promise<TestResult[]> {
     await this.waitForTestsToBeResolved();
 
-    const passedTests = this._results.filter((result)=>{
-        return result.Passed;
-    })
+    const passedTests = this.m_Results.filter((result) => {
+      return result.Passed;
+    });
 
     return passedTests;
   }
@@ -84,35 +87,32 @@ export class AsyncTestSuite implements ITestSuite, IDescribable {
   public async getFailedTestsResults(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
 
-    const failedTests = this._results.filter((result)=>{
-        return !result.Passed;
-    })
+    const failedTests = this.m_Results.filter((result) => {
+      return !result.Passed;
+    });
 
     return failedTests;
   }
 
-  private async waitForTestsToBeResolved():Promise<void>{
-    if(!this._allTestsResolved){
-        const testResultsStatus = this._tests.map((test)=>{
-            return test.Matcher.TestResultStatus;
-        })
-    
-        const results = await Promise.all(testResultsStatus);
-    
-        this._results = results;
-        this._allTestsResolved = true;
+  private async waitForTestsToBeResolved(): Promise<void> {
+    if (!this.m_AllTestsResolved) {
+      const testResultsStatus = this.m_Tests.map((test) => {
+        return test.Matcher.TestResultStatus;
+      });
+
+      const results = await Promise.all(testResultsStatus);
+
+      this.m_Results = results;
+      this.m_AllTestsResolved = true;
     }
   }
 
-  public addBeforeEach(funcBefore: (Function|AsyncFunction)): ITestSuite {
-    this._beforeEach.push(funcBefore);
+  public addBeforeEach(i_FuncBefore: Function | AsyncFunction): ITestSuite {
+    this.m_BeforeEach.push(i_FuncBefore);
     return this;
   }
-  public addAfterEach(funcAfter: (Function|AsyncFunction)): ITestSuite {
-    this._afterEach.push(funcAfter);
+  public addAfterEach(i_FuncAfter: Function | AsyncFunction): ITestSuite {
+    this.m_AfterEach.push(i_FuncAfter);
     return this;
   }
-
-
-
 }

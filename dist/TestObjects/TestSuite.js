@@ -3,40 +3,40 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestSuite = void 0;
 const Test_1 = require("./Test");
 class TestSuite {
-    constructor(description) {
-        this._tests = [];
-        this._description = description;
-        this._beforeEach = [];
-        this._afterEach = [];
+    constructor(i_Description) {
+        this.m_Tests = [];
+        this.m_Description = i_Description;
+        this.m_BeforeEach = [];
+        this.m_AfterEach = [];
     }
     get Description() {
-        return this._description;
+        return this.m_Description;
     }
     set Description(val) {
-        this._description = val;
+        this.m_Description = val;
     }
     get Tests() {
-        return this._tests;
+        return this.m_Tests;
     }
     set Tests(val) {
-        this._tests = val;
+        this.m_Tests = val;
     }
     get BeforeEach() {
-        return this._beforeEach;
+        return this.m_BeforeEach;
     }
     set BeforeEach(val) {
-        this._beforeEach = val;
+        this.m_BeforeEach = val;
     }
     get AfterEach() {
-        return this._afterEach;
+        return this.m_AfterEach;
     }
     set AfterEach(val) {
-        this._afterEach = val;
+        this.m_AfterEach = val;
     }
-    addTest(testDescription) {
-        if (testDescription !== "") {
-            const test = new Test_1.Test(testDescription, this._beforeEach, this._afterEach);
-            this._tests.push(test);
+    addTest(i_TestDescription) {
+        if (i_TestDescription !== "") {
+            const test = new Test_1.Test(i_TestDescription, this.m_BeforeEach, this.m_AfterEach);
+            this.m_Tests.push(test);
             return test;
         }
         else {
@@ -44,13 +44,13 @@ class TestSuite {
         }
     }
     getAllTestsResults() {
-        const resultsArr = this._tests.map((test) => {
+        const resultsArr = this.m_Tests.map((test) => {
             return test.Matcher.Result;
         });
         return resultsArr;
     }
     getPassedTestsResults() {
-        const passedTests = this._tests.filter((test) => {
+        const passedTests = this.m_Tests.filter((test) => {
             return test.Matcher.Result.Passed;
         });
         const passedResults = [];
@@ -60,7 +60,7 @@ class TestSuite {
         return passedResults;
     }
     getFailedTestsResults() {
-        const failedTests = this._tests.filter((test) => {
+        const failedTests = this.m_Tests.filter((test) => {
             return !(test.Matcher.Result.Passed);
         });
         const failedResults = [];
@@ -69,12 +69,12 @@ class TestSuite {
         }
         return failedResults;
     }
-    addBeforeEach(funcBefore) {
-        this._beforeEach.push(funcBefore);
+    addBeforeEach(i_FuncBefore) {
+        this.m_BeforeEach.push(i_FuncBefore);
         return this;
     }
-    addAfterEach(funcAfter) {
-        this._afterEach.push(funcAfter);
+    addAfterEach(i_FuncAfter) {
+        this.m_AfterEach.push(i_FuncAfter);
         return this;
     }
 }

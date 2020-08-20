@@ -8,18 +8,18 @@ const performance_now_1 = __importDefault(require("performance-now"));
 class TestPerformance {
     constructor() { }
     startCount() {
-        this.startTime = performance_now_1.default();
+        this.m_StartTime = performance_now_1.default();
     }
     endCount() {
-        this.endTime = performance_now_1.default();
-        this.resultMS = this.endTime - this.startTime;
-        this.resultSEC = this.resultMS /= 1000;
+        this.m_EndTime = performance_now_1.default();
+        this.m_ResultSEC = this.m_EndTime - this.m_StartTime;
+        this.m_ResultMS = this.m_ResultSEC * 1000;
     }
     getCountSec() {
-        return this.resultSEC;
+        return this.m_ResultSEC;
     }
     getCountMS() {
-        return this.resultMS;
+        return this.m_ResultMS;
     }
 }
 exports.TestPerformance = TestPerformance;

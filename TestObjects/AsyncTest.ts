@@ -6,84 +6,84 @@ import { IDescribable } from "../interfaces/IDescribable";
 import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
 
 export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
-  private _description: string;
-  private _matcher: AsyncMatcherProxy;
-  private _beforeFunctions: Function[];
-  private _afterFunctions: Function[];
+  private m_Description: string;
+  private m_Matcher: AsyncMatcherProxy;
+  private m_beforeFunctions: Function[];
+  private m_AfterFunctions: Function[];
 
   constructor(
-    description: string,
-    beforeFunctions: Function[],
-    afterFunctions: Function[]
+    i_Description: string,
+    i_beforeFunctions: Function[],
+    i_AfterFunctions: Function[]
   ) {
-    this._description = description;
-    this._beforeFunctions = [...beforeFunctions];
-    this._afterFunctions = [...afterFunctions];
+    this.m_Description = i_Description;
+    this.m_beforeFunctions = [...i_beforeFunctions];
+    this.m_AfterFunctions = [...i_AfterFunctions];
   }
 
   get Description(): string {
-    return this._description;
+    return this.m_Description;
   }
 
   set Description(val: string) {
-    this._description = val;
+    this.m_Description = val;
   }
 
-  get Matcher():  AsyncMatcherProxy {
-    return this._matcher;
+  get Matcher(): AsyncMatcherProxy {
+    return this.m_Matcher;
   }
 
   set Matcher(val: AsyncMatcherProxy) {
-    this._matcher = val;
+    this.m_Matcher = val;
   }
 
   get BeforeFunctions(): Function[] {
-    return this._beforeFunctions;
+    return this.m_beforeFunctions;
   }
 
   set BeforeFunctions(val: Function[]) {
-    this._beforeFunctions = val;
+    this.m_beforeFunctions = val;
   }
 
   get AfterFunctions(): Function[] {
-    return this._afterFunctions;
+    return this.m_AfterFunctions;
   }
 
   set Result(val: Function[]) {
-    this._afterFunctions = val;
+    this.m_AfterFunctions = val;
   }
 
-  public expect(result: any): AsyncMatcherProxy {
+  public expect(i_Result: any): AsyncMatcherProxy {
     const resultPromiseWrapper = new Promise((res, rej) => {
-      res(result);
+      res(i_Result);
     });
-    this._matcher = new AsyncMatcherProxy(
+    this.m_Matcher = new AsyncMatcherProxy(
       resultPromiseWrapper,
-      this._beforeFunctions,
-      this._afterFunctions,
-      this._description
+      this.m_beforeFunctions,
+      this.m_AfterFunctions,
+      this.m_Description
     );
 
-    return this._matcher;
+    return this.m_Matcher;
   }
 
-  public asyncExpect(asyncFunction: AsyncFunction): AsyncMatcherProxy {
-    this._matcher = new AsyncMatcherProxy(
-      asyncFunction(),
-      this._beforeFunctions,
-      this._afterFunctions,
-      this._description
+  public asyncExpect(i_AsyncFunction: AsyncFunction): AsyncMatcherProxy {
+    this.m_Matcher = new AsyncMatcherProxy(
+      i_AsyncFunction(),
+      this.m_beforeFunctions,
+      this.m_AfterFunctions,
+      this.m_Description
     );
 
-    return this._matcher;
+    return this.m_Matcher;
   }
 
-  public addBefore(beforeFunc: Function): ITest {
-    this._beforeFunctions.push(beforeFunc);
+  public addBefore(i_BeforeFunc: Function): ITest {
+    this.m_beforeFunctions.push(i_BeforeFunc);
     return this;
   }
-  public addAfter(afterFunc: Function): ITest {
-    this._afterFunctions.push(afterFunc);
+  public addAfter(i_AfterFunc: Function): ITest {
+    this.m_AfterFunctions.push(i_AfterFunc);
     return this;
   }
 }

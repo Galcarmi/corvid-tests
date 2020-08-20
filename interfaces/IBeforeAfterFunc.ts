@@ -1,5 +1,4 @@
-export interface IBeforeAfterFunc{
-
-    BeforeFunctions:Function[];
-    AfterFunctions:Function[];
+export interface IBeforeAfterFunc {
+  BeforeFunctions: Function[];
+  AfterFunctions: Function[];
 }

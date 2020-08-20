@@ -1,39 +1,50 @@
 import { IAsyncMatcher } from "../interfaces/IAsyncMatcher";
 import { ITestResult } from "../interfaces/ITestResult";
 import { TestPerformance } from "../Performance/Performance";
-import {AsyncTestTemplate} from '../TestTemplates/AsyncMatcherTemplate'
-import {deepObjectEquals} from './ComplicatedEqualers'
-import {IBeforeAfterFunc} from '../interfaces/IBeforeAfterFunc'
-import {IDescribable} from '../interfaces/IDescribable'
+import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate";
+import { deepObjectEquals } from "./ComplicatedEqualers";
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
+import { IDescribable } from "../interfaces/IDescribable";
 import { IMatcher } from "../interfaces/IMatcher";
 import { Matcher } from "./Matcher";
 import { TestResult } from "./TestResult";
 
-export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDescribable {
-  
-  private _matcher:IMatcher;
-  private _testResultStatus:Promise<TestResult>;
-  private _testResultResolver:Function;
+export class AsyncMatcherProxy
+  implements IAsyncMatcher, IBeforeAfterFunc, IDescribable {
+  private m_Matcher: IMatcher;
+  private m_TestResultStatus: Promise<TestResult>;
+  private m_TestResultResolver: Function;
 
-  constructor(private _expectedPromiseValue: Promise<any>, beforeFunctions:Function[], afterFunctions:Function[], description:string) {
-    this._matcher = new Matcher(null, beforeFunctions, afterFunctions, description) ;
-    this._testResultStatus = new Promise((res,rej)=>{this._testResultResolver = res});
-
+  constructor(
+    private m_ExpectedPromiseValue: Promise<any>,
+    i_BeforeFunctions: Function[],
+    i_AfterFunctions: Function[],
+    i_Description: string
+  ) {
+    this.m_Matcher = new Matcher(
+      null,
+      i_BeforeFunctions,
+      i_AfterFunctions,
+      i_Description
+    );
+    this.m_TestResultStatus = new Promise((res, rej) => {
+      this.m_TestResultResolver = res;
+    });
   }
 
   get TestResultStatus(): Promise<any> {
-    return this._testResultStatus;
+    return this.m_TestResultStatus;
   }
 
-  set TestResultStatus(val:Promise<any>){
-    this._testResultStatus = val;
+  set TestResultStatus(val: Promise<any>) {
+    this.m_TestResultStatus = val;
   }
 
   get ExpectedValue(): Promise<any> {
     return this.Matcher.ExpectedValue;
   }
 
-  set ExpectedValue(val:Promise<any>){
+  set ExpectedValue(val: Promise<any>) {
     this.Matcher.ExpectedValue = val;
   }
 
@@ -41,7 +52,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     return this.Matcher.Result;
   }
 
-  set Result(val:ITestResult){
+  set Result(val: ITestResult) {
     this.Matcher.Result = val;
   }
 
@@ -49,7 +60,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     return this.Matcher.ErrorString;
   }
 
-  set ErrorString(val:string){
+  set ErrorString(val: string) {
     this.Matcher.ErrorString = val;
   }
 
@@ -57,7 +68,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     return this.Matcher.Description;
   }
 
-  set Description(val:string){
+  set Description(val: string) {
     this.Matcher.Description = val;
   }
 
@@ -65,7 +76,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     return this.Matcher.StartAt;
   }
 
-  set StartAt(val:Date){
+  set StartAt(val: Date) {
     this.Matcher.StartAt = val;
   }
 
@@ -73,7 +84,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     return this.Matcher.Performance;
   }
 
-  set Performance(val:TestPerformance){
+  set Performance(val: TestPerformance) {
     this.Matcher.Performance = val;
   }
 
@@ -81,124 +92,166 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     return this.Matcher.BeforeFunctions;
   }
 
-  set BeforeFunctions(val:Function[]){
+  set BeforeFunctions(val: Function[]) {
     this.Matcher.BeforeFunctions = val;
   }
   get AfterFunctions(): Function[] {
     return this.Matcher.AfterFunctions;
   }
 
-  set AfterFunctions(val:Function[]){
+  set AfterFunctions(val: Function[]) {
     this.Matcher.AfterFunctions = val;
   }
 
   ///todo check why it has to be type of any
   get Matcher(): any {
-    return this._matcher;
+    return this.m_Matcher;
   }
 
-  set Matcher(val:any){
-    this._matcher = val;
+  set Matcher(val: any) {
+    this.m_Matcher = val;
   }
 
-  public resolveTestResult(testResult:TestResult):void{
-    this._testResultResolver(testResult);
+  public resolveTestResult(i_TestResult: TestResult): void {
+    this.m_TestResultResolver(i_TestResult);
   }
 
   public initMatcher(): void {
-    this.Matcher.BeforeFunctions.unshift(()=>{
+    this.Matcher.BeforeFunctions.unshift(() => {
       this.Matcher.Performance.startCount();
-    })
+    });
 
-    this.Matcher.AfterFunctions.push(()=>{
+    this.Matcher.AfterFunctions.push(() => {
       this.Matcher.Performance.endCount();
-    })
+    });
   }
 
   public async before() {
-    for(const func of this.Matcher.BeforeFunctions){
+    for (const func of this.Matcher.BeforeFunctions) {
       await func();
     }
   }
 
   public async after() {
-    for(const func of this.Matcher.AfterFunctions){
+    for (const func of this.Matcher.AfterFunctions) {
       await func();
     }
   }
 
-
   public async toBeTrue(): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this,()=>{this.Matcher.ExpectedValue === true},'false')
+    return AsyncTestTemplate(
+      this,
+      () => {
+        this.Matcher.ExpectedValue === true;
+      },
+      "false"
+    );
   }
-  public async toBeFalse():Promise<ITestResult> {
+  public async toBeFalse(): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this,()=>this.Matcher.ExpectedValue === false, 'true')
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue === false,
+      "true"
+    );
   }
 
-  public async toBeTruthy():Promise<ITestResult> {
+  public async toBeTruthy(): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this,()=>{
-      if(this.Matcher.ExpectedValue){
-        return true;
-      }
-      else{
-        return false;
-      }
-    },'falsy')
+    return AsyncTestTemplate(
+      this,
+      () => {
+        if (this.Matcher.ExpectedValue) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+      "falsy"
+    );
   }
 
-  public async toBeFalsy():Promise<ITestResult> {
+  public async toBeFalsy(): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this,()=>{
-      if(this.Matcher.ExpectedValue){
-        return false;
-      }
-      else{
-        return true;
-      }
-    },'truthy')
+    return AsyncTestTemplate(
+      this,
+      () => {
+        if (this.Matcher.ExpectedValue) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      "truthy"
+    );
   }
 
-  public async equalValue(param:any):Promise<ITestResult> {
+  public async equalValue(i_Param: any): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue === param, param)
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue === i_Param,
+      i_Param
+    );
   }
 
-  public async notEqualValue(param:any):Promise<ITestResult> {
+  public async notEqualValue(i_Param: any): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue !== param, param)
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue !== i_Param,
+      i_Param
+    );
   }
 
-  public async toBeLessThan(param:number):Promise<ITestResult> {
+  public async toBeLessThan(i_Param: number): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue < param, param.toString())
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue < i_Param,
+      i_Param.toString()
+    );
   }
 
-  public async toBeLessThanOrEqual(param:number):Promise<ITestResult> {
+  public async toBeLessThanOrEqual(i_Param: number): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue <= param, param.toString())
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue <= i_Param,
+      i_Param.toString()
+    );
   }
 
-  public async toBeGreaterThan(param:number):Promise<ITestResult> {
+  public async toBeGreaterThan(i_Param: number): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue > param, param.toString())
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue > i_Param,
+      i_Param.toString()
+    );
   }
 
-  public async toBeGreaterThanOrEqual(param:number):Promise<ITestResult> {
+  public async toBeGreaterThanOrEqual(i_Param: number): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue >= param, param.toString())
+    return AsyncTestTemplate(
+      this,
+      () => this.Matcher.ExpectedValue >= i_Param,
+      i_Param.toString()
+    );
   }
 
-  public async objectDeepEquals(obj:any):Promise<ITestResult> {
+  public async objectDeepEquals(i_Obj: any): Promise<ITestResult> {
     await this.prepareMatcher();
-    return AsyncTestTemplate(this, ()=>deepObjectEquals(this.Matcher.ExpectedValue,obj), obj)
+    return AsyncTestTemplate(
+      this,
+      () => deepObjectEquals(this.Matcher.ExpectedValue, i_Obj),
+      i_Obj
+    );
   }
 
-  public async prepareMatcher():Promise<void>{
-    let expectedValue = await this._expectedPromiseValue;
+  public async prepareMatcher(): Promise<void> {
+    let expectedValue = await this.m_ExpectedPromiseValue;
     this.Matcher.ExpectedValue = expectedValue;
   }
-  
 }

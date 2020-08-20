@@ -1,28 +1,28 @@
-import now from 'performance-now'
+import now from "performance-now";
 
-export class TestPerformance{
-    startTime:number;
-    endTime:number;
-    resultMS:number;
-    resultSEC:number;
+export class TestPerformance {
+  private m_StartTime: number;
+  private m_EndTime: number;
+  private m_ResultMS: number;
+  private m_ResultSEC: number;
 
-    constructor(){}
+  constructor() {}
 
-    startCount(){
-        this.startTime = now();
-    }
+  startCount() {
+    this.m_StartTime = now();
+  }
 
-    endCount(){
-        this.endTime = now();
-        this.resultMS = this.endTime - this.startTime;
-        this.resultSEC = this.resultMS /= 1000;
-    }
+  endCount() {
+    this.m_EndTime = now();
+    this.m_ResultSEC = this.m_EndTime - this.m_StartTime;
+    this.m_ResultMS = this.m_ResultSEC * 1000;
+  }
 
-    getCountSec(){
-        return this.resultSEC;
-    }
+  getCountSec() {
+    return this.m_ResultSEC;
+  }
 
-    getCountMS(){
-        return this.resultMS;
-    }
+  getCountMS() {
+    return this.m_ResultMS;
+  }
 }

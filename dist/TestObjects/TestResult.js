@@ -3,43 +3,43 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestResult = void 0;
 class TestResult {
     constructor(passed, timePassed, description, errorString, startAt) {
-        this._startAt = startAt;
-        this._passed = passed;
-        this._timePassed = timePassed;
-        this._description = description;
+        this.m_StartAt = startAt;
+        this.m_Passed = passed;
+        this.m_TimePassed = timePassed;
+        this.m_Description = description;
         if (errorString !== null) {
-            this._errorString = errorString;
+            this.m_ErrorString = errorString;
         }
     }
     get StartAt() {
-        return this._startAt;
+        return this.m_StartAt;
     }
     set StartAt(val) {
-        this._startAt = val;
+        this.m_StartAt = val;
     }
     get Passed() {
-        return this._passed;
+        return this.m_Passed;
     }
     set Passed(val) {
-        this._passed = val;
+        this.m_Passed = val;
     }
     get TimePassed() {
-        return this._timePassed;
+        return this.m_TimePassed;
     }
     set TimePassed(val) {
-        this._timePassed = val;
+        this.m_TimePassed = val;
     }
     get Description() {
-        return this._description;
+        return this.m_Description;
     }
     set Description(val) {
-        this._description = val;
+        this.m_Description = val;
     }
     get ErrorString() {
-        return this._errorString;
+        return this.m_ErrorString;
     }
     set ErrorString(val) {
-        this._errorString = val;
+        this.m_ErrorString = val;
     }
 }
 exports.TestResult = TestResult;

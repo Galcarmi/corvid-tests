@@ -1,22 +1,17 @@
 import { IMatcher } from "./IMatcher";
-import {AsyncFunction} from '../types/AsyncFunction'
+import { AsyncFunction } from "../types/AsyncFunction";
 import { AsyncMatcherProxy } from "../TestObjects/AsyncMatcherProxy";
 
-export interface ITest{
+export interface ITest {
+  // //private fields
+  // _matcher:IMatcher
+  // _description:string;
+  // _beforeFunctions :Function[];
+  // _afterFunctions :Function[];
+  //access modifiers
+  Matcher: any;
 
-    // //private fields
-    // _matcher:IMatcher
-    // _description:string;
-    // _beforeFunctions :Function[];
-    // _afterFunctions :Function[];
-
-    //access modifiers
-    Matcher:any;
-
-
-
-    expect(result:any):any;
-    addBefore(beforeFunc:Function): ITest;
-    addAfter(afterFunc:Function): ITest
-    
+  expect(i_result: any): any;
+  addBefore(beforeFunc: Function): ITest;
+  addAfter(afterFunc: Function): ITest;
 }

@@ -5,55 +5,58 @@ import { ITestResult } from "../interfaces/ITestResult";
 import { IDescribable } from "../interfaces/IDescribable";
 
 export class TestSuite implements ITestSuite, IDescribable {
-  
-  private _beforeEach: Function[];
-  private _afterEach: Function[];
-  private _tests: ITest[];
-  private _description: string;
+  private m_BeforeEach: Function[];
+  private m_AfterEach: Function[];
+  private m_Tests: ITest[];
+  private m_Description: string;
 
-  constructor(description: string) {
-    this._tests = [];
-    this._description = description;
-    this._beforeEach = [];
-    this._afterEach = [];
+  constructor(i_Description: string) {
+    this.m_Tests = [];
+    this.m_Description = i_Description;
+    this.m_BeforeEach = [];
+    this.m_AfterEach = [];
   }
 
   get Description(): string {
-    return this._description;
+    return this.m_Description;
   }
 
-  set Description(val:string){
-    this._description = val;
+  set Description(val: string) {
+    this.m_Description = val;
   }
 
   get Tests(): ITest[] {
-    return this._tests;
+    return this.m_Tests;
   }
 
-  set Tests(val:ITest[]){
-    this._tests = val;
+  set Tests(val: ITest[]) {
+    this.m_Tests = val;
   }
 
   get BeforeEach(): Function[] {
-    return this._beforeEach;
+    return this.m_BeforeEach;
   }
 
-  set BeforeEach(val:Function[]){
-    this._beforeEach = val;
+  set BeforeEach(val: Function[]) {
+    this.m_BeforeEach = val;
   }
 
   get AfterEach(): Function[] {
-    return this._afterEach;
+    return this.m_AfterEach;
   }
 
-  set AfterEach(val:Function[]){
-    this._afterEach = val;
+  set AfterEach(val: Function[]) {
+    this.m_AfterEach = val;
   }
 
-  public addTest(testDescription: string): ITest {
-    if (testDescription !== "") {
-      const test = new Test(testDescription, this._beforeEach, this._afterEach);
-      this._tests.push(test);
+  public addTest(i_TestDescription: string): ITest {
+    if (i_TestDescription !== "") {
+      const test = new Test(
+        i_TestDescription,
+        this.m_BeforeEach,
+        this.m_AfterEach
+      );
+      this.m_Tests.push(test);
       return test;
     } else {
       throw new Error("test is null!");
@@ -61,47 +64,44 @@ export class TestSuite implements ITestSuite, IDescribable {
   }
 
   public getAllTestsResults(): ITestResult[] {
-    const resultsArr = this._tests.map((test) => {
+    const resultsArr = this.m_Tests.map((test) => {
       return test.Matcher.Result;
     });
 
     return resultsArr;
   }
 
-  public getPassedTestsResults(): ITestResult[]{
-    const passedTests = this._tests.filter((test) => {
+  public getPassedTestsResults(): ITestResult[] {
+    const passedTests = this.m_Tests.filter((test) => {
       return test.Matcher.Result.Passed;
     });
 
     const passedResults = [];
-    for(const failedTest of passedTests){
+    for (const failedTest of passedTests) {
       passedResults.push(failedTest.Matcher.Result);
     }
 
     return passedResults;
   }
   public getFailedTestsResults(): ITestResult[] {
-    const failedTests = this._tests.filter((test) => {
-      return !(test.Matcher.Result.Passed);
+    const failedTests = this.m_Tests.filter((test) => {
+      return !test.Matcher.Result.Passed;
     });
 
     const failedResults = [];
-    for(const failedTest of failedTests){
+    for (const failedTest of failedTests) {
       failedResults.push(failedTest.Matcher.Result);
     }
 
     return failedResults;
   }
 
-  public addBeforeEach(funcBefore: Function): ITestSuite {
-    this._beforeEach.push(funcBefore);
+  public addBeforeEach(i_FuncBefore: Function): ITestSuite {
+    this.m_BeforeEach.push(i_FuncBefore);
     return this;
   }
-  public addAfterEach(funcAfter: Function): ITestSuite {
-    this._afterEach.push(funcAfter);
+  public addAfterEach(i_FuncAfter: Function): ITestSuite {
+    this.m_AfterEach.push(i_FuncAfter);
     return this;
   }
-
-
-
 }

@@ -2,61 +2,65 @@ import { ITestResult } from "../interfaces/ITestResult";
 import { IDescribable } from "../interfaces/IDescribable";
 
 export class TestResult implements ITestResult, IDescribable {
-  
-  
-  private _description: string;
-  private _passed: boolean;
-  private _timePassed:number;
-  private _errorString:string;
-  private _startAt:Date;
+  private m_Description: string;
+  private m_Passed: boolean;
+  private m_TimePassed: number;
+  private m_ErrorString: string;
+  private m_StartAt: Date;
 
-  constructor(passed:boolean, timePassed:number, description:string, errorString:string|null, startAt:Date){
-      this._startAt = startAt;
-      this._passed = passed;
-      this._timePassed = timePassed;
-      this._description = description;
-      if(errorString !== null){
-        this._errorString = errorString;
-      }
+  constructor(
+    passed: boolean,
+    timePassed: number,
+    description: string,
+    errorString: string | null,
+    startAt: Date
+  ) {
+    this.m_StartAt = startAt;
+    this.m_Passed = passed;
+    this.m_TimePassed = timePassed;
+    this.m_Description = description;
+    if (errorString !== null) {
+      this.m_ErrorString = errorString;
+    }
   }
 
   get StartAt(): Date {
-    return this._startAt;
+    return this.m_StartAt;
   }
 
-  set StartAt(val:Date){
-    this._startAt = val;
+  set StartAt(val: Date) {
+    this.m_StartAt = val;
   }
 
   get Passed(): boolean {
-    return this._passed;
+    return this.m_Passed;
   }
 
-  set Passed(val:boolean){
-    this._passed = val;
+  set Passed(val: boolean) {
+    this.m_Passed = val;
   }
 
   get TimePassed(): number {
-    return this._timePassed;
+    return this.m_TimePassed;
   }
 
-  set TimePassed(val:number){
-    this._timePassed = val;
+  set TimePassed(val: number) {
+    this.m_TimePassed = val;
   }
 
   get Description(): string {
-    return this._description;
+    return this.m_Description;
   }
 
-  set Description(val:string){
-    this._description = val;
+  set Description(val: string) {
+    this.m_Description = val;
   }
 
   get ErrorString(): string {
-    return this._errorString;
+    return this.m_ErrorString;
   }
 
-  set ErrorString(val:string){
-    this._errorString = val;
+  set ErrorString(val: string) {
+    this.m_ErrorString = val;
   }
 }

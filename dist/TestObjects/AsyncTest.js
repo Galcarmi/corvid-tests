@@ -3,52 +3,52 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AsyncTest = void 0;
 const AsyncMatcherProxy_1 = require("./AsyncMatcherProxy");
 class AsyncTest {
-    constructor(description, beforeFunctions, afterFunctions) {
-        this._description = description;
-        this._beforeFunctions = [...beforeFunctions];
-        this._afterFunctions = [...afterFunctions];
+    constructor(i_Description, i_beforeFunctions, i_AfterFunctions) {
+        this.m_Description = i_Description;
+        this.m_beforeFunctions = [...i_beforeFunctions];
+        this.m_AfterFunctions = [...i_AfterFunctions];
     }
     get Description() {
-        return this._description;
+        return this.m_Description;
     }
     set Description(val) {
-        this._description = val;
+        this.m_Description = val;
     }
     get Matcher() {
-        return this._matcher;
+        return this.m_Matcher;
     }
     set Matcher(val) {
-        this._matcher = val;
+        this.m_Matcher = val;
     }
     get BeforeFunctions() {
-        return this._beforeFunctions;
+        return this.m_beforeFunctions;
     }
     set BeforeFunctions(val) {
-        this._beforeFunctions = val;
+        this.m_beforeFunctions = val;
     }
     get AfterFunctions() {
-        return this._afterFunctions;
+        return this.m_AfterFunctions;
     }
     set Result(val) {
-        this._afterFunctions = val;
+        this.m_AfterFunctions = val;
     }
-    expect(result) {
+    expect(i_Result) {
         const resultPromiseWrapper = new Promise((res, rej) => {
-            res(result);
+            res(i_Result);
         });
-        this._matcher = new AsyncMatcherProxy_1.AsyncMatcherProxy(resultPromiseWrapper, this._beforeFunctions, this._afterFunctions, this._description);
-        return this._matcher;
+        this.m_Matcher = new AsyncMatcherProxy_1.AsyncMatcherProxy(resultPromiseWrapper, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
+        return this.m_Matcher;
     }
-    asyncExpect(asyncFunction) {
-        this._matcher = new AsyncMatcherProxy_1.AsyncMatcherProxy(asyncFunction(), this._beforeFunctions, this._afterFunctions, this._description);
-        return this._matcher;
+    asyncExpect(i_AsyncFunction) {
+        this.m_Matcher = new AsyncMatcherProxy_1.AsyncMatcherProxy(i_AsyncFunction(), this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
+        return this.m_Matcher;
     }
-    addBefore(beforeFunc) {
-        this._beforeFunctions.push(beforeFunc);
+    addBefore(i_BeforeFunc) {
+        this.m_beforeFunctions.push(i_BeforeFunc);
         return this;
     }
-    addAfter(afterFunc) {
-        this._afterFunctions.push(afterFunc);
+    addAfter(i_AfterFunc) {
+        this.m_AfterFunctions.push(i_AfterFunc);
         return this;
     }
 }
