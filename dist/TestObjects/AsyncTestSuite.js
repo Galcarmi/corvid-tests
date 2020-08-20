@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AsyncTestSuite = void 0;
-const Test_1 = require("./Test");
+const AsyncTest_1 = require("./AsyncTest");
 class AsyncTestSuite {
     constructor(description) {
         this._tests = [];
@@ -35,7 +35,7 @@ class AsyncTestSuite {
     }
     addTest(testDescription) {
         if (testDescription !== "") {
-            const test = new Test_1.Test(testDescription, this._beforeEach, this._afterEach);
+            const test = new AsyncTest_1.AsyncTest(testDescription, this._beforeEach, this._afterEach);
             this._tests.push(test);
             return test;
         }

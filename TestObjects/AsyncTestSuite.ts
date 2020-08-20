@@ -1,9 +1,10 @@
 import { ITestSuite } from "../interfaces/ITestSuite";
 import { ITest } from "../interfaces/ITest";
-import { Test } from "./Test";
 import { ITestResult } from "../interfaces/ITestResult";
 import {AsyncFunction} from '../types/AsyncFunction'
 import { IDescribable } from "../interfaces/IDescribable";
+import {AsyncTest} from './AsyncTest'
+import { IAsyncTest } from "../interfaces/IAsyncTest";
 
 export class AsyncTestSuite implements ITestSuite, IDescribable {
   
@@ -51,9 +52,9 @@ export class AsyncTestSuite implements ITestSuite, IDescribable {
     this._afterEach = val;
   }
 
-  addTest(testDescription: string): ITest {
+  addTest(testDescription: string): IAsyncTest {
     if (testDescription !== "") {
-      const test = new Test(testDescription, this._beforeEach, this._afterEach);
+      const test = new AsyncTest(testDescription, this._beforeEach, this._afterEach);
       this._tests.push(test);
       return test;
     } else {

@@ -15,8 +15,7 @@ export interface ITest{
 
 
 
-    expect(result:any):IMatcher;
-    asyncExpect(asyncResult:(AsyncFunction)):AsyncMatcherProxy
+    expect(result:any):any;
     addBefore(beforeFunc:Function): ITest;
     addAfter(afterFunc:Function): ITest
     

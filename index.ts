@@ -30,10 +30,13 @@ async function tests(){
     ats.addBeforeEach(async()=>{await new Promise((res,rej)=>{setTimeout(()=>{console.log('2');res()},3000)})})
     ats.addBeforeEach(()=>{console.log('3')});
     ats.addAfterEach(async()=>{await new Promise((res,rej)=>{setTimeout(()=>{console.log('4');res()},3000)})})
+    await ats.addTest('should be true').asyncExpect(async ()=>{return 5}).equalValue(5);
+    
+    await ats.addTest('sync test').expect([1,2,3]).objectDeepEquals([1,2,3]);
 
-    const result = await ats.addTest('should be true').asyncExpect(async ()=>{return 5}).equalValue(5);
+    console.log(ats.getAllTestsResults());
 
-    console.log(result);
+    //todo fix get all test results for all async tests!!
+    
 }
-
 tests()

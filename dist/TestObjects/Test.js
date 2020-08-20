@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Test = void 0;
 const Matcher_1 = require("./Matcher");
-const AsyncMatcherProxy_1 = require("./AsyncMatcherProxy");
 class Test {
     constructor(description, beforeFunctions, afterFunctions) {
         this._description = description;
@@ -35,10 +34,6 @@ class Test {
     }
     expect(result) {
         this._matcher = new Matcher_1.Matcher(result, this._beforeFunctions, this._afterFunctions, this._description);
-        return this._matcher;
-    }
-    asyncExpect(asyncFunction) {
-        this._matcher = new AsyncMatcherProxy_1.AsyncMatcherProxy(asyncFunction(), this._beforeFunctions, this._afterFunctions, this._description);
         return this._matcher;
     }
     addBefore(beforeFunc) {

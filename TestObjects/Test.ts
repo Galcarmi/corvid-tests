@@ -56,13 +56,6 @@ export class Test implements ITest,IBeforeAfterFunc, IDescribable {
     return this._matcher;
   }
 
-   asyncExpect(asyncFunction:AsyncFunction):AsyncMatcherProxy{
-    this._matcher = new AsyncMatcherProxy(asyncFunction(), this._beforeFunctions, this._afterFunctions, this._description);
-    return this._matcher;
-
-  }
-  
-
   addBefore(beforeFunc:Function): ITest {
     this._beforeFunctions.push(beforeFunc);
     return this;
