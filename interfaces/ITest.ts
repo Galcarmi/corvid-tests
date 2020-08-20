@@ -11,7 +11,7 @@ export interface ITest{
     // _afterFunctions :Function[];
 
     //access modifiers
-    Matcher:IMatcher|AsyncMatcherProxy;
+    Matcher:any;
 
 
 

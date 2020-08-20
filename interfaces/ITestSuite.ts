@@ -15,12 +15,11 @@ export interface ITestSuite{
     AfterEach: Function[];
 
     addTest(test:string): ITest;
-    run():void;
     addBeforeEach(funcBefore:Function):ITestSuite;
     addAfterEach(funcAfter:Function):ITestSuite;
 
-    getAllTestsResults():ITestResult[];
-    getPassedTestsResults():ITestResult[];
-    getFailedTestsResults():ITestResult[];
+    getAllTestsResults():any;
+    getPassedTestsResults():any;
+    getFailedTestsResults():any;
 
 }

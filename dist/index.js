@@ -21,9 +21,13 @@ async function tests() {
     ats.addBeforeEach(async () => { await new Promise((res, rej) => { setTimeout(() => { console.log('2'); res(); }, 3000); }); });
     ats.addBeforeEach(() => { console.log('3'); });
     ats.addAfterEach(async () => { await new Promise((res, rej) => { setTimeout(() => { console.log('4'); res(); }, 3000); }); });
-    await ats.addTest('should be true').asyncExpect(async () => { return 5; }).equalValue(5);
-    await ats.addTest('sync test').expect([1, 2, 3]).objectDeepEquals([1, 2, 3]);
-    console.log(ats.getAllTestsResults());
+    ats.addTest('should be true').asyncExpect(async () => { return 5; }).equalValue(5);
+    ats.addTest('sync test').expect([1, 2, 3]).objectDeepEquals([1, 2, 3]);
+    ats.addTest('should be false').asyncExpect(async () => { return 5; }).equalValue(4);
+    const passed = await ats.getPassedTestsResults();
+    const failed = await ats.getFailedTestsResults();
+    console.log('passedd', passed);
+    console.log('failedd', failed);
     //todo fix get all test results for all async tests!!
 }
 tests();

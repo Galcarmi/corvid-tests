@@ -50,7 +50,7 @@ export class TestSuite implements ITestSuite, IDescribable {
     this._afterEach = val;
   }
 
-  addTest(testDescription: string): ITest {
+  public addTest(testDescription: string): ITest {
     if (testDescription !== "") {
       const test = new Test(testDescription, this._beforeEach, this._afterEach);
       this._tests.push(test);
@@ -59,11 +59,8 @@ export class TestSuite implements ITestSuite, IDescribable {
       throw new Error("test is null!");
     }
   }
-  run(): void {
-    throw new Error("Method not implemented.");
-  }
 
-  getAllTestsResults(): ITestResult[] {
+  public getAllTestsResults(): ITestResult[] {
     const resultsArr = this._tests.map((test) => {
       return test.Matcher.Result;
     });
@@ -71,7 +68,7 @@ export class TestSuite implements ITestSuite, IDescribable {
     return resultsArr;
   }
 
-  getPassedTestsResults(): ITestResult[]{
+  public getPassedTestsResults(): ITestResult[]{
     const passedTests = this._tests.filter((test) => {
       return test.Matcher.Result.Passed;
     });
@@ -83,7 +80,7 @@ export class TestSuite implements ITestSuite, IDescribable {
 
     return passedResults;
   }
-  getFailedTestsResults(): ITestResult[] {
+  public getFailedTestsResults(): ITestResult[] {
     const failedTests = this._tests.filter((test) => {
       return !(test.Matcher.Result.Passed);
     });
@@ -96,11 +93,11 @@ export class TestSuite implements ITestSuite, IDescribable {
     return failedResults;
   }
 
-  addBeforeEach(funcBefore: Function): ITestSuite {
+  public addBeforeEach(funcBefore: Function): ITestSuite {
     this._beforeEach.push(funcBefore);
     return this;
   }
-  addAfterEach(funcAfter: Function): ITestSuite {
+  public addAfterEach(funcAfter: Function): ITestSuite {
     this._afterEach.push(funcAfter);
     return this;
   }

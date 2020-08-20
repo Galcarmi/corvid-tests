@@ -7,13 +7,26 @@ import {IBeforeAfterFunc} from '../interfaces/IBeforeAfterFunc'
 import {IDescribable} from '../interfaces/IDescribable'
 import { IMatcher } from "../interfaces/IMatcher";
 import { Matcher } from "./Matcher";
+import { TestResult } from "./TestResult";
 
 export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDescribable {
   
   private _matcher:IMatcher;
+  private _testResultStatus:Promise<TestResult>;
+  private _testResultResolver:Function;
 
   constructor(private _expectedPromiseValue: Promise<any>, beforeFunctions:Function[], afterFunctions:Function[], description:string) {
     this._matcher = new Matcher(null, beforeFunctions, afterFunctions, description) ;
+    this._testResultStatus = new Promise((res,rej)=>{this._testResultResolver = res});
+
+  }
+
+  get TestResultStatus(): Promise<any> {
+    return this._testResultStatus;
+  }
+
+  set TestResultStatus(val:Promise<any>){
+    this._testResultStatus = val;
   }
 
   get ExpectedValue(): Promise<any> {
@@ -88,7 +101,11 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     this._matcher = val;
   }
 
-  initMatcher(): void {
+  public resolveTestResult(testResult:TestResult):void{
+    this._testResultResolver(testResult);
+  }
+
+  public initMatcher(): void {
     this.Matcher.BeforeFunctions.unshift(()=>{
       this.Matcher.Performance.startCount();
     })
@@ -98,29 +115,29 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     })
   }
 
-  async before() {
+  public async before() {
     for(const func of this.Matcher.BeforeFunctions){
       await func();
     }
   }
 
-  async after() {
+  public async after() {
     for(const func of this.Matcher.AfterFunctions){
       await func();
     }
   }
 
 
-  async toBeTrue(): Promise<ITestResult> {
+  public async toBeTrue(): Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this,()=>{this.Matcher.ExpectedValue === true},'false')
   }
-  async toBeFalse():Promise<ITestResult> {
+  public async toBeFalse():Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this,()=>this.Matcher.ExpectedValue === false, 'true')
   }
 
-  async toBeTruthy():Promise<ITestResult> {
+  public async toBeTruthy():Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this,()=>{
       if(this.Matcher.ExpectedValue){
@@ -132,7 +149,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     },'falsy')
   }
 
-  async toBeFalsy():Promise<ITestResult> {
+  public async toBeFalsy():Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this,()=>{
       if(this.Matcher.ExpectedValue){
@@ -144,42 +161,42 @@ export class AsyncMatcherProxy implements IAsyncMatcher, IBeforeAfterFunc, IDesc
     },'truthy')
   }
 
-  async equalValue(param:any):Promise<ITestResult> {
+  public async equalValue(param:any):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue === param, param)
   }
 
-  async notEqualValue(param:any):Promise<ITestResult> {
+  public async notEqualValue(param:any):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue !== param, param)
   }
 
-  async toBeLessThan(param:number):Promise<ITestResult> {
+  public async toBeLessThan(param:number):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue < param, param.toString())
   }
 
-  async toBeLessThanOrEqual(param:number):Promise<ITestResult> {
+  public async toBeLessThanOrEqual(param:number):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue <= param, param.toString())
   }
 
-  async toBeGreaterThan(param:number):Promise<ITestResult> {
+  public async toBeGreaterThan(param:number):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue > param, param.toString())
   }
 
-  async toBeGreaterThanOrEqual(param:number):Promise<ITestResult> {
+  public async toBeGreaterThanOrEqual(param:number):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>this.Matcher.ExpectedValue >= param, param.toString())
   }
 
-  async objectDeepEquals(obj:any):Promise<ITestResult> {
+  public async objectDeepEquals(obj:any):Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(this, ()=>deepObjectEquals(this.Matcher.ExpectedValue,obj), obj)
   }
 
-  async prepareMatcher():Promise<void>{
+  public async prepareMatcher():Promise<void>{
     let expectedValue = await this._expectedPromiseValue;
     this.Matcher.ExpectedValue = expectedValue;
   }

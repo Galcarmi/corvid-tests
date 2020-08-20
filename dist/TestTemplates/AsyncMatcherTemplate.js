@@ -11,6 +11,7 @@ async function AsyncTestTemplate(matcher, actualTest, errorValue) {
     await matcher.after();
     const errorString = matcherResult ? null : TemplateStrings_1.errorTemplate(JSON.stringify(matcher.ExpectedValue), JSON.stringify(errorValue));
     matcher.Result = new TestResult_1.TestResult(matcherResult, matcher.Performance.getCountMS(), matcher.Description, errorString, matcher.StartAt);
+    matcher.resolveTestResult(matcher.Result);
     return matcher.Result;
 }
 exports.AsyncTestTemplate = AsyncTestTemplate;

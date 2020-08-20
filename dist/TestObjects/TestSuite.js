@@ -43,9 +43,6 @@ class TestSuite {
             throw new Error("test is null!");
         }
     }
-    run() {
-        throw new Error("Method not implemented.");
-    }
     getAllTestsResults() {
         const resultsArr = this._tests.map((test) => {
             return test.Matcher.Result;

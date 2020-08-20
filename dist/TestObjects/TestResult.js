@@ -41,8 +41,5 @@ class TestResult {
     set ErrorString(val) {
         this._errorString = val;
     }
-    toString() {
-        return `${this._description} - ${this._passed ? 'passed' : 'failed'} - ${this._passed}ms`;
-    }
 }
 exports.TestResult = TestResult;

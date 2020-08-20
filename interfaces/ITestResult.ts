@@ -13,6 +13,4 @@ export interface ITestResult{
     ErrorString:string;
     StartAt:Date;
 
-
-    toString():string;
 }

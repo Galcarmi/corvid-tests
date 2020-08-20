@@ -7,7 +7,7 @@ import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
 
 export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
   private _description: string;
-  private _matcher: IMatcher | AsyncMatcherProxy;
+  private _matcher: AsyncMatcherProxy;
   private _beforeFunctions: Function[];
   private _afterFunctions: Function[];
 
@@ -29,11 +29,11 @@ export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
     this._description = val;
   }
 
-  get Matcher(): IMatcher | AsyncMatcherProxy {
+  get Matcher():  AsyncMatcherProxy {
     return this._matcher;
   }
 
-  set Matcher(val: IMatcher | AsyncMatcherProxy) {
+  set Matcher(val: AsyncMatcherProxy) {
     this._matcher = val;
   }
 
@@ -53,7 +53,7 @@ export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
     this._afterFunctions = val;
   }
 
-  expect(result: any): AsyncMatcherProxy {
+  public expect(result: any): AsyncMatcherProxy {
     const resultPromiseWrapper = new Promise((res, rej) => {
       res(result);
     });
@@ -67,7 +67,7 @@ export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
     return this._matcher;
   }
 
-  asyncExpect(asyncFunction: AsyncFunction): AsyncMatcherProxy {
+  public asyncExpect(asyncFunction: AsyncFunction): AsyncMatcherProxy {
     this._matcher = new AsyncMatcherProxy(
       asyncFunction(),
       this._beforeFunctions,
@@ -78,11 +78,11 @@ export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
     return this._matcher;
   }
 
-  addBefore(beforeFunc: Function): ITest {
+  public addBefore(beforeFunc: Function): ITest {
     this._beforeFunctions.push(beforeFunc);
     return this;
   }
-  addAfter(afterFunc: Function): ITest {
+  public addAfter(afterFunc: Function): ITest {
     this._afterFunctions.push(afterFunc);
     return this;
   }

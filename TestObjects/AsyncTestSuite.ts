@@ -5,12 +5,15 @@ import {AsyncFunction} from '../types/AsyncFunction'
 import { IDescribable } from "../interfaces/IDescribable";
 import {AsyncTest} from './AsyncTest'
 import { IAsyncTest } from "../interfaces/IAsyncTest";
+import { TestResult } from "./TestResult";
 
 export class AsyncTestSuite implements ITestSuite, IDescribable {
   
   private _beforeEach: (Function|AsyncFunction)[];
   private _afterEach: (Function|AsyncFunction)[];
-  private _tests: ITest[];
+  private _tests: AsyncTest[];
+  private _allTestsResolved:boolean;
+  private _results:TestResult[];
   private _description: string;
 
   constructor(description: string) {
@@ -28,11 +31,11 @@ export class AsyncTestSuite implements ITestSuite, IDescribable {
     this._description = val;
   }
 
-  get Tests(): ITest[] {
+  get Tests(): AsyncTest[] {
     return this._tests;
   }
 
-  set Tests(val:ITest[]){
+  set Tests(val:AsyncTest[]){
     this._tests = val;
   }
 
@@ -52,7 +55,7 @@ export class AsyncTestSuite implements ITestSuite, IDescribable {
     this._afterEach = val;
   }
 
-  addTest(testDescription: string): IAsyncTest {
+  public addTest(testDescription: string): IAsyncTest {
     if (testDescription !== "") {
       const test = new AsyncTest(testDescription, this._beforeEach, this._afterEach);
       this._tests.push(test);
@@ -61,48 +64,51 @@ export class AsyncTestSuite implements ITestSuite, IDescribable {
       throw new Error("test is null!");
     }
   }
-  run(): void {
-    throw new Error("Method not implemented.");
+
+  public async getAllTestsResults(): Promise<ITestResult[]> {
+    await this.waitForTestsToBeResolved();
+    
+    return this._results;
   }
 
-  getAllTestsResults(): ITestResult[] {
-    const resultsArr = this._tests.map((test) => {
-      return test.Matcher.Result;
-    });
+  public async getPassedTestsResults(): Promise<TestResult[]>{
+    await this.waitForTestsToBeResolved();
 
-    return resultsArr;
+    const passedTests = this._results.filter((result)=>{
+        return result.Passed;
+    })
+
+    return passedTests;
   }
 
-  getPassedTestsResults(): ITestResult[]{
-    const passedTests = this._tests.filter((test) => {
-      return test.Matcher.Result.Passed;
-    });
+  public async getFailedTestsResults(): Promise<ITestResult[]> {
+    await this.waitForTestsToBeResolved();
 
-    const passedResults = [];
-    for(const failedTest of passedTests){
-      passedResults.push(failedTest.Matcher.Result);
+    const failedTests = this._results.filter((result)=>{
+        return !result.Passed;
+    })
+
+    return failedTests;
+  }
+
+  private async waitForTestsToBeResolved():Promise<void>{
+    if(!this._allTestsResolved){
+        const testResultsStatus = this._tests.map((test)=>{
+            return test.Matcher.TestResultStatus;
+        })
+    
+        const results = await Promise.all(testResultsStatus);
+    
+        this._results = results;
+        this._allTestsResolved = true;
     }
-
-    return passedResults;
-  }
-  getFailedTestsResults(): ITestResult[] {
-    const failedTests = this._tests.filter((test) => {
-      return !(test.Matcher.Result.Passed);
-    });
-
-    const failedResults = [];
-    for(const failedTest of failedTests){
-      failedResults.push(failedTest.Matcher.Result);
-    }
-
-    return failedResults;
   }
 
-  addBeforeEach(funcBefore: (Function|AsyncFunction)): ITestSuite {
+  public addBeforeEach(funcBefore: (Function|AsyncFunction)): ITestSuite {
     this._beforeEach.push(funcBefore);
     return this;
   }
-  addAfterEach(funcAfter: (Function|AsyncFunction)): ITestSuite {
+  public addAfterEach(funcAfter: (Function|AsyncFunction)): ITestSuite {
     this._afterEach.push(funcAfter);
     return this;
   }

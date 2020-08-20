@@ -87,7 +87,7 @@ export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
     this._afterFunctions = val;
   }
 
-  initMatcher(): void {
+  public initMatcher(): void {
     this._beforeFunctions.push(()=>{
       this._performance.startCount();
     })
@@ -98,27 +98,27 @@ export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
     })
   }
 
-  before() {
+  public before() {
     for(const func of this._beforeFunctions){
       func();
     }
   }
 
-  after() {
+  public after() {
     for(const func of this._afterFunctions){
       func();
     }
   }
 
 
-  toBeTrue(): ITestResult {
+  public toBeTrue(): ITestResult {
     return testTemplate(this,()=>{this._expectedValue === true},'false')
   }
-  toBeFalse():ITestResult{
+  public toBeFalse():ITestResult{
     return testTemplate(this,()=>this._expectedValue === false, 'true')
   }
 
-  toBeTruthy():ITestResult{
+  public toBeTruthy():ITestResult{
     return testTemplate(this,()=>{
       if(this._expectedValue){
         return true;
@@ -129,7 +129,7 @@ export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
     },'falsy')
   }
 
-  toBeFalsy():ITestResult{
+  public toBeFalsy():ITestResult{
     return testTemplate(this,()=>{
       if(this._expectedValue){
         return false;
@@ -140,31 +140,31 @@ export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
     },'truthy')
   }
 
-  equalValue(param:any):ITestResult{
+  public equalValue(param:any):ITestResult{
     return testTemplate(this, ()=>this._expectedValue === param, param)
   }
 
-  notEqualValue(param:any):ITestResult{
+  public notEqualValue(param:any):ITestResult{
     return testTemplate(this, ()=>this._expectedValue !== param, param)
   }
 
-  toBeLessThan(param:number):ITestResult{
+  public toBeLessThan(param:number):ITestResult{
     return testTemplate(this, ()=>this._expectedValue < param, param.toString())
   }
 
-  toBeLessThanOrEqual(param:number):ITestResult{
+  public toBeLessThanOrEqual(param:number):ITestResult{
     return testTemplate(this, ()=>this._expectedValue <= param, param.toString())
   }
 
-  toBeGreaterThan(param:number):ITestResult{
+  public toBeGreaterThan(param:number):ITestResult{
     return testTemplate(this, ()=>this._expectedValue > param, param.toString())
   }
 
-  toBeGreaterThanOrEqual(param:number):ITestResult{
+  public toBeGreaterThanOrEqual(param:number):ITestResult{
     return testTemplate(this, ()=>this._expectedValue >= param, param.toString())
   }
 
-  objectDeepEquals(obj:any):ITestResult{
+  public objectDeepEquals(obj:any):ITestResult{
     return testTemplate(this, ()=>deepObjectEquals(this._expectedValue,obj), obj)
   }
   

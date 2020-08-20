@@ -43,34 +43,33 @@ class AsyncTestSuite {
             throw new Error("test is null!");
         }
     }
-    run() {
-        throw new Error("Method not implemented.");
+    async getAllTestsResults() {
+        await this.waitForTestsToBeResolved();
+        return this._results;
     }
-    getAllTestsResults() {
-        const resultsArr = this._tests.map((test) => {
-            return test.Matcher.Result;
+    async getPassedTestsResults() {
+        await this.waitForTestsToBeResolved();
+        const passedTests = this._results.filter((result) => {
+            return result.Passed;
         });
-        return resultsArr;
+        return passedTests;
     }
-    getPassedTestsResults() {
-        const passedTests = this._tests.filter((test) => {
-            return test.Matcher.Result.Passed;
+    async getFailedTestsResults() {
+        await this.waitForTestsToBeResolved();
+        const failedTests = this._results.filter((result) => {
+            return !result.Passed;
         });
-        const passedResults = [];
-        for (const failedTest of passedTests) {
-            passedResults.push(failedTest.Matcher.Result);
+        return failedTests;
+    }
+    async waitForTestsToBeResolved() {
+        if (!this._allTestsResolved) {
+            const testResultsStatus = this._tests.map((test) => {
+                return test.Matcher.TestResultStatus;
+            });
+            const results = await Promise.all(testResultsStatus);
+            this._results = results;
+            this._allTestsResolved = true;
         }
-        return passedResults;
-    }
-    getFailedTestsResults() {
-        const failedTests = this._tests.filter((test) => {
-            return !(test.Matcher.Result.Passed);
-        });
-        const failedResults = [];
-        for (const failedTest of failedTests) {
-            failedResults.push(failedTest.Matcher.Result);
-        }
-        return failedResults;
     }
     addBeforeEach(funcBefore) {
         this._beforeEach.push(funcBefore);

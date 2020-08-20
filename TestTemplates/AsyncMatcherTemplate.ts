@@ -12,5 +12,6 @@ export async function AsyncTestTemplate(matcher:IAsyncMatcher, actualTest:Functi
 
     const errorString = matcherResult?null:errorTemplate(JSON.stringify(matcher.ExpectedValue),JSON.stringify(errorValue));
     matcher.Result = new TestResult(matcherResult, matcher.Performance.getCountMS(), matcher.Description, errorString, matcher.StartAt);
+    matcher.resolveTestResult(matcher.Result);
     return matcher.Result;
 }

@@ -59,7 +59,4 @@ export class TestResult implements ITestResult, IDescribable {
   set ErrorString(val:string){
     this._errorString = val;
   }
-  toString(): string {
-    return `${this._description} - ${this._passed?'passed':'failed'} - ${this._passed}ms`;
-  }
 }

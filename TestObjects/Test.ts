@@ -8,7 +8,7 @@ import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
 
 export class Test implements ITest,IBeforeAfterFunc, IDescribable {
   private _description: string;
-  private _matcher: IMatcher|AsyncMatcherProxy;
+  private _matcher: IMatcher;
   private _beforeFunctions :Function[];
   private _afterFunctions :Function[];
 
@@ -26,11 +26,11 @@ export class Test implements ITest,IBeforeAfterFunc, IDescribable {
     this._description = val;
   }
 
-  get Matcher(): IMatcher|AsyncMatcherProxy {
+  get Matcher(): IMatcher {
     return this._matcher;
   }
 
-  set Matcher(val:IMatcher|AsyncMatcherProxy){
+  set Matcher(val:IMatcher){
     this._matcher = val;
   }
 
@@ -50,17 +50,17 @@ export class Test implements ITest,IBeforeAfterFunc, IDescribable {
     this._afterFunctions = val;
   }
 
-  expect(result: any): IMatcher {
+  public expect(result: any): IMatcher {
     this._matcher = new Matcher(result, this._beforeFunctions, this._afterFunctions, this._description);
 
     return this._matcher;
   }
 
-  addBefore(beforeFunc:Function): ITest {
+  public addBefore(beforeFunc:Function): ITest {
     this._beforeFunctions.push(beforeFunc);
     return this;
   }
-  addAfter(afterFunc:Function): ITest {
+  public addAfter(afterFunc:Function): ITest {
     this._afterFunctions.push(afterFunc);
     return this;
   }

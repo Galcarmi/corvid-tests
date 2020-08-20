@@ -1,5 +1,6 @@
 import { ITestResult } from "./ITestResult";
 import { TestPerformance } from "../Performance/Performance";
+import { TestResult } from "../TestObjects/TestResult";
 
 export interface IAsyncMatcher {
   // //private fields
@@ -20,7 +21,9 @@ export interface IAsyncMatcher {
   Description: string;
   BeforeFunctions: Function[];
   AfterFunctions: Function[];
+  TestResultStatus:Promise<any>;
 
+  resolveTestResult(testResult:ITestResult):void
   toBeTruthy(): Promise<ITestResult>;
   toBeFalsy(): Promise<ITestResult>;
   equalValue(param: any): Promise<ITestResult>;

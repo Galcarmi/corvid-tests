@@ -8,6 +8,13 @@ class AsyncMatcherProxy {
     constructor(_expectedPromiseValue, beforeFunctions, afterFunctions, description) {
         this._expectedPromiseValue = _expectedPromiseValue;
         this._matcher = new Matcher_1.Matcher(null, beforeFunctions, afterFunctions, description);
+        this._testResultStatus = new Promise((res, rej) => { this._testResultResolver = res; });
+    }
+    get TestResultStatus() {
+        return this._testResultStatus;
+    }
+    set TestResultStatus(val) {
+        this._testResultStatus = val;
     }
     get ExpectedValue() {
         return this.Matcher.ExpectedValue;
@@ -63,6 +70,9 @@ class AsyncMatcherProxy {
     }
     set Matcher(val) {
         this._matcher = val;
+    }
+    resolveTestResult(testResult) {
+        this._testResultResolver(testResult);
     }
     initMatcher() {
         this.Matcher.BeforeFunctions.unshift(() => {
