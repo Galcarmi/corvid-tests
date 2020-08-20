@@ -80,10 +80,12 @@ class Matcher {
         }
     }
     toBeTrue() {
-        return MatcherTemplate_1.testTemplate(this, () => { this.m_ExpectedValue === true; }, 'false');
+        return MatcherTemplate_1.testTemplate(this, () => {
+            this.m_ExpectedValue === true;
+        }, "false");
     }
     toBeFalse() {
-        return MatcherTemplate_1.testTemplate(this, () => this.m_ExpectedValue === false, 'true');
+        return MatcherTemplate_1.testTemplate(this, () => this.m_ExpectedValue === false, "true");
     }
     toBeTruthy() {
         return MatcherTemplate_1.testTemplate(this, () => {
@@ -93,7 +95,7 @@ class Matcher {
             else {
                 return false;
             }
-        }, 'falsy');
+        }, "falsy");
     }
     toBeFalsy() {
         return MatcherTemplate_1.testTemplate(this, () => {
@@ -103,7 +105,7 @@ class Matcher {
             else {
                 return true;
             }
-        }, 'truthy');
+        }, "truthy");
     }
     equalValue(i_Param) {
         return MatcherTemplate_1.testTemplate(this, () => this.m_ExpectedValue === i_Param, i_Param);

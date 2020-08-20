@@ -8,7 +8,9 @@ class AsyncMatcherProxy {
     constructor(m_ExpectedPromiseValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
         this.m_ExpectedPromiseValue = m_ExpectedPromiseValue;
         this.m_Matcher = new Matcher_1.Matcher(null, i_BeforeFunctions, i_AfterFunctions, i_Description);
-        this.m_TestResultStatus = new Promise((res, rej) => { this.m_TestResultResolver = res; });
+        this.m_TestResultStatus = new Promise((res, rej) => {
+            this.m_TestResultResolver = res;
+        });
     }
     get TestResultStatus() {
         return this.m_TestResultStatus;
@@ -94,11 +96,13 @@ class AsyncMatcherProxy {
     }
     async toBeTrue() {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => { this.Matcher.ExpectedValue === true; }, 'false');
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => {
+            this.Matcher.ExpectedValue === true;
+        }, "false");
     }
     async toBeFalse() {
         await this.prepareMatcher();
-        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === false, 'true');
+        return AsyncMatcherTemplate_1.AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === false, "true");
     }
     async toBeTruthy() {
         await this.prepareMatcher();
@@ -109,7 +113,7 @@ class AsyncMatcherProxy {
             else {
                 return false;
             }
-        }, 'falsy');
+        }, "falsy");
     }
     async toBeFalsy() {
         await this.prepareMatcher();
@@ -120,7 +124,7 @@ class AsyncMatcherProxy {
             else {
                 return true;
             }
-        }, 'truthy');
+        }, "truthy");
     }
     async equalValue(i_Param) {
         await this.prepareMatcher();

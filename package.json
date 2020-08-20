@@ -2,15 +2,31 @@
   "name": "corvid-tests",
   "version": "1.0.0",
   "description": "corvid-tests is a test framework for corvid development",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Galcarmi/corvid-tests.git"
+    "url": "git+https://github.com/Galcarmi/corvid-tests"
   },
   "author": "Gal Carmi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Galcarmi/corvid-tests/issues"
   },
-  "homepage": "https://github.com/Galcarmi/corvid-tests#readme"
+  "homepage": "https://github.com/Galcarmi/corvid-tests#readme",
+  "dependencies": {
+    "performance-now": "^2.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "corvid",
+    "tests",
+    "programmatic",
+    "tests"
+  ],
+  "files": [
+    "dist"
+  ]
 }

@@ -61,7 +61,7 @@ class TestSuite {
     }
     getFailedTestsResults() {
         const failedTests = this.m_Tests.filter((test) => {
-            return !(test.Matcher.Result.Passed);
+            return !test.Matcher.Result.Passed;
         });
         const failedResults = [];
         for (const failedTest of failedTests) {

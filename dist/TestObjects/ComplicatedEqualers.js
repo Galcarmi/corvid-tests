@@ -36,7 +36,11 @@ function deepObjectEquals(x, y) {
     }
     // recursive object equality check
     var p = Object.keys(x);
-    return Object.keys(y).every(function (i) { return p.indexOf(i) !== -1; }) &&
-        p.every(function (i) { return deepObjectEquals(x[i], y[i]); });
+    return (Object.keys(y).every(function (i) {
+        return p.indexOf(i) !== -1;
+    }) &&
+        p.every(function (i) {
+            return deepObjectEquals(x[i], y[i]);
+        }));
 }
 exports.deepObjectEquals = deepObjectEquals;
