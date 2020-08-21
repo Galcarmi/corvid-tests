@@ -187,7 +187,7 @@ export class AsyncMatcherProxy
     );
   }
 
-  public async equalValue(i_Param: any): Promise<ITestResult> {
+  public async toBe(i_Param: any): Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(
       this,
@@ -196,7 +196,7 @@ export class AsyncMatcherProxy
     );
   }
 
-  public async notEqualValue(i_Param: any): Promise<ITestResult> {
+  public async notToBe(i_Param: any): Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(
       this,

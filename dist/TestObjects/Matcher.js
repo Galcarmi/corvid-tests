@@ -104,10 +104,10 @@ export class Matcher {
             }
         }, "truthy");
     }
-    equalValue(i_Param) {
+    toBe(i_Param) {
         return testTemplate(this, () => this.m_ExpectedValue === i_Param, i_Param);
     }
-    notEqualValue(i_Param) {
+    notToBe(i_Param) {
         return testTemplate(this, () => this.m_ExpectedValue !== i_Param, i_Param);
     }
     toBeLessThan(i_Param) {

@@ -123,11 +123,11 @@ export class AsyncMatcherProxy {
             }
         }, "truthy");
     }
-    async equalValue(i_Param) {
+    async toBe(i_Param) {
         await this.prepareMatcher();
         return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === i_Param, i_Param);
     }
-    async notEqualValue(i_Param) {
+    async notToBe(i_Param) {
         await this.prepareMatcher();
         return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue !== i_Param, i_Param);
     }

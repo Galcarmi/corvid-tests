@@ -1,7 +1,10 @@
 import { ITestResult } from "./ITestResult.js";
 import { TestPerformance } from "../Performance/Performance.js";
+import { IMatcherProto } from "./IMatcherProto.js";
 
-export interface IAsyncMatcher {
+
+
+export interface IAsyncMatcher extends IMatcherProto{
   // //private fields
   // _result:ITestResult;
   // _description:string;
@@ -12,23 +15,16 @@ export interface IAsyncMatcher {
 
   ////todo merge interfaces
   //access modifiers
-  Result: ITestResult;
-  Performance: TestPerformance;
-  StartAt: Date;
-  ExpectedValue: any;
-  ErrorString: string;
-  Description: string;
-  BeforeFunctions: Function[];
-  AfterFunctions: Function[];
+ 
   TestResultStatus: Promise<any>;
 
   resolveTestResult(i_testResult: ITestResult): void;
   toBeTruthy(): Promise<ITestResult>;
   toBeFalsy(): Promise<ITestResult>;
-  equalValue(i_param: any): Promise<ITestResult>;
+  toBe(i_param: any): Promise<ITestResult>;
   toBeTrue(): Promise<ITestResult>;
   toBeFalse(): Promise<ITestResult>;
-  notEqualValue(i_param: any): Promise<ITestResult>;
+  notToBe(i_param: any): Promise<ITestResult>;
   toBeLessThan(i_param: number): Promise<ITestResult>;
   toBeLessThanOrEqual(i_param: number): Promise<ITestResult>;
   toBeGreaterThan(i_param: number): Promise<ITestResult>;

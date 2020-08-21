@@ -4,7 +4,7 @@ import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
 import { IDescribable } from "../interfaces/IDescribable.js";
 import { AsyncMatcherProxy } from "./AsyncMatcherProxy.js";
 
-export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
+export class AsyncTest implements ITest {
   private m_Description: string;
   private m_Matcher: AsyncMatcherProxy;
   private m_beforeFunctions: Function[];

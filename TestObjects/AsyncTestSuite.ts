@@ -6,7 +6,7 @@ import { AsyncTest } from "./AsyncTest.js";
 import { IAsyncTest } from "../interfaces/IAsyncTest.js";
 import { TestResult } from "./TestResult.js";
 
-export class AsyncTestSuite implements ITestSuite, IDescribable {
+export class AsyncTestSuite implements ITestSuite {
   private m_BeforeEach: (Function | AsyncFunction)[];
   private m_AfterEach: (Function | AsyncFunction)[];
   private m_Tests: AsyncTest[];

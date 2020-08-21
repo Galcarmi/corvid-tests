@@ -2,9 +2,8 @@ import { ITestSuite } from "../interfaces/ITestSuite.js";
 import { ITest } from "../interfaces/ITest.js";
 import { Test } from "./Test.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
 
-export class TestSuite implements ITestSuite, IDescribable {
+export class TestSuite implements ITestSuite {
   private m_BeforeEach: Function[];
   private m_AfterEach: Function[];
   private m_Tests: ITest[];

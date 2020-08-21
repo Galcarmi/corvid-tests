@@ -3,10 +3,8 @@ import { ITestResult } from "../interfaces/ITestResult.js";
 import { TestPerformance } from "../Performance/Performance.js";
 import { testTemplate } from "../TestTemplates/MatcherTemplate.js";
 import { deepObjectEquals } from "./ComplicatedEqualers.js";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
 
-export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
+export class Matcher implements IMatcher {
   private m_StartAt: Date;
   private m_ErrorString: string;
   private m_Description: string;
@@ -154,11 +152,11 @@ export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
     );
   }
 
-  public equalValue(i_Param: any): ITestResult {
+  public toBe(i_Param: any): ITestResult {
     return testTemplate(this, () => this.m_ExpectedValue === i_Param, i_Param);
   }
 
-  public notEqualValue(i_Param: any): ITestResult {
+  public notToBe(i_Param: any): ITestResult {
     return testTemplate(this, () => this.m_ExpectedValue !== i_Param, i_Param);
   }
 

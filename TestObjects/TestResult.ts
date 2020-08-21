@@ -1,7 +1,6 @@
 import { ITestResult } from "../interfaces/ITestResult.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
 
-export class TestResult implements ITestResult, IDescribable {
+export class TestResult implements ITestResult {
   private m_Description: string;
   private m_Passed: boolean;
   private m_TimePassed: number;

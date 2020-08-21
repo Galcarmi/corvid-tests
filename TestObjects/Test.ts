@@ -1,10 +1,9 @@
 import { ITest } from "../interfaces/ITest.js";
 import { IMatcher } from "../interfaces/IMatcher.js";
 import { Matcher } from "./Matcher.js";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
 
-export class Test implements ITest, IBeforeAfterFunc, IDescribable {
+
+export class Test implements ITest{
   private m_Description: string;
   private m_Matcher: IMatcher;
   private m_BeforeFunctions: Function[];

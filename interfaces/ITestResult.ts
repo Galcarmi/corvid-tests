@@ -1,4 +1,6 @@
-export interface ITestResult{
+import { IDescribable } from "./IDescribable";
+
+export interface ITestResult extends IDescribable{
 
     //private fields
     // _passed:boolean

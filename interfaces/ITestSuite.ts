@@ -1,6 +1,7 @@
 import { ITest } from "./ITest.js";
+import { IDescribable } from "./IDescribable.js";
 
-export interface ITestSuite {
+export interface ITestSuite extends IDescribable{
   // //private fields
   // _tests : ITest[]
   // _description:string;

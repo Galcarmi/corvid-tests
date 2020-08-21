@@ -1,6 +1,8 @@
+import { IDescribable } from "./IDescribable";
+import { IBeforeAfterFunc } from "./IBeforeAfterFunc";
 
 
-export interface ITest {
+export interface ITest extends IDescribable, IBeforeAfterFunc {
   // //private fields
   // _matcher:IMatcher
   // _description:string;
