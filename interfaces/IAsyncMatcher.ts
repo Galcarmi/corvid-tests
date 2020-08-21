@@ -34,4 +34,5 @@ export interface IAsyncMatcher extends IMatcherProto{
   before(): void;
   after(): void;
   initMatcher(): void;
+  prepareMatcher(): Promise<void>
 }

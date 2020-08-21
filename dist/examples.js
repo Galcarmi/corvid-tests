@@ -10,7 +10,11 @@ async function asyncTests() {
     ats.addTest('should contain 2').expect([1, 2, 3]).toContain(2);
     ats.addTest('should be equal').expect(5).toBe(5);
     ats.addTest('should fail').asyncExpect(async () => {
-        /// do some async things...
+        /// do some async stuff...
+        return 5;
+    }).toBe(2);
+    ats.addTest('should fail').asyncExpect(async () => {
+        throw new Error('i hate errors');
         return 5;
     }).toBe(2);
     const results = await ats.getAllTestsResults();
@@ -23,6 +27,7 @@ async function asyncTests() {
 function tests() {
     const ts = new TestSuite('my first test suite!');
     ts.addTest('should be truthy').expect([2]).toBeTruthy();
+    ts.addTest('deep object comparison should work').expect([1, 2, 3]).deepObjectEquals([1, 2, 3]);
     const results = ts.getAllTestsResults();
     console.log('sync test suite results', results);
 }

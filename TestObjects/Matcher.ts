@@ -8,7 +8,7 @@ import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
 export class Matcher implements IMatcher {
   
   private m_StartAt: Date;
-  private m_ErrorString: string;
+  private m_FailedString: string;
   private m_Description: string;
   private m_Result: ITestResult;
   private m_Performance: TestPerformance;
@@ -43,12 +43,12 @@ export class Matcher implements IMatcher {
     this.m_Result = val;
   }
 
-  get ErrorString(): string {
-    return this.m_ErrorString;
+  get FailedString(): string {
+    return this.m_FailedString;
   }
 
-  set ErrorString(val: string) {
-    this.m_ErrorString = val;
+  set FailedString(val: string) {
+    this.m_FailedString = val;
   }
 
   get Description(): string {

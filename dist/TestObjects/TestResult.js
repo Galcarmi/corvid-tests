@@ -1,12 +1,28 @@
 export class TestResult {
-    constructor(passed, timePassed, description, errorString, startAt) {
+    constructor(passed, timePassed, description, failedString, startAt, errorDetected, errorString) {
         this.m_StartAt = startAt;
         this.m_Passed = passed;
         this.m_TimePassed = timePassed;
         this.m_Description = description;
-        if (errorString !== null) {
+        if (failedString !== null) {
+            this.m_FailedString = failedString;
+        }
+        if (errorDetected) {
+            this.m_ErrorDetected = true;
             this.m_ErrorString = errorString;
         }
+    }
+    get FailedString() {
+        return this.m_FailedString;
+    }
+    set FailedString(val) {
+        this.m_FailedString = val;
+    }
+    get ErrorDetected() {
+        return this.m_ErrorDetected;
+    }
+    set ErrorDetected(val) {
+        this.m_ErrorDetected = val;
     }
     get StartAt() {
         return this.m_StartAt;

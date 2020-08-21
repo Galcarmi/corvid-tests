@@ -12,7 +12,9 @@ export interface ITestResult extends IDescribable{
     //access modifiers
     Passed:boolean
     TimePassed:number;
-    ErrorString:string;
+    FailedString:string|null;
     StartAt:Date;
+    ErrorDetected:boolean;
+    ErrorString:string|null;
 
 }

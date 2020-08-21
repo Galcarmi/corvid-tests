@@ -18,7 +18,7 @@ export interface IMatcherProto extends IDescribable, IBeforeAfterFunc{
   Performance: TestPerformance;
   StartAt: Date;
   ExpectedValue: any;
-  ErrorString: string;
+  FailedString: string;
 
   toBeTruthy(): any;
   toBeFalsy(): any;

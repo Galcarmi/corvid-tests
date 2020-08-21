@@ -30,14 +30,12 @@ export class AsyncTest {
         this.m_AfterFunctions = val;
     }
     expect(i_Result) {
-        const resultPromiseWrapper = new Promise((res, rej) => {
-            res(i_Result);
-        });
-        this.m_Matcher = new AsyncMatcherProxy(resultPromiseWrapper, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
+        const resultAsyncFunctionWrapper = async () => { return i_Result; };
+        this.m_Matcher = new AsyncMatcherProxy(resultAsyncFunctionWrapper, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
         return this.m_Matcher;
     }
     asyncExpect(i_AsyncFunction) {
-        this.m_Matcher = new AsyncMatcherProxy(i_AsyncFunction(), this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
+        this.m_Matcher = new AsyncMatcherProxy(i_AsyncFunction, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
         return this.m_Matcher;
     }
     addBefore(i_BeforeFunc) {

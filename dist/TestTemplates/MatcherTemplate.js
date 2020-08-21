@@ -7,6 +7,6 @@ export function testTemplate(i_Matcher, actualTest, errorValue) {
     const i_MatcherResult = actualTest();
     i_Matcher.after();
     const errorString = i_MatcherResult ? null : errorTemplate(JSON.stringify(i_Matcher.ExpectedValue), JSON.stringify(errorValue));
-    i_Matcher.Result = new TestResult(i_MatcherResult, i_Matcher.Performance.getCountMS(), i_Matcher.Description, errorString, i_Matcher.StartAt);
+    i_Matcher.Result = new TestResult(i_MatcherResult, i_Matcher.Performance.getCountMS(), i_Matcher.Description, errorString, i_Matcher.StartAt, false, null);
     return i_Matcher.Result;
 }

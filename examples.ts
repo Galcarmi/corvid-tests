@@ -11,6 +11,10 @@ async function asyncTests(){
         /// do some async stuff...
         return 5
     }).toBe(2);
+    ats.addTest('should fail').asyncExpect(async ()=>{
+        throw new Error('i hate errors')
+        return 5
+    }).toBe(2);
     const results = await ats.getAllTestsResults();
     console.log('async test suite results', results);
     const failed = await ats.getFailedTestsResults();
@@ -22,7 +26,7 @@ async function asyncTests(){
 function tests(){
     const ts = new TestSuite('my first test suite!');
     ts.addTest('should be truthy').expect([2]).toBeTruthy();
-
+    ts.addTest('deep object comparison should work').expect([1,2,3]).deepObjectEquals([1,2,3]);
     const results = ts.getAllTestsResults();
     console.log('sync test suite results',results)
 }

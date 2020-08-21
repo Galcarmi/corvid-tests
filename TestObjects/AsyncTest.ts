@@ -51,11 +51,9 @@ export class AsyncTest implements ITest {
   }
 
   public expect(i_Result: any): AsyncMatcherProxy {
-    const resultPromiseWrapper = new Promise((res, rej) => {
-      res(i_Result);
-    });
+    const resultAsyncFunctionWrapper = async ()=>{return i_Result};
     this.m_Matcher = new AsyncMatcherProxy(
-      resultPromiseWrapper,
+      resultAsyncFunctionWrapper,
       this.m_beforeFunctions,
       this.m_AfterFunctions,
       this.m_Description
@@ -66,7 +64,7 @@ export class AsyncTest implements ITest {
 
   public asyncExpect(i_AsyncFunction: AsyncFunction): AsyncMatcherProxy {
     this.m_Matcher = new AsyncMatcherProxy(
-      i_AsyncFunction(),
+      i_AsyncFunction,
       this.m_beforeFunctions,
       this.m_AfterFunctions,
       this.m_Description

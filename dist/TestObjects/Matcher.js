@@ -21,11 +21,11 @@ export class Matcher {
     set Result(val) {
         this.m_Result = val;
     }
-    get ErrorString() {
-        return this.m_ErrorString;
+    get FailedString() {
+        return this.m_FailedString;
     }
-    set ErrorString(val) {
-        this.m_ErrorString = val;
+    set FailedString(val) {
+        this.m_FailedString = val;
     }
     get Description() {
         return this.m_Description;
