@@ -1,4 +1,4 @@
-export function deepObjectEquals(x: any, y: any): boolean {
+export function deepObjectEqualsEqualer(x: any, y: any): boolean {
   if (x === null || x === undefined || y === null || y === undefined) {
     return x === y;
   }
@@ -41,7 +41,7 @@ export function deepObjectEquals(x: any, y: any): boolean {
       return p.indexOf(i) !== -1;
     }) &&
     p.every(function (i) {
-      return deepObjectEquals(x[i], y[i]);
+      return deepObjectEqualsEqualer(x[i], y[i]);
     })
   );
 }

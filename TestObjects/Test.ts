@@ -50,7 +50,7 @@ export class Test implements ITest{
   set Result(val: Function[]) {
     this.m_AfterFunctions = val;
   }
-
+ 
   public expect(i_Result: any): IMatcher {
     this.m_Matcher = new Matcher(
       i_Result,

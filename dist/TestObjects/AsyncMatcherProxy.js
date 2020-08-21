@@ -1,5 +1,5 @@
 import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate.js";
-import { deepObjectEquals } from "./ComplicatedEqualers.js";
+import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
 import { Matcher } from "./Matcher.js";
 export class AsyncMatcherProxy {
     constructor(m_ExpectedPromiseValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
@@ -147,9 +147,23 @@ export class AsyncMatcherProxy {
         await this.prepareMatcher();
         return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue >= i_Param, i_Param.toString());
     }
-    async objectDeepEquals(i_Obj) {
+    async deepObjectEquals(i_Obj) {
         await this.prepareMatcher();
-        return AsyncTestTemplate(this, () => deepObjectEquals(this.Matcher.ExpectedValue, i_Obj), i_Obj);
+        return AsyncTestTemplate(this, () => deepObjectEqualsEqualer(this.Matcher.ExpectedValue, i_Obj), i_Obj);
+    }
+    async toContain(i_param) {
+        await this.prepareMatcher();
+        return AsyncTestTemplate(this, () => {
+            const result = this.Matcher.ExpectedValue.filter((value) => value === i_param);
+            return result ? true : false;
+        }, i_param);
+    }
+    async toContainEqual(i_param) {
+        await this.prepareMatcher();
+        return AsyncTestTemplate(this, () => {
+            const result = this.Matcher.ExpectedValue.filter((value) => deepObjectEqualsEqualer(value, i_param));
+            return result ? true : false;
+        }, i_param);
     }
     async prepareMatcher() {
         let expectedValue = await this.m_ExpectedPromiseValue;

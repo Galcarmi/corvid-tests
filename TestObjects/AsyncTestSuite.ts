@@ -1,12 +1,11 @@
-import { ITestSuite } from "../interfaces/ITestSuite.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
 import { AsyncFunction } from "../types/AsyncFunction.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
 import { AsyncTest } from "./AsyncTest.js";
 import { IAsyncTest } from "../interfaces/IAsyncTest.js";
 import { TestResult } from "./TestResult.js";
+import { IAsyncTestSuite } from "../interfaces/IAsyncTestSuite.js";
 
-export class AsyncTestSuite implements ITestSuite {
+export class AsyncTestSuite implements IAsyncTestSuite {
   private m_BeforeEach: (Function | AsyncFunction)[];
   private m_AfterEach: (Function | AsyncFunction)[];
   private m_Tests: AsyncTest[];
@@ -106,11 +105,11 @@ export class AsyncTestSuite implements ITestSuite {
     }
   }
 
-  public addBeforeEach(i_FuncBefore: Function | AsyncFunction): ITestSuite {
+  public addBeforeEach(i_FuncBefore: Function | AsyncFunction): IAsyncTestSuite {
     this.m_BeforeEach.push(i_FuncBefore);
     return this;
   }
-  public addAfterEach(i_FuncAfter: Function | AsyncFunction): ITestSuite {
+  public addAfterEach(i_FuncAfter: Function | AsyncFunction): IAsyncTestSuite {
     this.m_AfterEach.push(i_FuncAfter);
     return this;
   }

@@ -1,6 +1,6 @@
 import { TestPerformance } from "../Performance/Performance.js";
 import { testTemplate } from "../TestTemplates/MatcherTemplate.js";
-import { deepObjectEquals } from "./ComplicatedEqualers.js";
+import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
 export class Matcher {
     constructor(m_ExpectedValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
         this.m_ExpectedValue = m_ExpectedValue;
@@ -122,7 +122,19 @@ export class Matcher {
     toBeGreaterThanOrEqual(i_Param) {
         return testTemplate(this, () => this.m_ExpectedValue >= i_Param, i_Param.toString());
     }
-    objectDeepEquals(i_obj) {
-        return testTemplate(this, () => deepObjectEquals(this.m_ExpectedValue, i_obj), i_obj);
+    deepObjectEquals(i_obj) {
+        return testTemplate(this, () => deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj), i_obj);
+    }
+    toContain(i_param) {
+        return testTemplate(this, () => {
+            const result = this.m_ExpectedValue.filter((value) => value === i_param);
+            return result ? true : false;
+        }, i_param);
+    }
+    toContainEqual(i_param) {
+        return testTemplate(this, () => {
+            const result = this.m_ExpectedValue.filter((value) => deepObjectEqualsEqualer(value, i_param));
+            return result ? true : false;
+        }, i_param);
     }
 }

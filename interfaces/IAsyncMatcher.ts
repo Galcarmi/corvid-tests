@@ -1,5 +1,4 @@
 import { ITestResult } from "./ITestResult.js";
-import { TestPerformance } from "../Performance/Performance.js";
 import { IMatcherProto } from "./IMatcherProto.js";
 
 
@@ -29,7 +28,9 @@ export interface IAsyncMatcher extends IMatcherProto{
   toBeLessThanOrEqual(i_param: number): Promise<ITestResult>;
   toBeGreaterThan(i_param: number): Promise<ITestResult>;
   toBeGreaterThanOrEqual(i_param: number): Promise<ITestResult>;
-  objectDeepEquals(i_obj: any): Promise<ITestResult>;
+  deepObjectEquals(i_obj: any): Promise<ITestResult>;
+  toContain(i_param:any):Promise<ITestResult>;
+  toContainEqual(i_param:any):Promise<ITestResult>;
   before(): void;
   after(): void;
   initMatcher(): void;

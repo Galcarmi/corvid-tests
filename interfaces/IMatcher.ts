@@ -1,5 +1,4 @@
 import { ITestResult } from "./ITestResult.js";
-import { TestPerformance } from "../Performance/Performance.js";
 import {IMatcherProto} from './IMatcherProto';
 
 export interface IMatcher extends IMatcherProto{
@@ -24,7 +23,9 @@ export interface IMatcher extends IMatcherProto{
   toBeLessThanOrEqual(i_param: number): ITestResult;
   toBeGreaterThan(i_param: number): ITestResult;
   toBeGreaterThanOrEqual(i_param: number): ITestResult;
-  objectDeepEquals(i_obj: any): ITestResult;
+  deepObjectEquals(i_obj: any): ITestResult;
+  toContain(i_param:any):ITestResult;
+  toContainEqual(i_param:any):ITestResult;
   before(): void;
   after(): void;
   initMatcher(): void;

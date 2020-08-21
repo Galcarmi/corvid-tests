@@ -30,7 +30,9 @@ export interface IMatcherProto extends IDescribable, IBeforeAfterFunc{
   toBeLessThanOrEqual(i_param: number): any;
   toBeGreaterThan(i_param: number): any;
   toBeGreaterThanOrEqual(i_param: number): any;
-  objectDeepEquals(i_obj: any): any;
+  deepObjectEquals(i_obj: any): any;
+  toContain(i_param:any):any;
+  toContainEqual(i_param:any):any;
   before(): void;
   after(): void;
   initMatcher(): void;

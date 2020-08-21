@@ -1,7 +1,5 @@
 import { ITest } from "../interfaces/ITest.js";
 import { AsyncFunction } from "../types/AsyncFunction.js";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
 import { AsyncMatcherProxy } from "./AsyncMatcherProxy.js";
 
 export class AsyncTest implements ITest {

@@ -2,9 +2,11 @@ import { IMatcher } from "../interfaces/IMatcher.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
 import { TestPerformance } from "../Performance/Performance.js";
 import { testTemplate } from "../TestTemplates/MatcherTemplate.js";
-import { deepObjectEquals } from "./ComplicatedEqualers.js";
+import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
+
 
 export class Matcher implements IMatcher {
+  
   private m_StartAt: Date;
   private m_ErrorString: string;
   private m_Description: string;
@@ -192,11 +194,33 @@ export class Matcher implements IMatcher {
     );
   }
 
-  public objectDeepEquals(i_obj: any): ITestResult {
+  public deepObjectEquals(i_obj: any): ITestResult {
     return testTemplate(
       this,
-      () => deepObjectEquals(this.m_ExpectedValue, i_obj),
+      () => deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj),
       i_obj
+    );
+  }
+
+  public toContain(i_param: any): ITestResult {
+    return testTemplate(
+      this,
+      ()=>{
+        const result = this.m_ExpectedValue.filter((value: any) => value === i_param)
+        return result?true:false;
+      },
+      i_param
+    )
+  }
+
+  public toContainEqual(i_param: any): ITestResult {
+    return testTemplate(
+      this,
+      ()=>{
+        const result = this.m_ExpectedValue.filter((value: any) => deepObjectEqualsEqualer(value , i_param))
+        return result?true:false;
+      },
+      i_param
     );
   }
 }

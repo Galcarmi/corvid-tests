@@ -2,15 +2,13 @@ import { IAsyncMatcher } from "../interfaces/IAsyncMatcher.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
 import { TestPerformance } from "../Performance/Performance.js";
 import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate.js";
-import { deepObjectEquals } from "./ComplicatedEqualers.js";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
-import { IDescribable } from "../interfaces/IDescribable.js";
+import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
 import { IMatcher } from "../interfaces/IMatcher.js";
 import { Matcher } from "./Matcher.js";
 import { TestResult } from "./TestResult.js";
 
-export class AsyncMatcherProxy
-  implements IAsyncMatcher, IBeforeAfterFunc, IDescribable {
+export class AsyncMatcherProxy implements IAsyncMatcher {
+ 
   private m_Matcher: IMatcher;
   private m_TestResultStatus: Promise<TestResult>;
   private m_TestResultResolver: Function;
@@ -241,12 +239,36 @@ export class AsyncMatcherProxy
     );
   }
 
-  public async objectDeepEquals(i_Obj: any): Promise<ITestResult> {
+  public async deepObjectEquals(i_Obj: any): Promise<ITestResult> {
     await this.prepareMatcher();
     return AsyncTestTemplate(
       this,
-      () => deepObjectEquals(this.Matcher.ExpectedValue, i_Obj),
+      () => deepObjectEqualsEqualer(this.Matcher.ExpectedValue, i_Obj),
       i_Obj
+    );
+  }
+
+  public async toContain(i_param: any): Promise<ITestResult> {
+    await this.prepareMatcher();
+    return AsyncTestTemplate(
+      this,
+      ()=>{
+        const result = this.Matcher.ExpectedValue.filter((value: any) => value === i_param)
+        return result?true:false;
+      },
+      i_param
+    )
+  }
+  
+  public async toContainEqual(i_param: any): Promise<ITestResult> {
+    await this.prepareMatcher();
+    return AsyncTestTemplate(
+      this,
+      ()=>{
+        const result = this.Matcher.ExpectedValue.filter((value: any) => deepObjectEqualsEqualer(value , i_param))
+        return result?true:false;
+      },
+      i_param
     );
   }
 

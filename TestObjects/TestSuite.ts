@@ -1,9 +1,9 @@
-import { ITestSuite } from "../interfaces/ITestSuite.js";
 import { ITest } from "../interfaces/ITest.js";
 import { Test } from "./Test.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
+import { ISyncTestSuite } from "../interfaces/ISyncTestSuite.js";
 
-export class TestSuite implements ITestSuite {
+export class TestSuite implements ISyncTestSuite {
   private m_BeforeEach: Function[];
   private m_AfterEach: Function[];
   private m_Tests: ITest[];
@@ -95,11 +95,11 @@ export class TestSuite implements ITestSuite {
     return failedResults;
   }
 
-  public addBeforeEach(i_FuncBefore: Function): ITestSuite {
+  public addBeforeEach(i_FuncBefore: Function): ISyncTestSuite {
     this.m_BeforeEach.push(i_FuncBefore);
     return this;
   }
-  public addAfterEach(i_FuncAfter: Function): ITestSuite {
+  public addAfterEach(i_FuncAfter: Function): ISyncTestSuite {
     this.m_AfterEach.push(i_FuncAfter);
     return this;
   }
