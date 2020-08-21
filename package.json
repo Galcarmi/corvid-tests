@@ -1,6 +1,6 @@
 {
   "name": "corvid-tests",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "corvid-tests is a test framework for corvid development",
   "main": "dist/index.js",
   "repository": {

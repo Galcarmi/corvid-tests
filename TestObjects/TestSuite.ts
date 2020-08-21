@@ -1,12 +1,12 @@
-import { ITest } from "../interfaces/ITest.js";
 import { Test } from "./Test.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
 import { ISyncTestSuite } from "../interfaces/ISyncTestSuite.js";
+import { ISyncTest } from "../interfaces/ISyncTest.js";
 
 export class TestSuite implements ISyncTestSuite {
   private m_BeforeEach: Function[];
   private m_AfterEach: Function[];
-  private m_Tests: ITest[];
+  private m_Tests: ISyncTest[];
   private m_Description: string;
 
   constructor(i_Description: string) {
@@ -24,11 +24,11 @@ export class TestSuite implements ISyncTestSuite {
     this.m_Description = val;
   }
 
-  get Tests(): ITest[] {
+  get Tests(): ISyncTest[] {
     return this.m_Tests;
   }
 
-  set Tests(val: ITest[]) {
+  set Tests(val: ISyncTest[]) {
     this.m_Tests = val;
   }
 
@@ -48,7 +48,7 @@ export class TestSuite implements ISyncTestSuite {
     this.m_AfterEach = val;
   }
 
-  public addTest(i_TestDescription: string): ITest {
+  public addTest(i_TestDescription: string): ISyncTest {
     if (i_TestDescription !== "") {
       const test = new Test(
         i_TestDescription,
