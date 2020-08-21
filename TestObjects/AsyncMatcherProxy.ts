@@ -1,12 +1,13 @@
 import { IAsyncMatcher } from "../interfaces/IAsyncMatcher.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
 import { TestPerformance } from "../Performance/Performance.js";
-import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate.js";
 import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
 import { IMatcher } from "../interfaces/IMatcher.js";
 import { Matcher } from "./Matcher.js";
 import { TestResult } from "./TestResult.js";
 import { AsyncFunction } from "../types/AsyncFunction.js";
+import {errorTemplate} from "../Utils/TemplateStrings.js"
+
 
 export class AsyncMatcherProxy implements IAsyncMatcher {
  
@@ -112,7 +113,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
     this.m_Matcher = val;
   }
 
-  public resolveTestResult(i_TestResult: TestResult): void {
+  public resolveTestResult(i_TestResult: ITestResult): void {
     this.m_TestResultResolver(i_TestResult);
   }
 
@@ -139,8 +140,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
   }
 
   public async toBeTrue(): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => {
         this.Matcher.ExpectedValue === true;
       },
@@ -148,16 +148,14 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
     );
   }
   public async toBeFalse(): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue === false,
       "true"
     );
   }
 
   public async toBeTruthy(): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => {
         if (this.Matcher.ExpectedValue) {
           return true;
@@ -170,8 +168,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
   }
 
   public async toBeFalsy(): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => {
         if (this.Matcher.ExpectedValue) {
           return false;
@@ -184,64 +181,56 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
   }
 
   public async toBe(i_Param: any): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue === i_Param,
       i_Param
     );
   }
 
   public async notToBe(i_Param: any): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue !== i_Param,
       i_Param
     );
   }
 
   public async toBeLessThan(i_Param: number): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue < i_Param,
       i_Param.toString()
     );
   }
 
   public async toBeLessThanOrEqual(i_Param: number): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue <= i_Param,
       i_Param.toString()
     );
   }
 
   public async toBeGreaterThan(i_Param: number): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue > i_Param,
       i_Param.toString()
     );
   }
 
   public async toBeGreaterThanOrEqual(i_Param: number): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => this.Matcher.ExpectedValue >= i_Param,
       i_Param.toString()
     );
   }
 
   public async deepObjectEquals(i_Obj: any): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       () => deepObjectEqualsEqualer(this.Matcher.ExpectedValue, i_Obj),
       i_Obj
     );
   }
 
   public async toContain(i_param: any): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       ()=>{
         const result = this.Matcher.ExpectedValue.filter((value: any) => value === i_param)
         return result?true:false;
@@ -251,8 +240,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
   }
   
   public async toContainEqual(i_param: any): Promise<ITestResult> {
-    return AsyncTestTemplate(
-      this,
+    return this.asyncTestTemplate(
       ()=>{
         const result = this.Matcher.ExpectedValue.filter((value: any) => deepObjectEqualsEqualer(value , i_param))
         return result?true:false;
@@ -265,4 +253,26 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
     let expectedValue = await this.m_ExpectedPromiseValue;
     this.Matcher.ExpectedValue = expectedValue;
   }
+
+  private async asyncTestTemplate(i_ActualTest:Function, i_FailedValue:string):Promise<ITestResult>{
+    try{
+        this.StartAt = new Date();
+        this.initMatcher();
+        await this.prepareMatcher()
+        await this.before();
+        const matcherResult = await i_ActualTest();
+        await this.after();
+
+        const errorString = matcherResult?null:errorTemplate(JSON.stringify(this.ExpectedValue),JSON.stringify(i_FailedValue));
+        this.Result = new TestResult(matcherResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt,false,null);
+        this.resolveTestResult(this.Result);
+        return this.Result;
+    }
+    catch(err){
+        this.Result = new TestResult(false, 0, this.Description, 'test failed', this.StartAt,true,err.message);
+        this.resolveTestResult(this.Result);
+        return this.Result;
+    }
+    
+}
 }

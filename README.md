@@ -34,7 +34,7 @@ sync test suite results [
     m_Description: 'deep object comparison should work'
   }
 ]
-////////output////////
+////////////////
 
 ```
 

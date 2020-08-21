@@ -1,8 +1,9 @@
 import { IMatcher } from "../interfaces/IMatcher.js";
 import { ITestResult } from "../interfaces/ITestResult.js";
 import { TestPerformance } from "../Performance/Performance.js";
-import { testTemplate } from "../TestTemplates/MatcherTemplate.js";
 import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
+import {errorTemplate} from "../Utils/TemplateStrings.js"
+import { TestResult } from "./TestResult.js";
 
 
 export class Matcher implements IMatcher {
@@ -114,8 +115,7 @@ export class Matcher implements IMatcher {
   }
 
   public toBeTrue(): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => {
         this.m_ExpectedValue === true;
       },
@@ -123,12 +123,11 @@ export class Matcher implements IMatcher {
     );
   }
   public toBeFalse(): ITestResult {
-    return testTemplate(this, () => this.m_ExpectedValue === false, "true");
+    return this.testTemplate(() => this.m_ExpectedValue === false, "true");
   }
 
   public toBeTruthy(): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => {
         if (this.m_ExpectedValue) {
           return true;
@@ -141,8 +140,7 @@ export class Matcher implements IMatcher {
   }
 
   public toBeFalsy(): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => {
         if (this.m_ExpectedValue) {
           return false;
@@ -155,56 +153,50 @@ export class Matcher implements IMatcher {
   }
 
   public toBe(i_Param: any): ITestResult {
-    return testTemplate(this, () => this.m_ExpectedValue === i_Param, i_Param);
+    return this.testTemplate(() => this.m_ExpectedValue === i_Param, i_Param);
   }
 
   public notToBe(i_Param: any): ITestResult {
-    return testTemplate(this, () => this.m_ExpectedValue !== i_Param, i_Param);
+    return this.testTemplate(() => this.m_ExpectedValue !== i_Param, i_Param);
   }
 
   public toBeLessThan(i_Param: number): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => this.m_ExpectedValue < i_Param,
       i_Param.toString()
     );
   }
 
   public toBeLessThanOrEqual(i_Param: number): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => this.m_ExpectedValue <= i_Param,
       i_Param.toString()
     );
   }
 
   public toBeGreaterThan(i_Param: number): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => this.m_ExpectedValue > i_Param,
       i_Param.toString()
     );
   }
 
   public toBeGreaterThanOrEqual(i_Param: number): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => this.m_ExpectedValue >= i_Param,
       i_Param.toString()
     );
   }
 
   public deepObjectEquals(i_obj: any): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       () => deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj),
       i_obj
     );
   }
 
   public toContain(i_param: any): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       ()=>{
         const result = this.m_ExpectedValue.filter((value: any) => value === i_param)
         return result?true:false;
@@ -214,8 +206,7 @@ export class Matcher implements IMatcher {
   }
 
   public toContainEqual(i_param: any): ITestResult {
-    return testTemplate(
-      this,
+    return this.testTemplate(
       ()=>{
         const result = this.m_ExpectedValue.filter((value: any) => deepObjectEqualsEqualer(value , i_param))
         return result?true:false;
@@ -223,4 +214,16 @@ export class Matcher implements IMatcher {
       i_param
     );
   }
+
+  private testTemplate(actualTest:Function, errorValue:any):ITestResult{
+    this.StartAt = new Date();
+    this.initMatcher();
+    this.before();
+    const thisResult = actualTest();
+    this.after();
+
+    const errorString = thisResult?null:errorTemplate(JSON.stringify(this.ExpectedValue),JSON.stringify(errorValue));
+    this.Result = new TestResult(thisResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt,false,null);
+    return this.Result;
+}
 }

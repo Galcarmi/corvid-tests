@@ -1,6 +1,7 @@
 import { TestPerformance } from "../Performance/Performance.js";
-import { testTemplate } from "../TestTemplates/MatcherTemplate.js";
 import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
+import { errorTemplate } from "../Utils/TemplateStrings.js";
+import { TestResult } from "./TestResult.js";
 export class Matcher {
     constructor(m_ExpectedValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
         this.m_ExpectedValue = m_ExpectedValue;
@@ -77,15 +78,15 @@ export class Matcher {
         }
     }
     toBeTrue() {
-        return testTemplate(this, () => {
+        return this.testTemplate(() => {
             this.m_ExpectedValue === true;
         }, "false");
     }
     toBeFalse() {
-        return testTemplate(this, () => this.m_ExpectedValue === false, "true");
+        return this.testTemplate(() => this.m_ExpectedValue === false, "true");
     }
     toBeTruthy() {
-        return testTemplate(this, () => {
+        return this.testTemplate(() => {
             if (this.m_ExpectedValue) {
                 return true;
             }
@@ -95,7 +96,7 @@ export class Matcher {
         }, "falsy");
     }
     toBeFalsy() {
-        return testTemplate(this, () => {
+        return this.testTemplate(() => {
             if (this.m_ExpectedValue) {
                 return false;
             }
@@ -105,36 +106,46 @@ export class Matcher {
         }, "truthy");
     }
     toBe(i_Param) {
-        return testTemplate(this, () => this.m_ExpectedValue === i_Param, i_Param);
+        return this.testTemplate(() => this.m_ExpectedValue === i_Param, i_Param);
     }
     notToBe(i_Param) {
-        return testTemplate(this, () => this.m_ExpectedValue !== i_Param, i_Param);
+        return this.testTemplate(() => this.m_ExpectedValue !== i_Param, i_Param);
     }
     toBeLessThan(i_Param) {
-        return testTemplate(this, () => this.m_ExpectedValue < i_Param, i_Param.toString());
+        return this.testTemplate(() => this.m_ExpectedValue < i_Param, i_Param.toString());
     }
     toBeLessThanOrEqual(i_Param) {
-        return testTemplate(this, () => this.m_ExpectedValue <= i_Param, i_Param.toString());
+        return this.testTemplate(() => this.m_ExpectedValue <= i_Param, i_Param.toString());
     }
     toBeGreaterThan(i_Param) {
-        return testTemplate(this, () => this.m_ExpectedValue > i_Param, i_Param.toString());
+        return this.testTemplate(() => this.m_ExpectedValue > i_Param, i_Param.toString());
     }
     toBeGreaterThanOrEqual(i_Param) {
-        return testTemplate(this, () => this.m_ExpectedValue >= i_Param, i_Param.toString());
+        return this.testTemplate(() => this.m_ExpectedValue >= i_Param, i_Param.toString());
     }
     deepObjectEquals(i_obj) {
-        return testTemplate(this, () => deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj), i_obj);
+        return this.testTemplate(() => deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj), i_obj);
     }
     toContain(i_param) {
-        return testTemplate(this, () => {
+        return this.testTemplate(() => {
             const result = this.m_ExpectedValue.filter((value) => value === i_param);
             return result ? true : false;
         }, i_param);
     }
     toContainEqual(i_param) {
-        return testTemplate(this, () => {
+        return this.testTemplate(() => {
             const result = this.m_ExpectedValue.filter((value) => deepObjectEqualsEqualer(value, i_param));
             return result ? true : false;
         }, i_param);
+    }
+    testTemplate(actualTest, errorValue) {
+        this.StartAt = new Date();
+        this.initMatcher();
+        this.before();
+        const thisResult = actualTest();
+        this.after();
+        const errorString = thisResult ? null : errorTemplate(JSON.stringify(this.ExpectedValue), JSON.stringify(errorValue));
+        this.Result = new TestResult(thisResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt, false, null);
+        return this.Result;
     }
 }

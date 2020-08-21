@@ -1,6 +1,7 @@
-import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate.js";
 import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
 import { Matcher } from "./Matcher.js";
+import { TestResult } from "./TestResult.js";
+import { errorTemplate } from "../Utils/TemplateStrings.js";
 export class AsyncMatcherProxy {
     constructor(i_AsyncFunctionExpectedValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
         this.m_ExpectedPromiseValue = i_AsyncFunctionExpectedValue();
@@ -92,15 +93,15 @@ export class AsyncMatcherProxy {
         }
     }
     async toBeTrue() {
-        return AsyncTestTemplate(this, () => {
+        return this.asyncTestTemplate(() => {
             this.Matcher.ExpectedValue === true;
         }, "false");
     }
     async toBeFalse() {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === false, "true");
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue === false, "true");
     }
     async toBeTruthy() {
-        return AsyncTestTemplate(this, () => {
+        return this.asyncTestTemplate(() => {
             if (this.Matcher.ExpectedValue) {
                 return true;
             }
@@ -110,7 +111,7 @@ export class AsyncMatcherProxy {
         }, "falsy");
     }
     async toBeFalsy() {
-        return AsyncTestTemplate(this, () => {
+        return this.asyncTestTemplate(() => {
             if (this.Matcher.ExpectedValue) {
                 return false;
             }
@@ -120,34 +121,34 @@ export class AsyncMatcherProxy {
         }, "truthy");
     }
     async toBe(i_Param) {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue === i_Param, i_Param);
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue === i_Param, i_Param);
     }
     async notToBe(i_Param) {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue !== i_Param, i_Param);
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue !== i_Param, i_Param);
     }
     async toBeLessThan(i_Param) {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue < i_Param, i_Param.toString());
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue < i_Param, i_Param.toString());
     }
     async toBeLessThanOrEqual(i_Param) {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue <= i_Param, i_Param.toString());
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue <= i_Param, i_Param.toString());
     }
     async toBeGreaterThan(i_Param) {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue > i_Param, i_Param.toString());
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue > i_Param, i_Param.toString());
     }
     async toBeGreaterThanOrEqual(i_Param) {
-        return AsyncTestTemplate(this, () => this.Matcher.ExpectedValue >= i_Param, i_Param.toString());
+        return this.asyncTestTemplate(() => this.Matcher.ExpectedValue >= i_Param, i_Param.toString());
     }
     async deepObjectEquals(i_Obj) {
-        return AsyncTestTemplate(this, () => deepObjectEqualsEqualer(this.Matcher.ExpectedValue, i_Obj), i_Obj);
+        return this.asyncTestTemplate(() => deepObjectEqualsEqualer(this.Matcher.ExpectedValue, i_Obj), i_Obj);
     }
     async toContain(i_param) {
-        return AsyncTestTemplate(this, () => {
+        return this.asyncTestTemplate(() => {
             const result = this.Matcher.ExpectedValue.filter((value) => value === i_param);
             return result ? true : false;
         }, i_param);
     }
     async toContainEqual(i_param) {
-        return AsyncTestTemplate(this, () => {
+        return this.asyncTestTemplate(() => {
             const result = this.Matcher.ExpectedValue.filter((value) => deepObjectEqualsEqualer(value, i_param));
             return result ? true : false;
         }, i_param);
@@ -155,5 +156,24 @@ export class AsyncMatcherProxy {
     async prepareMatcher() {
         let expectedValue = await this.m_ExpectedPromiseValue;
         this.Matcher.ExpectedValue = expectedValue;
+    }
+    async asyncTestTemplate(i_ActualTest, i_FailedValue) {
+        try {
+            this.StartAt = new Date();
+            this.initMatcher();
+            await this.prepareMatcher();
+            await this.before();
+            const matcherResult = await i_ActualTest();
+            await this.after();
+            const errorString = matcherResult ? null : errorTemplate(JSON.stringify(this.ExpectedValue), JSON.stringify(i_FailedValue));
+            this.Result = new TestResult(matcherResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt, false, null);
+            this.resolveTestResult(this.Result);
+            return this.Result;
+        }
+        catch (err) {
+            this.Result = new TestResult(false, 0, this.Description, 'test failed', this.StartAt, true, err.message);
+            this.resolveTestResult(this.Result);
+            return this.Result;
+        }
     }
 }
