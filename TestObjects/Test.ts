@@ -1,10 +1,8 @@
-import { ITest } from "../interfaces/ITest";
-import { IMatcher } from "../interfaces/IMatcher";
-import { Matcher } from "./Matcher";
-import { AsyncFunction } from "../types/AsyncFunction";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
-import { IDescribable } from "../interfaces/IDescribable";
-import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
+import { ITest } from "../interfaces/ITest.js";
+import { IMatcher } from "../interfaces/IMatcher.js";
+import { Matcher } from "./Matcher.js";
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
 
 export class Test implements ITest, IBeforeAfterFunc, IDescribable {
   private m_Description: string;

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.deepObjectEquals = void 0;
-function deepObjectEquals(x, y) {
+export function deepObjectEquals(x, y) {
     if (x === null || x === undefined || y === null || y === undefined) {
         return x === y;
     }
@@ -43,4 +40,3 @@ function deepObjectEquals(x, y) {
             return deepObjectEquals(x[i], y[i]);
         }));
 }
-exports.deepObjectEquals = deepObjectEquals;

@@ -1,5 +1,5 @@
-import { ITestResult } from "../interfaces/ITestResult";
-import { IDescribable } from "../interfaces/IDescribable";
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
 
 export class TestResult implements ITestResult, IDescribable {
   private m_Description: string;

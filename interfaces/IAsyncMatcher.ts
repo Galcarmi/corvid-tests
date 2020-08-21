@@ -1,6 +1,5 @@
-import { ITestResult } from "./ITestResult";
-import { TestPerformance } from "../Performance/Performance";
-import { TestResult } from "../TestObjects/TestResult";
+import { ITestResult } from "./ITestResult.js";
+import { TestPerformance } from "../Performance/Performance.js";
 
 export interface IAsyncMatcher {
   // //private fields

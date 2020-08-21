@@ -1,9 +1,9 @@
-import { TestResult } from "../TestObjects/TestResult";
-import { IMatcher } from "../interfaces/IMatcher";
-import {errorTemplate} from '../Utils/TemplateStrings'
-import { ITestResult } from "../interfaces/ITestResult";
-import {IDescribable} from '../interfaces/IDescribable'
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
+import { TestResult } from "../TestObjects/TestResult.js";
+import { IMatcher } from "../interfaces/IMatcher.js";
+import {errorTemplate} from "../Utils/TemplateStrings.js"
+import { ITestResult } from "../interfaces/ITestResult.js";
+import {IDescribable} from "../interfaces/IDescribable.js"
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
 
 export function testTemplate(i_Matcher:IMatcher&IDescribable&IBeforeAfterFunc, actualTest:Function, errorValue:string):ITestResult{
     i_Matcher.StartAt = new Date();

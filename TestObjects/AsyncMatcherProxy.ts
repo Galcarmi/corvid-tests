@@ -1,13 +1,13 @@
-import { IAsyncMatcher } from "../interfaces/IAsyncMatcher";
-import { ITestResult } from "../interfaces/ITestResult";
-import { TestPerformance } from "../Performance/Performance";
-import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate";
-import { deepObjectEquals } from "./ComplicatedEqualers";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
-import { IDescribable } from "../interfaces/IDescribable";
-import { IMatcher } from "../interfaces/IMatcher";
-import { Matcher } from "./Matcher";
-import { TestResult } from "./TestResult";
+import { IAsyncMatcher } from "../interfaces/IAsyncMatcher.js";
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { TestPerformance } from "../Performance/Performance.js";
+import { AsyncTestTemplate } from "../TestTemplates/AsyncMatcherTemplate.js";
+import { deepObjectEquals } from "./ComplicatedEqualers.js";
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
+import { IMatcher } from "../interfaces/IMatcher.js";
+import { Matcher } from "./Matcher.js";
+import { TestResult } from "./TestResult.js";
 
 export class AsyncMatcherProxy
   implements IAsyncMatcher, IBeforeAfterFunc, IDescribable {

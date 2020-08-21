@@ -1,11 +1,10 @@
-import { TestResult } from "./TestResult";
-import { IMatcher } from "../interfaces/IMatcher";
-import { ITestResult } from "../interfaces/ITestResult";
-import { TestPerformance } from "../Performance/Performance";
-import { testTemplate } from "../TestTemplates/MatcherTemplate";
-import { deepObjectEquals } from "./ComplicatedEqualers";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
-import { IDescribable } from "../interfaces/IDescribable";
+import { IMatcher } from "../interfaces/IMatcher.js";
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { TestPerformance } from "../Performance/Performance.js";
+import { testTemplate } from "../TestTemplates/MatcherTemplate.js";
+import { deepObjectEquals } from "./ComplicatedEqualers.js";
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
 
 export class Matcher implements IMatcher, IBeforeAfterFunc, IDescribable {
   private m_StartAt: Date;

@@ -1,8 +1,8 @@
-import { ITestSuite } from "../interfaces/ITestSuite";
-import { ITest } from "../interfaces/ITest";
-import { Test } from "./Test";
-import { ITestResult } from "../interfaces/ITestResult";
-import { IDescribable } from "../interfaces/IDescribable";
+import { ITestSuite } from "../interfaces/ITestSuite.js";
+import { ITest } from "../interfaces/ITest.js";
+import { Test } from "./Test.js";
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
 
 export class TestSuite implements ITestSuite, IDescribable {
   private m_BeforeEach: Function[];

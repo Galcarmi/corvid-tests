@@ -1,7 +1,7 @@
-import { TestResult } from "../TestObjects/TestResult";
-import {errorTemplate} from '../Utils/TemplateStrings'
-import { ITestResult } from "../interfaces/ITestResult";
-import { IAsyncMatcher } from "../interfaces/IAsyncMatcher";
+import { TestResult } from "../TestObjects/TestResult.js";
+import {errorTemplate} from "../Utils/TemplateStrings.js"
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { IAsyncMatcher } from "../interfaces/IAsyncMatcher.js";
 
 export async function AsyncTestTemplate(i_Matcher:IAsyncMatcher, i_ActualTest:Function, i_ErrorValue:string):Promise<ITestResult>{
     i_Matcher.StartAt = new Date();

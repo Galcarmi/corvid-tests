@@ -1,11 +1,10 @@
-import { ITestSuite } from "../interfaces/ITestSuite";
-import { ITest } from "../interfaces/ITest";
-import { ITestResult } from "../interfaces/ITestResult";
-import { AsyncFunction } from "../types/AsyncFunction";
-import { IDescribable } from "../interfaces/IDescribable";
-import { AsyncTest } from "./AsyncTest";
-import { IAsyncTest } from "../interfaces/IAsyncTest";
-import { TestResult } from "./TestResult";
+import { ITestSuite } from "../interfaces/ITestSuite.js";
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { AsyncFunction } from "../types/AsyncFunction.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
+import { AsyncTest } from "./AsyncTest.js";
+import { IAsyncTest } from "../interfaces/IAsyncTest.js";
+import { TestResult } from "./TestResult.js";
 
 export class AsyncTestSuite implements ITestSuite, IDescribable {
   private m_BeforeEach: (Function | AsyncFunction)[];

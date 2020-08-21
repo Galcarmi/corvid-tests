@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TestSuite = void 0;
-const Test_1 = require("./Test");
-class TestSuite {
+import { Test } from "./Test.js";
+export class TestSuite {
     constructor(i_Description) {
         this.m_Tests = [];
         this.m_Description = i_Description;
@@ -35,7 +32,7 @@ class TestSuite {
     }
     addTest(i_TestDescription) {
         if (i_TestDescription !== "") {
-            const test = new Test_1.Test(i_TestDescription, this.m_BeforeEach, this.m_AfterEach);
+            const test = new Test(i_TestDescription, this.m_BeforeEach, this.m_AfterEach);
             this.m_Tests.push(test);
             return test;
         }
@@ -78,4 +75,3 @@ class TestSuite {
         return this;
     }
 }
-exports.TestSuite = TestSuite;

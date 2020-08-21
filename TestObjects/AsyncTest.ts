@@ -1,9 +1,8 @@
-import { ITest } from "../interfaces/ITest";
-import { IMatcher } from "../interfaces/IMatcher";
-import { AsyncFunction } from "../types/AsyncFunction";
-import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc";
-import { IDescribable } from "../interfaces/IDescribable";
-import { AsyncMatcherProxy } from "./AsyncMatcherProxy";
+import { ITest } from "../interfaces/ITest.js";
+import { AsyncFunction } from "../types/AsyncFunction.js";
+import { IBeforeAfterFunc } from "../interfaces/IBeforeAfterFunc.js";
+import { IDescribable } from "../interfaces/IDescribable.js";
+import { AsyncMatcherProxy } from "./AsyncMatcherProxy.js";
 
 export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
   private m_Description: string;
@@ -78,11 +77,11 @@ export class AsyncTest implements ITest, IBeforeAfterFunc, IDescribable {
     return this.m_Matcher;
   }
 
-  public addBefore(i_BeforeFunc: Function): ITest {
+  public addBefore(i_BeforeFunc: Function|AsyncFunction): ITest {
     this.m_beforeFunctions.push(i_BeforeFunc);
     return this;
   }
-  public addAfter(i_AfterFunc: Function): ITest {
+  public addAfter(i_AfterFunc: Function|AsyncFunction): ITest {
     this.m_AfterFunctions.push(i_AfterFunc);
     return this;
   }

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TestResult = void 0;
-class TestResult {
+export class TestResult {
     constructor(passed, timePassed, description, errorString, startAt) {
         this.m_StartAt = startAt;
         this.m_Passed = passed;
@@ -42,4 +39,3 @@ class TestResult {
         this.m_ErrorString = val;
     }
 }
-exports.TestResult = TestResult;

@@ -1,5 +1,5 @@
-import { ITestResult } from "./ITestResult";
-import { TestPerformance } from "../Performance/Performance";
+import { ITestResult } from "./ITestResult.js";
+import { TestPerformance } from "../Performance/Performance.js";
 
 export interface IMatcher {
   // //private fields

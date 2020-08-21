@@ -1,5 +1,4 @@
-import { ITest } from "./ITest";
-import { ITestResult } from "./ITestResult";
+import { ITest } from "./ITest.js";
 
 export interface ITestSuite {
   // //private fields

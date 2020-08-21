@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Test = void 0;
-const Matcher_1 = require("./Matcher");
-class Test {
+import { Matcher } from "./Matcher.js";
+export class Test {
     constructor(i_Description, i_BbeforeFunctions, i_AfterFunctions) {
         this.m_Description = i_Description;
         this.m_BeforeFunctions = [...i_BbeforeFunctions];
@@ -33,7 +30,7 @@ class Test {
         this.m_AfterFunctions = val;
     }
     expect(i_Result) {
-        this.m_Matcher = new Matcher_1.Matcher(i_Result, this.m_BeforeFunctions, this.m_AfterFunctions, this.m_Description);
+        this.m_Matcher = new Matcher(i_Result, this.m_BeforeFunctions, this.m_AfterFunctions, this.m_Description);
         return this.m_Matcher;
     }
     addBefore(i_BeforeFunc) {
@@ -45,4 +42,3 @@ class Test {
         return this;
     }
 }
-exports.Test = Test;
