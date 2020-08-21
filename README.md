@@ -1,7 +1,8 @@
 # Corvid-tests
 
 
-corvid-tests is a lighweight package for making simple programmatic tests without the cli.
+corvid-tests is a lightweight test package for corvid&js development,
+with corvid test you can make tests without the cli.
 
 
 making synchronous tests with testsuite class!
