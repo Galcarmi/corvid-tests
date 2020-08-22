@@ -1,0 +1,30 @@
+import { ITestResult } from "../interfaces/ITestResult.js";
+import { AsyncFunction } from "../types/AsyncFunction.js";
+import { AsyncTest } from "./AsyncTest.js";
+import { IAsyncTest } from "../interfaces/IAsyncTest.js";
+import { TestResult } from "./TestResult.js";
+import { IAsyncTestSuite } from "../interfaces/IAsyncTestSuite.js";
+export declare class AsyncTestSuite implements IAsyncTestSuite {
+    private m_BeforeEach;
+    private m_AfterEach;
+    private m_Tests;
+    private m_AllTestsResolved;
+    private m_Results;
+    private m_Description;
+    constructor(i_Description: string);
+    get Description(): string;
+    set Description(val: string);
+    get Tests(): AsyncTest[];
+    set Tests(val: AsyncTest[]);
+    get BeforeEach(): Function[];
+    set BeforeEach(val: Function[]);
+    get AfterEach(): Function[];
+    set AfterEach(val: Function[]);
+    addTest(i_testDescription: string): IAsyncTest;
+    getAllTestsResults(): Promise<ITestResult[]>;
+    getPassedTestsResults(): Promise<TestResult[]>;
+    getFailedTestsResults(): Promise<ITestResult[]>;
+    private waitForTestsToBeResolved;
+    addBeforeEach(i_FuncBefore: Function | AsyncFunction): IAsyncTestSuite;
+    addAfterEach(i_FuncAfter: Function | AsyncFunction): IAsyncTestSuite;
+}

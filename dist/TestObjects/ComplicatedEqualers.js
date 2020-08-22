@@ -1,4 +1,7 @@
-export function deepObjectEqualsEqualer(x, y) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deepObjectEqualsEqualer = void 0;
+function deepObjectEqualsEqualer(x, y) {
     if (x === null || x === undefined || y === null || y === undefined) {
         return x === y;
     }
@@ -40,3 +43,4 @@ export function deepObjectEqualsEqualer(x, y) {
             return deepObjectEqualsEqualer(x[i], y[i]);
         }));
 }
+exports.deepObjectEqualsEqualer = deepObjectEqualsEqualer;

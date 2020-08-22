@@ -1,11 +1,14 @@
-import { TestPerformance } from "../Performance/Performance.js";
-import { deepObjectEqualsEqualer } from "./ComplicatedEqualers.js";
-import { errorTemplate } from "../Utils/TemplateStrings.js";
-import { TestResult } from "./TestResult.js";
-export class Matcher {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Matcher = void 0;
+const Performance_js_1 = require("../Performance/Performance.js");
+const ComplicatedEqualers_js_1 = require("./ComplicatedEqualers.js");
+const TemplateStrings_js_1 = require("../Utils/TemplateStrings.js");
+const TestResult_js_1 = require("./TestResult.js");
+class Matcher {
     constructor(m_ExpectedValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
         this.m_ExpectedValue = m_ExpectedValue;
-        this.m_Performance = new TestPerformance();
+        this.m_Performance = new Performance_js_1.TestPerformance();
         this.m_BeforeFunctions = i_BeforeFunctions;
         this.m_AfterFunctions = i_AfterFunctions;
         this.m_Description = i_Description;
@@ -124,7 +127,7 @@ export class Matcher {
         return this.testTemplate(() => this.m_ExpectedValue >= i_Param, i_Param.toString());
     }
     deepObjectEquals(i_obj) {
-        return this.testTemplate(() => deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj), i_obj);
+        return this.testTemplate(() => ComplicatedEqualers_js_1.deepObjectEqualsEqualer(this.m_ExpectedValue, i_obj), i_obj);
     }
     toContain(i_param) {
         return this.testTemplate(() => {
@@ -134,7 +137,7 @@ export class Matcher {
     }
     toContainEqual(i_param) {
         return this.testTemplate(() => {
-            const result = this.m_ExpectedValue.filter((value) => deepObjectEqualsEqualer(value, i_param));
+            const result = this.m_ExpectedValue.filter((value) => ComplicatedEqualers_js_1.deepObjectEqualsEqualer(value, i_param));
             return result ? true : false;
         }, i_param);
     }
@@ -144,8 +147,9 @@ export class Matcher {
         this.before();
         const thisResult = actualTest();
         this.after();
-        const errorString = thisResult ? null : errorTemplate(JSON.stringify(this.ExpectedValue), JSON.stringify(errorValue));
-        this.Result = new TestResult(thisResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt, false, null);
+        const errorString = thisResult ? null : TemplateStrings_js_1.errorTemplate(JSON.stringify(this.ExpectedValue), JSON.stringify(errorValue));
+        this.Result = new TestResult_js_1.TestResult(thisResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt, false, null);
         return this.Result;
     }
 }
+exports.Matcher = Matcher;

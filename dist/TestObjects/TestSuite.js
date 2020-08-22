@@ -1,5 +1,8 @@
-import { Test } from "./Test.js";
-export class TestSuite {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TestSuite = void 0;
+const Test_js_1 = require("./Test.js");
+class TestSuite {
     constructor(i_Description) {
         this.m_Tests = [];
         this.m_Description = i_Description;
@@ -32,7 +35,7 @@ export class TestSuite {
     }
     addTest(i_TestDescription) {
         if (i_TestDescription !== "") {
-            const test = new Test(i_TestDescription, this.m_BeforeEach, this.m_AfterEach);
+            const test = new Test_js_1.Test(i_TestDescription, this.m_BeforeEach, this.m_AfterEach);
             this.m_Tests.push(test);
             return test;
         }
@@ -75,3 +78,4 @@ export class TestSuite {
         return this;
     }
 }
+exports.TestSuite = TestSuite;
