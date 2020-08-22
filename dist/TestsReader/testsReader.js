@@ -22,7 +22,7 @@ function executeTestsReader() {
         // const s = fs.readFileSync(filePath, 'utf8');
         // const x = eval(s);
         console.log('run tests');
-        const folderPath = path_1.default.join(__dirname + '/../../../');
+        const folderPath = path_1.default.join(__dirname + '/../../../../');
         fromDir(folderPath, /\.ct.js$/, function (filename) {
             console.log("-- found: ", filename);
             const s = fs_1.default.readFileSync(filename, "utf8");

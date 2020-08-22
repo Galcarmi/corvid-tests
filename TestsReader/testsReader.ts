@@ -9,7 +9,7 @@ export async function executeTestsReader() {
   // const x = eval(s);
   console.log('run tests')
 
-  const folderPath = path.join(__dirname + '/../../../');
+  const folderPath = path.join(__dirname + '/../../../../');
   fromDir(folderPath, /\.ct.js$/, function (filename: string) {
     console.log("-- found: ", filename);
     const s = fs.readFileSync(filename, "utf8");
