@@ -2,17 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestResult = void 0;
 class TestResult {
-    constructor(passed, timePassed, description, failedString, startAt, errorDetected, errorString) {
-        this.m_StartAt = startAt;
-        this.m_Passed = passed;
-        this.m_TimePassed = timePassed;
-        this.m_Description = description;
-        if (failedString !== null) {
-            this.m_FailedString = failedString;
+    constructor(i_Passed, i_TimePassed, i_Description, i_FailedString, i_StartAt, i_ErrorDetected, i_ErrorString) {
+        this.m_StartAt = i_StartAt;
+        this.m_Passed = i_Passed;
+        this.m_TimePassed = i_TimePassed;
+        this.m_Description = i_Description;
+        if (i_FailedString !== null) {
+            this.m_FailedString = i_FailedString;
         }
-        if (errorDetected) {
+        if (i_ErrorDetected) {
             this.m_ErrorDetected = true;
-            this.m_ErrorString = errorString;
+            this.m_ErrorString = i_ErrorString;
         }
     }
     get FailedString() {

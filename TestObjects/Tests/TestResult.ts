@@ -11,24 +11,24 @@ export class TestResult implements ITestResult {
   private m_ErrorDetected:boolean;
 
   constructor(
-    passed: boolean,
-    timePassed: number,
-    description: string,
-    failedString: string|null,
-    startAt: Date,
-    errorDetected:boolean,
-    errorString:string|null
+    i_Passed: boolean,
+    i_TimePassed: number,
+    i_Description: string,
+    i_FailedString: string|null,
+    i_StartAt: Date,
+    i_ErrorDetected:boolean,
+    i_ErrorString:string|null
   ) {
-    this.m_StartAt = startAt;
-    this.m_Passed = passed;
-    this.m_TimePassed = timePassed;
-    this.m_Description = description;
-    if (failedString !== null) {
-      this.m_FailedString = failedString;
+    this.m_StartAt = i_StartAt;
+    this.m_Passed = i_Passed;
+    this.m_TimePassed = i_TimePassed;
+    this.m_Description = i_Description;
+    if (i_FailedString !== null) {
+      this.m_FailedString = i_FailedString;
     }
-    if(errorDetected){
+    if(i_ErrorDetected){
       this.m_ErrorDetected = true;
-      this.m_ErrorString = errorString;
+      this.m_ErrorString = i_ErrorString;
     }
   }
 

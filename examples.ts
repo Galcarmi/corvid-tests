@@ -1,4 +1,5 @@
 import {AsyncTestSuite,TestSuite} from './index.js';
+import {testSuiteManager} from './index.js'
 
 async function asyncTests(){
     const ats = new AsyncTestSuite('my first async test suite !');
@@ -31,5 +32,17 @@ function tests(){
     console.log('sync test suite results',results)
 }
 
-tests();
-asyncTests();
+async function testManager(){
+    const ts = testSuiteManager.addTestSuite('my test suite');
+    ts.addTest('new test').expect(5).toBe(5);
+    ts.addTest('new test').expect(5).toBe(2);
+    const tss = testSuiteManager.addTestSuite('my second test suite');
+    ts.addTest('new test').expect(3).toBe(3);
+    const results = await testSuiteManager.getAllTestSuitesResults();
+    console.log(results);
+}
+
+// tests();
+// asyncTests();
+
+testManager();

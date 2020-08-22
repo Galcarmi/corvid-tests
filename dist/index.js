@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.testSuiteManager = void 0;
 var TestSuite_js_1 = require("./TestObjects/TestSuites/TestSuite.js");
 Object.defineProperty(exports, "TestSuite", { enumerable: true, get: function () { return TestSuite_js_1.TestSuite; } });
 var AsyncTestSuite_js_1 = require("./TestObjects/TestSuites/AsyncTestSuite.js");
@@ -16,3 +17,6 @@ var Test_js_1 = require("./TestObjects/Tests/Test.js");
 Object.defineProperty(exports, "Test", { enumerable: true, get: function () { return Test_js_1.Test; } });
 var testsReader_js_1 = require("./TestsReader/testsReader.js");
 Object.defineProperty(exports, "runTests", { enumerable: true, get: function () { return testsReader_js_1.runTests; } });
+const TestSuiteManager_js_1 = require("./TestObjects/TestSuiteManager/TestSuiteManager.js");
+const testSuiteManager = new TestSuiteManager_js_1.TestSuiteManager();
+exports.testSuiteManager = testSuiteManager;

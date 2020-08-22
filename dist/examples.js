@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("./index.js");
+const index_js_2 = require("./index.js");
 function asyncTests() {
     return __awaiter(this, void 0, void 0, function* () {
         const ats = new index_js_1.AsyncTestSuite('my first async test suite !');
@@ -44,5 +45,17 @@ function tests() {
     const results = ts.getAllTestsResults();
     console.log('sync test suite results', results);
 }
-tests();
-asyncTests();
+function testManager() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const ts = index_js_2.testSuiteManager.addTestSuite('my test suite');
+        ts.addTest('new test').expect(5).toBe(5);
+        ts.addTest('new test').expect(5).toBe(2);
+        const tss = index_js_2.testSuiteManager.addTestSuite('my second test suite');
+        ts.addTest('new test').expect(3).toBe(3);
+        const results = yield index_js_2.testSuiteManager.getAllTestSuitesResults();
+        console.log(results);
+    });
+}
+// tests();
+// asyncTests();
+testManager();
