@@ -1,6 +1,6 @@
 {
   "name": "corvid-tests",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "corvid-tests is a lightweight test package for corvid&js development",
   "main": "dist/index.js",
   "repository": {
@@ -13,9 +13,7 @@
     "url": "https://github.com/Galcarmi/corvid-tests/issues"
   },
   "homepage": "https://github.com/Galcarmi/corvid-tests#readme",
-  "dependencies": {
-    "performance-now": "^2.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
