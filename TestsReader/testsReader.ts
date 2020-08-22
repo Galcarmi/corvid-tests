@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs";
+import {testSuiteManager} from '../index.js'
 
 export async function executeTestsReader() {
   // console.log(path.join(__dirname + '/../'))

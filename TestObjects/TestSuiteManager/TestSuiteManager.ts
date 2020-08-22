@@ -7,15 +7,19 @@ import { TestSuite } from "../TestSuites/TestSuite.js";
 import { TestSuiteResult } from "./TestSuiteResult.js";
 import { ITestResult } from "../../interfaces/Tests/ITestResult.js";
 import { executeTestsReader } from "../../TestsReader/testsReader.js"
+import { busyManager, BusyManager } from "./BusyManager";
+import { Lock } from "./Lock.js";
 
 export class TestSuiteManager implements ITestSuiteManager {
   
   m_TestSuites: ISyncTestSuite[];
   m_AsyncTestSuites: IAsyncTestSuite[];
+  m_BusyManager:BusyManager;
 
   constructor(){
       this.m_TestSuites = [];
       this.m_AsyncTestSuites = [];
+      this.m_BusyManager = busyManager;
   }
 
   get TestSuites(): ISyncTestSuite[] {
@@ -35,7 +39,9 @@ export class TestSuiteManager implements ITestSuiteManager {
   }
 
   addAsyncTestSuite(i_TestSuiteDescription: string): IAsyncTestSuite {
-    const ats = new AsyncTestSuite(i_TestSuiteDescription);
+    ///todo handle lock
+    const lock = new Lock();
+    const ats = new AsyncTestSuite(i_TestSuiteDescription,lock);
     this.m_AsyncTestSuites.push(ats);
     return ats;
   }

@@ -4,6 +4,7 @@ import { AsyncTest } from "../Tests/AsyncTest.js";
 import { IAsyncTest } from "../../interfaces/Tests/IAsyncTest.js";
 import { TestResult } from "../Tests/TestResult.js";
 import { IAsyncTestSuite } from "../../interfaces/TestSuite/IAsyncTestSuite.js";
+import { Lock } from "../TestSuiteManager/Lock.js";
 
 export class AsyncTestSuite implements IAsyncTestSuite {
   private m_BeforeEach: (Function | AsyncFunction)[];
@@ -12,12 +13,14 @@ export class AsyncTestSuite implements IAsyncTestSuite {
   private m_AllTestsResolved: boolean;
   private m_Results: TestResult[];
   private m_Description: string;
+  private m_Lock:Lock;
 
-  constructor(i_Description: string) {
+  constructor(i_Description: string,i_Lock:Lock) {
     this.m_Tests = [];
     this.m_Description = i_Description;
     this.m_BeforeEach = [];
     this.m_AfterEach = [];
+    this.m_Lock = i_Lock;
   }
 
   get Description(): string {
@@ -57,7 +60,8 @@ export class AsyncTestSuite implements IAsyncTestSuite {
       const test = new AsyncTest(
         i_testDescription,
         this.m_BeforeEach,
-        this.m_AfterEach
+        this.m_AfterEach,
+        this.m_Lock
       );
       this.m_Tests.push(test);
       return test;

@@ -7,6 +7,7 @@ import { Matcher } from "./Matcher.js";
 import { TestResult } from "../Tests/TestResult.js";
 import { AsyncFunction } from "../../types/AsyncFunction.js";
 import {errorTemplate} from "../../Utils/TemplateStrings.js"
+import { Lock } from "../TestSuiteManager/Lock.js";
 
 
 export class AsyncMatcherProxy implements IAsyncMatcher {
@@ -15,12 +16,15 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
   private m_TestResultStatus: Promise<TestResult>;
   private m_TestResultResolver: Function;
   private m_ExpectedPromiseValue:Promise<any>;
+  private m_Lock:Lock;
   constructor(
     i_AsyncFunctionExpectedValue: AsyncFunction,
     i_BeforeFunctions: Function[],
     i_AfterFunctions: Function[],
-    i_Description: string
+    i_Description: string,
+    i_Lock:Lock
   ) {
+    this.m_Lock = i_Lock;
     this.m_ExpectedPromiseValue = i_AsyncFunctionExpectedValue();
     this.m_Matcher = new Matcher(
       null,
@@ -266,6 +270,8 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
         const errorString = matcherResult?null:errorTemplate(JSON.stringify(this.ExpectedValue),JSON.stringify(i_FailedValue));
         this.Result = new TestResult(matcherResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt,false,null);
         this.resolveTestResult(this.Result);
+        ///todo handle lock
+        this.m_Lock.unlock();
         return this.Result;
     }
     catch(err){
