@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestPerformance = void 0;
+const performance = require('perf_hooks').performance;
 class TestPerformance {
     constructor() { }
     startCount() {
