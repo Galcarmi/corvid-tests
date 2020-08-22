@@ -1,4 +1,4 @@
-import now from "performance-now";
+const performance = require('perf_hooks').performance;
 
 export class TestPerformance {
   private m_StartTime: number;
@@ -9,11 +9,11 @@ export class TestPerformance {
   constructor() {}
 
   startCount() {
-    this.m_StartTime = now();
+    this.m_StartTime = performance.now();
   }
 
   endCount() {
-    this.m_EndTime = now();
+    this.m_EndTime = performance.now();
     this.m_ResultSEC = this.m_EndTime - this.m_StartTime;
     this.m_ResultMS = this.m_ResultSEC * 1000;
   }

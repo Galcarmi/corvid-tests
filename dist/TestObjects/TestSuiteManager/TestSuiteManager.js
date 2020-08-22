@@ -28,6 +28,7 @@ class TestSuiteManager {
     addAsyncTestSuite(i_TestSuiteDescription) {
         ///todo handle lock
         const lock = new Lock_js_1.Lock();
+        this.m_BusyManager.addLock(lock);
         const ats = new AsyncTestSuite_js_1.AsyncTestSuite(i_TestSuiteDescription, lock);
         this.m_AsyncTestSuites.push(ats);
         return ats;
