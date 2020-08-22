@@ -37,9 +37,13 @@ async function testManager(){
     ts.addTest('new test').expect(5).toBe(5);
     ts.addTest('new test').expect(5).toBe(2);
     const tss = testSuiteManager.addTestSuite('my second test suite');
-    ts.addTest('new test').expect(3).toBe(3);
+    tss.addTest('new test').expect(3).toBe(3);
     const results = await testSuiteManager.getAllTestSuitesResults();
-    console.log(results);
+    // const resultsG = await testSuiteManager.getAllTestSuitesResultsG();
+    for(const result of results){
+        console.log(result.TestSuiteDescription,result.TestsResults);
+    }
+    // console.log(resultsG);
 }
 
 // tests();

@@ -1,16 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TestSuiteResult = void 0;
-const TestResult_js_1 = require("../Tests/TestResult.js");
-class TestSuiteResult extends TestResult_js_1.TestResult {
-    constructor(i_TestSuiteDescription, i_TestResult) {
-        super(i_TestResult.Passed, i_TestResult.TimePassed, i_TestResult.Description, i_TestResult.FailedString, i_TestResult.StartAt, i_TestResult.ErrorDetected, i_TestResult.ErrorString);
+class TestSuiteResult {
+    constructor(i_TestSuiteDescription) {
+        this.m_TestSuiteDescription = i_TestSuiteDescription;
     }
     get TestSuiteDescription() {
         return this.m_TestSuiteDescription;
     }
     set TestSuiteDescription(val) {
         this.m_TestSuiteDescription = val;
+    }
+    get TestsResults() {
+        return this.m_TestsResults;
+    }
+    set TestsResults(val) {
+        this.m_TestsResults = val;
     }
 }
 exports.TestSuiteResult = TestSuiteResult;

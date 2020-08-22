@@ -1,6 +1,7 @@
 import { ISyncTestSuite } from "../TestSuite/ISyncTestSuite.js";
 import { IAsyncTestSuite } from "../TestSuite/IAsyncTestSuite.js";
 import { ITestSuiteResult } from "./ITestSuiteResult.js";
+import { ITestResult } from "../Tests/ITestResult.js";
 
 export interface ITestSuiteManager{
     TestSuites:ISyncTestSuite[];
@@ -11,5 +12,7 @@ export interface ITestSuiteManager{
     getAllTestSuitesResults():Promise<ITestSuiteResult[]> ;
     getAllTestSuitesFailedResults():Promise<ITestSuiteResult[]> ;
     getAllTestSuitesPassedResults():Promise<ITestSuiteResult[]> ;
+    getAllTestSuitesResultsG(): Promise<ITestResult[]> 
     isAnyFailed():Promise<boolean>;
+    execute():void;
 }

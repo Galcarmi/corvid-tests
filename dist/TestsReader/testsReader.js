@@ -12,27 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runTests = void 0;
+exports.executeTestsReader = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-function runTests(folderPath, executeLastPath) {
+function executeTestsReader() {
     return __awaiter(this, void 0, void 0, function* () {
         // console.log(path.join(__dirname + '/../'))
         // const filePath = path.join(__dirname + '/target.js')
         // const s = fs.readFileSync(filePath, 'utf8');
         // const x = eval(s);
         console.log('run tests');
+        const folderPath = path_1.default.join(__dirname + '/../../../');
         fromDir(folderPath, /\.ct.js$/, function (filename) {
             console.log("-- found: ", filename);
             const s = fs_1.default.readFileSync(filename, "utf8");
             const x = eval(s);
         });
-        //   const filePath = path.join(__dirname + '/../../../shit/storage.js')
-        const s = fs_1.default.readFileSync(executeLastPath, 'utf8');
-        const x = eval(s);
     });
 }
-exports.runTests = runTests;
+exports.executeTestsReader = executeTestsReader;
 function fromDir(startPath, filter, callback) {
     if (!fs_1.default.existsSync(startPath)) {
         console.log("no dir ", startPath);

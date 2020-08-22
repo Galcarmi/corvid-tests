@@ -5,8 +5,11 @@ import { ITestSuiteResult } from "../../interfaces/TestSuiteManager/ITestSuiteRe
 import { AsyncTestSuite } from "../TestSuites/AsyncTestSuite.js";
 import { TestSuite } from "../TestSuites/TestSuite.js";
 import { TestSuiteResult } from "./TestSuiteResult.js";
+import { ITestResult } from "../../interfaces/Tests/ITestResult.js";
+import { executeTestsReader } from "../../TestsReader/testsReader.js"
 
 export class TestSuiteManager implements ITestSuiteManager {
+  
   m_TestSuites: ISyncTestSuite[];
   m_AsyncTestSuites: IAsyncTestSuite[];
 
@@ -46,16 +49,22 @@ export class TestSuiteManager implements ITestSuiteManager {
     const results: ITestSuiteResult[] = [];
     for (const ts of this.m_TestSuites) {
       const testsResults = ts.getAllTestsResults();
-      for (const testResult of testsResults) {
-        results.push(new TestSuiteResult(ts.Description, testResult));
-      }
+      const tsResults = new TestSuiteResult(ts.Description);
+      tsResults.TestsResults = testsResults;
+      results.push(tsResults)
+      // for (const testResult of testsResults) {
+      //   results.push(new TestSuiteResult(ts.Description, testResult));
+      // }
     }
 
     for (const ats of this.m_AsyncTestSuites) {
       const testsResults = await ats.getAllTestsResults();
-      for (const testResult of testsResults) {
-        results.push(new TestSuiteResult(ats.Description, testResult));
-      }
+      const tsResults = new TestSuiteResult(ats.Description);
+      tsResults.TestsResults = testsResults;
+      results.push(tsResults)
+      // for (const testResult of testsResults) {
+      //   results.push(new TestSuiteResult(ats.Description, testResult));
+      // }
     }
     return results;
   }
@@ -64,16 +73,22 @@ export class TestSuiteManager implements ITestSuiteManager {
     const results: ITestSuiteResult[] = [];
     for (const ts of this.m_TestSuites) {
       const testsResults = ts.getFailedTestsResults();
-      for (const testResult of testsResults) {
-        results.push(new TestSuiteResult(ts.Description, testResult));
-      }
+      const tsResults = new TestSuiteResult(ts.Description);
+      tsResults.TestsResults = testsResults;
+      results.push(tsResults)
+      // for (const testResult of testsResults) {
+      //   results.push(new TestSuiteResult(ts.Description, testResult));
+      // }
     }
 
     for (const ats of this.m_AsyncTestSuites) {
       const testsResults = await ats.getFailedTestsResults();
-      for (const testResult of testsResults) {
-        results.push(new TestSuiteResult(ats.Description, testResult));
-      }
+      const tsResults = new TestSuiteResult(ats.Description);
+      tsResults.TestsResults = testsResults;
+      results.push(tsResults)
+      // for (const testResult of testsResults) {
+      //   results.push(new TestSuiteResult(ats.Description, testResult));
+      // }
     }
     return results;
   }
@@ -82,16 +97,22 @@ export class TestSuiteManager implements ITestSuiteManager {
     const results: ITestSuiteResult[] = [];
     for (const ts of this.m_TestSuites) {
       const testsResults = ts.getPassedTestsResults();
-      for (const testResult of testsResults) {
-        results.push(new TestSuiteResult(ts.Description, testResult));
-      }
+      const tsResults = new TestSuiteResult(ts.Description);
+      tsResults.TestsResults = testsResults;
+      results.push(tsResults)
+      // for (const testResult of testsResults) {
+      //   results.push(new TestSuiteResult(ts.Description, testResult));
+      // }
     }
 
     for (const ats of this.m_AsyncTestSuites) {
       const testsResults = await ats.getPassedTestsResults();
-      for (const testResult of testsResults) {
-        results.push(new TestSuiteResult(ats.Description, testResult));
-      }
+      const tsResults = new TestSuiteResult(ats.Description);
+      tsResults.TestsResults = testsResults;
+      results.push(tsResults)
+      // for (const testResult of testsResults) {
+      //   results.push(new TestSuiteResult(ats.Description, testResult));
+      // }
     }
     return results;
   }
@@ -113,5 +134,28 @@ export class TestSuiteManager implements ITestSuiteManager {
     }
 
     return flag;
+  }
+
+  async getAllTestSuitesResultsG(): Promise<ITestResult[]> {
+    const results :ITestResult[]= []
+
+    for (const ts of this.m_TestSuites) {
+      const testsResults = ts.getAllTestsResults();
+      for (const testResult of testsResults) {
+        results.push(testResult);
+      }
+    }
+
+    for (const ats of this.m_AsyncTestSuites) {
+      const testsResults = await ats.getAllTestsResults();
+      for (const testResult of testsResults) {
+        results.push(testResult);
+      }
+    }
+    return results;
+  }
+
+  execute(): void {
+    executeTestsReader()
   }
 }

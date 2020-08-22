@@ -1,5 +1,6 @@
 import { ITestResult } from "../Tests/ITestResult.js";
 
-export interface ITestSuiteResult extends ITestResult{
+export interface ITestSuiteResult{
     TestSuiteDescription:string;
+    TestsResults:ITestResult[];
 }

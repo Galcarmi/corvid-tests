@@ -15,8 +15,6 @@ var TestResult_js_1 = require("./TestObjects/Tests/TestResult.js");
 Object.defineProperty(exports, "TestResult", { enumerable: true, get: function () { return TestResult_js_1.TestResult; } });
 var Test_js_1 = require("./TestObjects/Tests/Test.js");
 Object.defineProperty(exports, "Test", { enumerable: true, get: function () { return Test_js_1.Test; } });
-var testsReader_js_1 = require("./TestsReader/testsReader.js");
-Object.defineProperty(exports, "runTests", { enumerable: true, get: function () { return testsReader_js_1.runTests; } });
 const TestSuiteManager_js_1 = require("./TestObjects/TestSuiteManager/TestSuiteManager.js");
 const testSuiteManager = new TestSuiteManager_js_1.TestSuiteManager();
 exports.testSuiteManager = testSuiteManager;

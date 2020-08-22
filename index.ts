@@ -5,8 +5,6 @@ export { AsyncMatcherProxy } from "./TestObjects/Matchers/AsyncMatcherProxy.js";
 export { AsyncTest } from "./TestObjects/Tests/AsyncTest.js";
 export { TestResult } from "./TestObjects/Tests/TestResult.js";
 export { Test } from "./TestObjects/Tests/Test.js";
-export { runTests } from './TestsReader/testsReader.js'
 import {TestSuiteManager} from './TestObjects/TestSuiteManager/TestSuiteManager.js';
-
 const testSuiteManager = new TestSuiteManager();
 export {testSuiteManager}

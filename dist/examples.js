@@ -51,9 +51,13 @@ function testManager() {
         ts.addTest('new test').expect(5).toBe(5);
         ts.addTest('new test').expect(5).toBe(2);
         const tss = index_js_2.testSuiteManager.addTestSuite('my second test suite');
-        ts.addTest('new test').expect(3).toBe(3);
+        tss.addTest('new test').expect(3).toBe(3);
         const results = yield index_js_2.testSuiteManager.getAllTestSuitesResults();
-        console.log(results);
+        // const resultsG = await testSuiteManager.getAllTestSuitesResultsG();
+        for (const result of results) {
+            console.log(result.TestSuiteDescription, result.TestsResults);
+        }
+        // console.log(resultsG);
     });
 }
 // tests();

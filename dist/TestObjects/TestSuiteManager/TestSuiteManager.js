@@ -13,6 +13,7 @@ exports.TestSuiteManager = void 0;
 const AsyncTestSuite_js_1 = require("../TestSuites/AsyncTestSuite.js");
 const TestSuite_js_1 = require("../TestSuites/TestSuite.js");
 const TestSuiteResult_js_1 = require("./TestSuiteResult.js");
+const testsReader_js_1 = require("../../TestsReader/testsReader.js");
 class TestSuiteManager {
     constructor() {
         this.m_TestSuites = [];
@@ -45,15 +46,21 @@ class TestSuiteManager {
             const results = [];
             for (const ts of this.m_TestSuites) {
                 const testsResults = ts.getAllTestsResults();
-                for (const testResult of testsResults) {
-                    results.push(new TestSuiteResult_js_1.TestSuiteResult(ts.Description, testResult));
-                }
+                const tsResults = new TestSuiteResult_js_1.TestSuiteResult(ts.Description);
+                tsResults.TestsResults = testsResults;
+                results.push(tsResults);
+                // for (const testResult of testsResults) {
+                //   results.push(new TestSuiteResult(ts.Description, testResult));
+                // }
             }
             for (const ats of this.m_AsyncTestSuites) {
                 const testsResults = yield ats.getAllTestsResults();
-                for (const testResult of testsResults) {
-                    results.push(new TestSuiteResult_js_1.TestSuiteResult(ats.Description, testResult));
-                }
+                const tsResults = new TestSuiteResult_js_1.TestSuiteResult(ats.Description);
+                tsResults.TestsResults = testsResults;
+                results.push(tsResults);
+                // for (const testResult of testsResults) {
+                //   results.push(new TestSuiteResult(ats.Description, testResult));
+                // }
             }
             return results;
         });
@@ -63,15 +70,21 @@ class TestSuiteManager {
             const results = [];
             for (const ts of this.m_TestSuites) {
                 const testsResults = ts.getFailedTestsResults();
-                for (const testResult of testsResults) {
-                    results.push(new TestSuiteResult_js_1.TestSuiteResult(ts.Description, testResult));
-                }
+                const tsResults = new TestSuiteResult_js_1.TestSuiteResult(ts.Description);
+                tsResults.TestsResults = testsResults;
+                results.push(tsResults);
+                // for (const testResult of testsResults) {
+                //   results.push(new TestSuiteResult(ts.Description, testResult));
+                // }
             }
             for (const ats of this.m_AsyncTestSuites) {
                 const testsResults = yield ats.getFailedTestsResults();
-                for (const testResult of testsResults) {
-                    results.push(new TestSuiteResult_js_1.TestSuiteResult(ats.Description, testResult));
-                }
+                const tsResults = new TestSuiteResult_js_1.TestSuiteResult(ats.Description);
+                tsResults.TestsResults = testsResults;
+                results.push(tsResults);
+                // for (const testResult of testsResults) {
+                //   results.push(new TestSuiteResult(ats.Description, testResult));
+                // }
             }
             return results;
         });
@@ -81,15 +94,21 @@ class TestSuiteManager {
             const results = [];
             for (const ts of this.m_TestSuites) {
                 const testsResults = ts.getPassedTestsResults();
-                for (const testResult of testsResults) {
-                    results.push(new TestSuiteResult_js_1.TestSuiteResult(ts.Description, testResult));
-                }
+                const tsResults = new TestSuiteResult_js_1.TestSuiteResult(ts.Description);
+                tsResults.TestsResults = testsResults;
+                results.push(tsResults);
+                // for (const testResult of testsResults) {
+                //   results.push(new TestSuiteResult(ts.Description, testResult));
+                // }
             }
             for (const ats of this.m_AsyncTestSuites) {
                 const testsResults = yield ats.getPassedTestsResults();
-                for (const testResult of testsResults) {
-                    results.push(new TestSuiteResult_js_1.TestSuiteResult(ats.Description, testResult));
-                }
+                const tsResults = new TestSuiteResult_js_1.TestSuiteResult(ats.Description);
+                tsResults.TestsResults = testsResults;
+                results.push(tsResults);
+                // for (const testResult of testsResults) {
+                //   results.push(new TestSuiteResult(ats.Description, testResult));
+                // }
             }
             return results;
         });
@@ -111,6 +130,27 @@ class TestSuiteManager {
             }
             return flag;
         });
+    }
+    getAllTestSuitesResultsG() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const results = [];
+            for (const ts of this.m_TestSuites) {
+                const testsResults = ts.getAllTestsResults();
+                for (const testResult of testsResults) {
+                    results.push(testResult);
+                }
+            }
+            for (const ats of this.m_AsyncTestSuites) {
+                const testsResults = yield ats.getAllTestsResults();
+                for (const testResult of testsResults) {
+                    results.push(testResult);
+                }
+            }
+            return results;
+        });
+    }
+    execute() {
+        testsReader_js_1.executeTestsReader();
     }
 }
 exports.TestSuiteManager = TestSuiteManager;

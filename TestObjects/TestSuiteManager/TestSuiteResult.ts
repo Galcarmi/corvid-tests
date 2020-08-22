@@ -1,12 +1,12 @@
-import { TestResult } from "../Tests/TestResult.js";
 import { ITestSuiteResult } from "../../interfaces/TestSuiteManager/ITestSuiteResult.js";
 import { ITestResult } from "../../interfaces/Tests/ITestResult.js";
 
-export class TestSuiteResult extends TestResult implements ITestSuiteResult{
+export class TestSuiteResult implements ITestSuiteResult{
     m_TestSuiteDescription: string;
+    m_TestsResults: ITestResult[];
 
-    constructor(i_TestSuiteDescription:string,i_TestResult:ITestResult){
-        super(i_TestResult.Passed,i_TestResult.TimePassed,i_TestResult.Description,i_TestResult.FailedString,i_TestResult.StartAt,i_TestResult.ErrorDetected,i_TestResult.ErrorString)
+    constructor(i_TestSuiteDescription:string){
+      this.m_TestSuiteDescription = i_TestSuiteDescription;
     }
 
       get TestSuiteDescription(): string {
@@ -15,5 +15,13 @@ export class TestSuiteResult extends TestResult implements ITestSuiteResult{
     
       set TestSuiteDescription(val: string) {
         this.m_TestSuiteDescription = val;
+      }
+
+      get TestsResults(): ITestResult[] {
+        return this.m_TestsResults;
+      }
+    
+      set TestsResults(val: ITestResult[]) {
+        this.m_TestsResults = val;
       }
 }

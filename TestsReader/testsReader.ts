@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-export async function runTests(folderPath:string,executeLastPath:string) {
+export async function executeTestsReader() {
   // console.log(path.join(__dirname + '/../'))
 
   // const filePath = path.join(__dirname + '/target.js')
@@ -9,15 +9,12 @@ export async function runTests(folderPath:string,executeLastPath:string) {
   // const x = eval(s);
   console.log('run tests')
 
+  const folderPath = path.join(__dirname + '/../../../');
   fromDir(folderPath, /\.ct.js$/, function (filename: string) {
     console.log("-- found: ", filename);
     const s = fs.readFileSync(filename, "utf8");
     const x = eval(s);
   });
-
-//   const filePath = path.join(__dirname + '/../../../shit/storage.js')
-  const s = fs.readFileSync(executeLastPath, 'utf8');
-  const x = eval(s);
 }
 
 function fromDir(startPath: string, filter: RegExp, callback: Function) {
