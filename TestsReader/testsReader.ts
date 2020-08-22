@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import {testSuiteManager} from '../index.js'
+import {busyManager} from '../TestObjects/TestSuiteManager/BusyManager'
 
 export async function executeTestsReader() {
   // console.log(path.join(__dirname + '/../'))
@@ -11,14 +11,15 @@ export async function executeTestsReader() {
   console.log('run tests')
 
   const folderPath = path.join(__dirname + '/../../../../');
-  fromDir(folderPath, /\.ct.js$/, function (filename: string) {
+  fromDir(folderPath, /\.ct.js$/, async (filename: string) => {
     console.log("-- found: ", filename);
     const s = fs.readFileSync(filename, "utf8");
     const x = eval(s);
+    await busyManager.awaitForAllLocks()
   });
 }
 
-function fromDir(startPath: string, filter: RegExp, callback: Function) {
+async function fromDir(startPath: string, filter: RegExp, callback: Function) {
   if (!fs.existsSync(startPath)) {
     console.log("no dir ", startPath);
     return;
@@ -30,6 +31,6 @@ function fromDir(startPath: string, filter: RegExp, callback: Function) {
     var stat = fs.lstatSync(filename);
     if (stat.isDirectory()) {
       fromDir(filename, filter, callback); //recurse
-    } else if (filter.test(filename)) callback(filename);
+    } else if (filter.test(filename)) await callback(filename);
   }
 }

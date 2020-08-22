@@ -41,6 +41,7 @@ export class TestSuiteManager implements ITestSuiteManager {
   addAsyncTestSuite(i_TestSuiteDescription: string): IAsyncTestSuite {
     ///todo handle lock
     const lock = new Lock();
+    this.m_BusyManager.addLock(lock);
     const ats = new AsyncTestSuite(i_TestSuiteDescription,lock);
     this.m_AsyncTestSuites.push(ats);
     return ats;
@@ -161,7 +162,7 @@ export class TestSuiteManager implements ITestSuiteManager {
     return results;
   }
 
-  execute(): void {
-    executeTestsReader()
+  async execute(): Promise<void> {
+    await executeTestsReader()
   }
 }

@@ -3,6 +3,10 @@ import { Lock } from "./Lock";
 export class BusyManager{
     m_BusyTestSuites:Lock[]
 
+    constructor(){
+        this.m_BusyTestSuites = [];
+    }
+    
     addLock(i_Lock:Lock){
         this.m_BusyTestSuites.push(i_Lock);
     }
