@@ -14,3 +14,5 @@ var TestResult_js_1 = require("./TestObjects/TestResult.js");
 Object.defineProperty(exports, "TestResult", { enumerable: true, get: function () { return TestResult_js_1.TestResult; } });
 var Test_js_1 = require("./TestObjects/Test.js");
 Object.defineProperty(exports, "Test", { enumerable: true, get: function () { return Test_js_1.Test; } });
+var testsReader_js_1 = require("./TestsReader/testsReader.js");
+Object.defineProperty(exports, "runTests", { enumerable: true, get: function () { return testsReader_js_1.runTests; } });

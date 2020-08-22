@@ -5,3 +5,4 @@ export { AsyncMatcherProxy } from "./TestObjects/AsyncMatcherProxy.js";
 export { AsyncTest } from "./TestObjects/AsyncTest.js";
 export { TestResult } from "./TestObjects/TestResult.js";
 export { Test } from "./TestObjects/Test.js";
+export { runTests } from './TestsReader/testsReader.js'

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.runTests = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-function runTests(folderPath) {
+function runTests(folderPath, executeLastPath) {
     return __awaiter(this, void 0, void 0, function* () {
         // console.log(path.join(__dirname + '/../'))
         // const filePath = path.join(__dirname + '/target.js')
@@ -27,8 +27,8 @@ function runTests(folderPath) {
             const s = fs_1.default.readFileSync(filename, "utf8");
             const x = eval(s);
         });
-        const filePath = path_1.default.join(__dirname + '/../../../shit/storage.js');
-        const s = fs_1.default.readFileSync(filePath, 'utf8');
+        //   const filePath = path.join(__dirname + '/../../../shit/storage.js')
+        const s = fs_1.default.readFileSync(executeLastPath, 'utf8');
         const x = eval(s);
     });
 }
@@ -49,4 +49,3 @@ function fromDir(startPath, filter, callback) {
             callback(filename);
     }
 }
-runTests(path_1.default.join(__dirname + '/../../../'));

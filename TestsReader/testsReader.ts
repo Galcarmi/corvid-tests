@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-export async function runTests(folderPath:string) {
+export async function runTests(folderPath:string,executeLastPath:string) {
   // console.log(path.join(__dirname + '/../'))
 
   // const filePath = path.join(__dirname + '/target.js')
@@ -15,8 +15,8 @@ export async function runTests(folderPath:string) {
     const x = eval(s);
   });
 
-  const filePath = path.join(__dirname + '/../../../shit/storage.js')
-  const s = fs.readFileSync(filePath, 'utf8');
+//   const filePath = path.join(__dirname + '/../../../shit/storage.js')
+  const s = fs.readFileSync(executeLastPath, 'utf8');
   const x = eval(s);
 }
 
@@ -35,5 +35,3 @@ function fromDir(startPath: string, filter: RegExp, callback: Function) {
     } else if (filter.test(filename)) callback(filename);
   }
 }
-
-runTests(path.join(__dirname + '/../../../'))
