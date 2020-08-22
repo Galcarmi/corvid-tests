@@ -1,6 +1,6 @@
 {
   "name": "corvid-tests",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "corvid-tests is a lightweight test package for corvid&js development",
   "main": "dist/index.js",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "git+https://github.com/Galcarmi/corvid-tests"
   },
   "author": "Gal Carmi",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Galcarmi/corvid-tests/issues"
   },
