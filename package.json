@@ -2,7 +2,7 @@
   "name": "corvid-tests",
   "version": "2.5.0",
   "description": "corvid-tests is a lightweight test package for corvid&js development",
-  "main": "dist/corvid-tests.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Galcarmi/corvid-tests"
