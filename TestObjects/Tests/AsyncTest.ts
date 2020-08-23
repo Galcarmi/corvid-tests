@@ -1,7 +1,6 @@
 import { ITest } from "../../interfaces/Tests/ITest.js";
 import { AsyncFunction } from "../../types/AsyncFunction.js";
 import { AsyncMatcherProxy } from "../Matchers/AsyncMatcherProxy.js";
-import { Lock } from "../TestSuiteManager/Lock.js";
 
 export class AsyncTest implements ITest {
   private m_Description: string;

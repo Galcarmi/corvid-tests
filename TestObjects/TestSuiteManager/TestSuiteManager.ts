@@ -7,8 +7,7 @@ import { TestSuite } from "../TestSuites/TestSuite.js";
 import { TestSuiteResult } from "./TestSuiteResult.js";
 import { ITestResult } from "../../interfaces/Tests/ITestResult.js";
 import { executeTestsReader } from "../../TestsReader/testsReader.js"
-import { busyManager, BusyManager } from "./BusyManager";
-import { Lock } from "./Lock.js";
+
 
 export class TestSuiteManager implements ITestSuiteManager {
   
