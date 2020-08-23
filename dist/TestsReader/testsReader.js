@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeTestsReader = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const BusyManager_1 = require("../TestObjects/TestSuiteManager/BusyManager");
+const index_1 = require("../index");
 async function executeTestsReader() {
     // console.log(path.join(__dirname + '/../'))
     // const filePath = path.join(__dirname + '/target.js')
@@ -14,11 +14,11 @@ async function executeTestsReader() {
     // const x = eval(s);
     console.log('run tests');
     const folderPath = path_1.default.join(__dirname + '/../../../../');
-    fromDir(folderPath, /\.ct.js$/, async (filename) => {
+    await fromDir(folderPath, /\.ct.js$/, async (filename) => {
         console.log("-- found: ", filename);
         const s = fs_1.default.readFileSync(filename, "utf8");
         const x = eval(s);
-        await BusyManager_1.busyManager.awaitForAllLocks();
+        await index_1.testSuiteManager.waitForAsyncTestsToBeResolved();
     });
 }
 exports.executeTestsReader = executeTestsReader;

@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AsyncTestSuite = void 0;
 const AsyncTest_js_1 = require("../Tests/AsyncTest.js");
 class AsyncTestSuite {
-    constructor(i_Description, i_Lock) {
+    constructor(i_Description) {
         this.m_Tests = [];
         this.m_Description = i_Description;
         this.m_BeforeEach = [];
         this.m_AfterEach = [];
-        this.m_Lock = i_Lock;
     }
     get Description() {
         return this.m_Description;
@@ -36,7 +35,7 @@ class AsyncTestSuite {
     }
     addTest(i_testDescription) {
         if (i_testDescription !== "") {
-            const test = new AsyncTest_js_1.AsyncTest(i_testDescription, this.m_BeforeEach, this.m_AfterEach, this.m_Lock);
+            const test = new AsyncTest_js_1.AsyncTest(i_testDescription, this.m_BeforeEach, this.m_AfterEach);
             this.m_Tests.push(test);
             return test;
         }
@@ -63,11 +62,13 @@ class AsyncTestSuite {
         return failedTests;
     }
     async waitForTestsToBeResolved() {
+        const results = [];
         if (!this.m_AllTestsResolved) {
-            const testResultsStatus = this.m_Tests.map((test) => {
-                return test.Matcher.TestResultStatus;
-            });
-            const results = await Promise.all(testResultsStatus);
+            for (const test of this.m_Tests) {
+                test.Matcher.execute();
+                const result = await test.Matcher.ExpectedValuePromise;
+                results.push(result);
+            }
             this.m_Results = results;
             this.m_AllTestsResolved = true;
         }

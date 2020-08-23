@@ -5,13 +5,10 @@ const AsyncTestSuite_js_1 = require("../TestSuites/AsyncTestSuite.js");
 const TestSuite_js_1 = require("../TestSuites/TestSuite.js");
 const TestSuiteResult_js_1 = require("./TestSuiteResult.js");
 const testsReader_js_1 = require("../../TestsReader/testsReader.js");
-const BusyManager_1 = require("./BusyManager");
-const Lock_js_1 = require("./Lock.js");
 class TestSuiteManager {
     constructor() {
         this.m_TestSuites = [];
         this.m_AsyncTestSuites = [];
-        this.m_BusyManager = BusyManager_1.busyManager;
     }
     get TestSuites() {
         return this.m_TestSuites;
@@ -27,9 +24,7 @@ class TestSuiteManager {
     }
     addAsyncTestSuite(i_TestSuiteDescription) {
         ///todo handle lock
-        const lock = new Lock_js_1.Lock();
-        this.m_BusyManager.addLock(lock);
-        const ats = new AsyncTestSuite_js_1.AsyncTestSuite(i_TestSuiteDescription, lock);
+        const ats = new AsyncTestSuite_js_1.AsyncTestSuite(i_TestSuiteDescription);
         this.m_AsyncTestSuites.push(ats);
         return ats;
     }
@@ -135,6 +130,11 @@ class TestSuiteManager {
             }
         }
         return results;
+    }
+    async waitForAsyncTestsToBeResolved() {
+        for (const ats of this.m_AsyncTestSuites) {
+            await ats.waitForTestsToBeResolved();
+        }
     }
     async execute() {
         await testsReader_js_1.executeTestsReader();

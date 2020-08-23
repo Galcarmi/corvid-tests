@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import {busyManager} from '../TestObjects/TestSuiteManager/BusyManager'
+import {testSuiteManager} from '../index'
 
 export async function executeTestsReader() {
   // console.log(path.join(__dirname + '/../'))
@@ -11,11 +11,12 @@ export async function executeTestsReader() {
   console.log('run tests')
 
   const folderPath = path.join(__dirname + '/../../../../');
-  fromDir(folderPath, /\.ct.js$/, async (filename: string) => {
+  await fromDir(folderPath, /\.ct.js$/, async (filename: string) => {
     console.log("-- found: ", filename);
     const s = fs.readFileSync(filename, "utf8");
     const x = eval(s);
-    await busyManager.awaitForAllLocks()
+    await testSuiteManager.waitForAsyncTestsToBeResolved();
+    
   });
 }
 

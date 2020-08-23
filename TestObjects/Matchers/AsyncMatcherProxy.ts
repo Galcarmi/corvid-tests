@@ -7,42 +7,36 @@ import { Matcher } from "./Matcher.js";
 import { TestResult } from "../Tests/TestResult.js";
 import { AsyncFunction } from "../../types/AsyncFunction.js";
 import {errorTemplate} from "../../Utils/TemplateStrings.js"
-import { Lock } from "../TestSuiteManager/Lock.js";
 
 
 export class AsyncMatcherProxy implements IAsyncMatcher {
  
   private m_Matcher: IMatcher;
-  private m_TestResultStatus: Promise<TestResult>;
+  private m_ExpectedValueAsyncFunction:AsyncFunction;
+  private m_Execution:Promise<any>
+  private m_ExecutionResolver:Function;
+  private m_ExpectedValuePromise:Promise<ITestResult>;
   private m_TestResultResolver: Function;
-  private m_ExpectedPromiseValue:Promise<any>;
-  private m_Lock:Lock;
+
+
   constructor(
     i_AsyncFunctionExpectedValue: AsyncFunction,
     i_BeforeFunctions: Function[],
     i_AfterFunctions: Function[],
     i_Description: string,
-    i_Lock:Lock
   ) {
-    this.m_Lock = i_Lock;
-    this.m_ExpectedPromiseValue = i_AsyncFunctionExpectedValue();
+
+    this.m_ExpectedValueAsyncFunction = i_AsyncFunctionExpectedValue;
     this.m_Matcher = new Matcher(
       null,
       i_BeforeFunctions,
       i_AfterFunctions,
       i_Description
     );
-    this.m_TestResultStatus = new Promise((res, rej) => {
-      this.m_TestResultResolver = res;
-    });
-  }
+    this.m_Execution = new Promise((res,rej)=>{this.m_ExecutionResolver=res;})
+    this.m_ExpectedValuePromise = new Promise((res,rej)=>{this.m_TestResultResolver=res;})
 
-  get TestResultStatus(): Promise<any> {
-    return this.m_TestResultStatus;
-  }
 
-  set TestResultStatus(val: Promise<any>) {
-    this.m_TestResultStatus = val;
   }
 
   get ExpectedValue(): Promise<any> {
@@ -51,6 +45,14 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
 
   set ExpectedValue(val: Promise<any>) {
     this.Matcher.ExpectedValue = val;
+  }
+
+  get ExpectedValuePromise(): Promise<ITestResult> {
+    return this.m_ExpectedValuePromise;
+  }
+
+  set ExpectedValuePromise(val: Promise<ITestResult>) {
+    this.m_ExpectedValuePromise = val;
   }
 
   get Result(): ITestResult {
@@ -254,12 +256,17 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
   }
 
   public async prepareMatcher(): Promise<void> {
-    let expectedValue = await this.m_ExpectedPromiseValue;
+    let expectedValue = await this.m_ExpectedValueAsyncFunction();
     this.Matcher.ExpectedValue = expectedValue;
+  }
+
+  public execute():void{
+    this.m_ExecutionResolver();
   }
 
   private async asyncTestTemplate(i_ActualTest:Function, i_FailedValue:string):Promise<ITestResult>{
     try{
+        await this.m_Execution;
         this.StartAt = new Date();
         this.initMatcher();
         await this.prepareMatcher()
@@ -271,7 +278,6 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
         this.Result = new TestResult(matcherResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt,false,null);
         this.resolveTestResult(this.Result);
         ///todo handle lock
-        this.m_Lock.unlock();
         return this.Result;
     }
     catch(err){

@@ -2,25 +2,22 @@ import { ITestResult } from "../../interfaces/Tests/ITestResult.js";
 import { AsyncFunction } from "../../types/AsyncFunction.js";
 import { AsyncTest } from "../Tests/AsyncTest.js";
 import { IAsyncTest } from "../../interfaces/Tests/IAsyncTest.js";
-import { TestResult } from "../Tests/TestResult.js";
 import { IAsyncTestSuite } from "../../interfaces/TestSuite/IAsyncTestSuite.js";
-import { Lock } from "../TestSuiteManager/Lock.js";
 
 export class AsyncTestSuite implements IAsyncTestSuite {
   private m_BeforeEach: (Function | AsyncFunction)[];
   private m_AfterEach: (Function | AsyncFunction)[];
   private m_Tests: AsyncTest[];
   private m_AllTestsResolved: boolean;
-  private m_Results: TestResult[];
+  private m_Results: ITestResult[];
   private m_Description: string;
-  private m_Lock:Lock;
+  
 
-  constructor(i_Description: string,i_Lock:Lock) {
+  constructor(i_Description: string,) {
     this.m_Tests = [];
     this.m_Description = i_Description;
     this.m_BeforeEach = [];
     this.m_AfterEach = [];
-    this.m_Lock = i_Lock;
   }
 
   get Description(): string {
@@ -61,7 +58,6 @@ export class AsyncTestSuite implements IAsyncTestSuite {
         i_testDescription,
         this.m_BeforeEach,
         this.m_AfterEach,
-        this.m_Lock
       );
       this.m_Tests.push(test);
       return test;
@@ -76,7 +72,7 @@ export class AsyncTestSuite implements IAsyncTestSuite {
     return this.m_Results;
   }
 
-  public async getPassedTestsResults(): Promise<TestResult[]> {
+  public async getPassedTestsResults(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
 
     const passedTests = this.m_Results.filter((result) => {
@@ -88,7 +84,6 @@ export class AsyncTestSuite implements IAsyncTestSuite {
 
   public async getFailedTestsResults(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
-
     const failedTests = this.m_Results.filter((result) => {
       return !result.Passed;
     });
@@ -96,14 +91,16 @@ export class AsyncTestSuite implements IAsyncTestSuite {
     return failedTests;
   }
 
-  private async waitForTestsToBeResolved(): Promise<void> {
+  public async waitForTestsToBeResolved(): Promise<void> {
+    const results:ITestResult[] = [];
     if (!this.m_AllTestsResolved) {
-      const testResultsStatus = this.m_Tests.map((test) => {
-        return test.Matcher.TestResultStatus;
-      });
-
-      const results = await Promise.all(testResultsStatus);
-
+      for(const test of this.m_Tests)
+      {
+        test.Matcher.execute();
+        const result = await test.Matcher.ExpectedValuePromise;
+        results.push(result);
+      }
+      
       this.m_Results = results;
       this.m_AllTestsResolved = true;
     }

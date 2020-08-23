@@ -15,7 +15,6 @@ export interface IAsyncMatcher extends IMatcherProto{
   ////todo merge interfaces
   //access modifiers
  
-  TestResultStatus: Promise<any>;
 
   resolveTestResult(i_testResult: ITestResult): void;
   toBeTruthy(): Promise<ITestResult>;

@@ -6,25 +6,23 @@ const Matcher_js_1 = require("./Matcher.js");
 const TestResult_js_1 = require("../Tests/TestResult.js");
 const TemplateStrings_js_1 = require("../../Utils/TemplateStrings.js");
 class AsyncMatcherProxy {
-    constructor(i_AsyncFunctionExpectedValue, i_BeforeFunctions, i_AfterFunctions, i_Description, i_Lock) {
-        this.m_Lock = i_Lock;
-        this.m_ExpectedPromiseValue = i_AsyncFunctionExpectedValue();
+    constructor(i_AsyncFunctionExpectedValue, i_BeforeFunctions, i_AfterFunctions, i_Description) {
+        this.m_ExpectedValueAsyncFunction = i_AsyncFunctionExpectedValue;
         this.m_Matcher = new Matcher_js_1.Matcher(null, i_BeforeFunctions, i_AfterFunctions, i_Description);
-        this.m_TestResultStatus = new Promise((res, rej) => {
-            this.m_TestResultResolver = res;
-        });
-    }
-    get TestResultStatus() {
-        return this.m_TestResultStatus;
-    }
-    set TestResultStatus(val) {
-        this.m_TestResultStatus = val;
+        this.m_Execution = new Promise((res, rej) => { this.m_ExecutionResolver = res; });
+        this.m_ExpectedValuePromise = new Promise((res, rej) => { this.m_TestResultResolver = res; });
     }
     get ExpectedValue() {
         return this.Matcher.ExpectedValue;
     }
     set ExpectedValue(val) {
         this.Matcher.ExpectedValue = val;
+    }
+    get ExpectedValuePromise() {
+        return this.m_ExpectedValuePromise;
+    }
+    set ExpectedValuePromise(val) {
+        this.m_ExpectedValuePromise = val;
     }
     get Result() {
         return this.Matcher.Result;
@@ -158,11 +156,15 @@ class AsyncMatcherProxy {
         }, i_param);
     }
     async prepareMatcher() {
-        let expectedValue = await this.m_ExpectedPromiseValue;
+        let expectedValue = await this.m_ExpectedValueAsyncFunction();
         this.Matcher.ExpectedValue = expectedValue;
+    }
+    execute() {
+        this.m_ExecutionResolver();
     }
     async asyncTestTemplate(i_ActualTest, i_FailedValue) {
         try {
+            await this.m_Execution;
             this.StartAt = new Date();
             this.initMatcher();
             await this.prepareMatcher();
@@ -173,7 +175,6 @@ class AsyncMatcherProxy {
             this.Result = new TestResult_js_1.TestResult(matcherResult, this.Performance.getCountMS(), this.Description, errorString, this.StartAt, false, null);
             this.resolveTestResult(this.Result);
             ///todo handle lock
-            this.m_Lock.unlock();
             return this.Result;
         }
         catch (err) {

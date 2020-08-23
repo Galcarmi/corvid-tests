@@ -1,6 +1,6 @@
 # corvid-tests
 
-# this package is still in development - i will add documentation soon
+# this package is still in development -updated documentation will be added soon too
 corvid-tests is a lighweight package for making simple programmatic tests without the cli.
 
 

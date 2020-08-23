@@ -14,12 +14,10 @@ export class TestSuiteManager implements ITestSuiteManager {
   
   m_TestSuites: ISyncTestSuite[];
   m_AsyncTestSuites: IAsyncTestSuite[];
-  m_BusyManager:BusyManager;
 
   constructor(){
       this.m_TestSuites = [];
       this.m_AsyncTestSuites = [];
-      this.m_BusyManager = busyManager;
   }
 
   get TestSuites(): ISyncTestSuite[] {
@@ -40,12 +38,11 @@ export class TestSuiteManager implements ITestSuiteManager {
 
   addAsyncTestSuite(i_TestSuiteDescription: string): IAsyncTestSuite {
     ///todo handle lock
-    const lock = new Lock();
-    this.m_BusyManager.addLock(lock);
-    const ats = new AsyncTestSuite(i_TestSuiteDescription,lock);
+    const ats = new AsyncTestSuite(i_TestSuiteDescription);
     this.m_AsyncTestSuites.push(ats);
     return ats;
   }
+
   addTestSuite(i_TestSuiteDescription: string): ISyncTestSuite {
     const ts = new TestSuite(i_TestSuiteDescription);
     this.m_TestSuites.push(ts);
@@ -160,6 +157,12 @@ export class TestSuiteManager implements ITestSuiteManager {
       }
     }
     return results;
+  }
+
+  public async waitForAsyncTestsToBeResolved():Promise<any>{
+    for(const ats of this.m_AsyncTestSuites){
+      await ats.waitForTestsToBeResolved()
+    }
   }
 
   async execute(): Promise<void> {

@@ -7,6 +7,7 @@ export interface IAsyncTestSuite extends ITestSuite{
     BeforeEach: Function[];
     AfterEach: Function[];
   
+    waitForTestsToBeResolved(): Promise<void>
     addTest(i_test: string): IAsyncTest;
     addBeforeEach(i_funcBefore: Function): IAsyncTestSuite;
     addAfterEach(i_funcAfter: Function): IAsyncTestSuite;

@@ -8,18 +8,15 @@ export class AsyncTest implements ITest {
   private m_Matcher: AsyncMatcherProxy;
   private m_beforeFunctions: Function[];
   private m_AfterFunctions: Function[];
-  private m_Lock:Lock;
 
   constructor(
     i_Description: string,
     i_beforeFunctions: Function[],
     i_AfterFunctions: Function[],
-    i_Lock:Lock
   ) {
     this.m_Description = i_Description;
     this.m_beforeFunctions = [...i_beforeFunctions];
     this.m_AfterFunctions = [...i_AfterFunctions];
-    this.m_Lock = i_Lock;
   }
 
   get Description(): string {
@@ -61,7 +58,6 @@ export class AsyncTest implements ITest {
       this.m_beforeFunctions,
       this.m_AfterFunctions,
       this.m_Description,
-      this.m_Lock
     );
 
     return this.m_Matcher;
@@ -73,7 +69,6 @@ export class AsyncTest implements ITest {
       this.m_beforeFunctions,
       this.m_AfterFunctions,
       this.m_Description,
-      this.m_Lock
     );
 
     return this.m_Matcher;
