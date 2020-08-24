@@ -5,6 +5,7 @@ import { AsyncMatcherProxy } from "../../TestObjects/Matchers/AsyncMatcherProxy.
 export interface IAsyncTest extends ITest {
   Matcher: AsyncMatcherProxy;
 
-  expect(i_result: any): AsyncMatcherProxy;
-  asyncExpect(i_asyncResult: AsyncFunction): AsyncMatcherProxy;
+  // asyncExpectHandler(i_asyncResult: AsyncFunction): AsyncMatcherProxy;
+  // expectHandler(i_result: any): AsyncMatcherProxy;
+  expect(i_Input:AsyncFunction|Function|number|string|Object):AsyncMatcherProxy
 }

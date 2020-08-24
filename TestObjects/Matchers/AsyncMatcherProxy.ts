@@ -12,7 +12,7 @@ import {errorTemplate} from "../../Utils/TemplateStrings.js"
 export class AsyncMatcherProxy implements IAsyncMatcher {
  
   private m_Matcher: IMatcher;
-  private m_ExpectedValueAsyncFunction:AsyncFunction;
+  private m_ExpectedValueAsyncFunction:AsyncFunction|Function;
   private m_Execution:Promise<any>
   private m_ExecutionResolver:Function;
   private m_ExpectedValuePromise:Promise<ITestResult>;
@@ -20,7 +20,7 @@ export class AsyncMatcherProxy implements IAsyncMatcher {
 
 
   constructor(
-    i_AsyncFunctionExpectedValue: AsyncFunction,
+    i_AsyncFunctionExpectedValue: AsyncFunction|Function,
     i_BeforeFunctions: Function[],
     i_AfterFunctions: Function[],
     i_Description: string,

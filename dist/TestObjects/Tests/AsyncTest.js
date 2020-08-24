@@ -32,14 +32,22 @@ class AsyncTest {
     set Result(val) {
         this.m_AfterFunctions = val;
     }
-    expect(i_Result) {
+    expectHandler(i_Result) {
         const resultAsyncFunctionWrapper = async () => { return i_Result; };
         this.m_Matcher = new AsyncMatcherProxy_js_1.AsyncMatcherProxy(resultAsyncFunctionWrapper, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
         return this.m_Matcher;
     }
-    asyncExpect(i_AsyncFunction) {
-        this.m_Matcher = new AsyncMatcherProxy_js_1.AsyncMatcherProxy(i_AsyncFunction, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
+    asyncExpect(i_Func) {
+        this.m_Matcher = new AsyncMatcherProxy_js_1.AsyncMatcherProxy(i_Func, this.m_beforeFunctions, this.m_AfterFunctions, this.m_Description);
         return this.m_Matcher;
+    }
+    expect(i_Input) {
+        if (typeof (i_Input) === 'object' || typeof (i_Input) === 'string' || typeof (i_Input) === 'number' || typeof (i_Input) === 'boolean' || typeof (i_Input) === 'undefined') {
+            return this.expectHandler(i_Input);
+        }
+        else {
+            return this.asyncExpect(i_Input);
+        }
     }
     addBefore(i_BeforeFunc) {
         this.m_beforeFunctions.push(i_BeforeFunc);

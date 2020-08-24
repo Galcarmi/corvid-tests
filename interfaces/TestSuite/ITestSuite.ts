@@ -13,11 +13,10 @@ export interface ITestSuite extends IDescribable {
   BeforeEach: Function[];
   AfterEach: Function[];
 
-  addTest(i_test: string): ITest;
   addBeforeEach(i_funcBefore: Function): ITestSuite;
   addAfterEach(i_funcAfter: Function): ITestSuite;
 
-  getAllTestsResults(): any;
-  getPassedTestsResults(): any;
-  getFailedTestsResults(): any;
+  getResults(): any;
+  getPassed(): any;
+  getFailed(): any;
 }

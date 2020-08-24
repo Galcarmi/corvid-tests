@@ -52,7 +52,7 @@ export class AsyncTestSuite implements IAsyncTestSuite {
     this.m_AfterEach = val;
   }
 
-  public addTest(i_testDescription: string): IAsyncTest {
+  public it(i_testDescription: string): IAsyncTest {
     if (i_testDescription !== "") {
       const test = new AsyncTest(
         i_testDescription,
@@ -66,13 +66,13 @@ export class AsyncTestSuite implements IAsyncTestSuite {
     }
   }
 
-  public async getAllTestsResults(): Promise<ITestResult[]> {
+  public async getResults(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
 
     return this.m_Results;
   }
 
-  public async getPassedTestsResults(): Promise<ITestResult[]> {
+  public async getPassed(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
 
     const passedTests = this.m_Results.filter((result) => {
@@ -82,7 +82,7 @@ export class AsyncTestSuite implements IAsyncTestSuite {
     return passedTests;
   }
 
-  public async getFailedTestsResults(): Promise<ITestResult[]> {
+  public async getFailed(): Promise<ITestResult[]> {
     await this.waitForTestsToBeResolved();
     const failedTests = this.m_Results.filter((result) => {
       return !result.Passed;
@@ -100,7 +100,7 @@ export class AsyncTestSuite implements IAsyncTestSuite {
         const result = await test.Matcher.ExpectedValuePromise;
         results.push(result);
       }
-      
+
       this.m_Results = results;
       this.m_AllTestsResolved = true;
     }

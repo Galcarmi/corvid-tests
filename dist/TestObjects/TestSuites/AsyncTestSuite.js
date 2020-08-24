@@ -33,7 +33,7 @@ class AsyncTestSuite {
     set AfterEach(val) {
         this.m_AfterEach = val;
     }
-    addTest(i_testDescription) {
+    it(i_testDescription) {
         if (i_testDescription !== "") {
             const test = new AsyncTest_js_1.AsyncTest(i_testDescription, this.m_BeforeEach, this.m_AfterEach);
             this.m_Tests.push(test);
@@ -43,18 +43,18 @@ class AsyncTestSuite {
             throw new Error("test is null!");
         }
     }
-    async getAllTestsResults() {
+    async getResults() {
         await this.waitForTestsToBeResolved();
         return this.m_Results;
     }
-    async getPassedTestsResults() {
+    async getPassed() {
         await this.waitForTestsToBeResolved();
         const passedTests = this.m_Results.filter((result) => {
             return result.Passed;
         });
         return passedTests;
     }
-    async getFailedTestsResults() {
+    async getFailed() {
         await this.waitForTestsToBeResolved();
         const failedTests = this.m_Results.filter((result) => {
             return !result.Passed;

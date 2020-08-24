@@ -1,8 +1,9 @@
 import { ITest } from "../../interfaces/Tests/ITest.js";
 import { AsyncFunction } from "../../types/AsyncFunction.js";
 import { AsyncMatcherProxy } from "../Matchers/AsyncMatcherProxy.js";
+import { IAsyncTest } from "../../interfaces/Tests/IAsyncTest.js";
 
-export class AsyncTest implements ITest {
+export class AsyncTest implements IAsyncTest {
   private m_Description: string;
   private m_Matcher: AsyncMatcherProxy;
   private m_beforeFunctions: Function[];
@@ -50,7 +51,7 @@ export class AsyncTest implements ITest {
     this.m_AfterFunctions = val;
   }
 
-  public expect(i_Result: any): AsyncMatcherProxy {
+  public expectHandler(i_Result: any): AsyncMatcherProxy {
     const resultAsyncFunctionWrapper = async ()=>{return i_Result};
     this.m_Matcher = new AsyncMatcherProxy(
       resultAsyncFunctionWrapper,
@@ -62,15 +63,24 @@ export class AsyncTest implements ITest {
     return this.m_Matcher;
   }
 
-  public asyncExpect(i_AsyncFunction: AsyncFunction): AsyncMatcherProxy {
+  public asyncExpect(i_Func: AsyncFunction|Function): AsyncMatcherProxy {
     this.m_Matcher = new AsyncMatcherProxy(
-      i_AsyncFunction,
+      i_Func,
       this.m_beforeFunctions,
       this.m_AfterFunctions,
       this.m_Description,
     );
 
     return this.m_Matcher;
+  }
+
+  public expect(i_Input:AsyncFunction|Function|number|string|Object):AsyncMatcherProxy{
+    if(typeof(i_Input) === 'object' || typeof(i_Input) === 'string' || typeof(i_Input) === 'number' || typeof(i_Input) === 'boolean'|| typeof(i_Input) === 'undefined'){
+      return this.expectHandler(i_Input);
+    }
+    else{
+      return this.asyncExpect(i_Input);
+    }
   }
 
   public addBefore(i_BeforeFunc: Function|AsyncFunction): ITest {

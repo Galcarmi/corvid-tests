@@ -1,9 +1,7 @@
 import { ITestSuiteManager } from "../../interfaces/TestSuiteManager/ITestSuiteManager.js";
-import { ISyncTestSuite } from "../../interfaces/TestSuite/ISyncTestSuite.js";
 import { IAsyncTestSuite } from "../../interfaces/TestSuite/IAsyncTestSuite.js";
 import { ITestSuiteResult } from "../../interfaces/TestSuiteManager/ITestSuiteResult.js";
 import { AsyncTestSuite } from "../TestSuites/AsyncTestSuite.js";
-import { TestSuite } from "../TestSuites/TestSuite.js";
 import { TestSuiteResult } from "./TestSuiteResult.js";
 import { ITestResult } from "../../interfaces/Tests/ITestResult.js";
 import { executeTestsReader } from "../../TestsReader/testsReader.js"
@@ -11,21 +9,13 @@ import { executeTestsReader } from "../../TestsReader/testsReader.js"
 
 export class TestSuiteManager implements ITestSuiteManager {
   
-  m_TestSuites: ISyncTestSuite[];
   m_AsyncTestSuites: IAsyncTestSuite[];
 
   constructor(){
-      this.m_TestSuites = [];
       this.m_AsyncTestSuites = [];
   }
 
-  get TestSuites(): ISyncTestSuite[] {
-    return this.m_TestSuites;
-  }
 
-  set TestSuites(val: ISyncTestSuite[]) {
-    this.m_TestSuites = val;
-  }
 
   get IAsyncTestSuite(): IAsyncTestSuite[] {
     return this.m_AsyncTestSuites;
@@ -35,122 +25,67 @@ export class TestSuiteManager implements ITestSuiteManager {
     this.m_AsyncTestSuites = val;
   }
 
-  addAsyncTestSuite(i_TestSuiteDescription: string): IAsyncTestSuite {
-    ///todo handle lock
+  public describe(i_TestSuiteDescription: string): IAsyncTestSuite {
     const ats = new AsyncTestSuite(i_TestSuiteDescription);
     this.m_AsyncTestSuites.push(ats);
     return ats;
   }
 
-  addTestSuite(i_TestSuiteDescription: string): ISyncTestSuite {
-    const ts = new TestSuite(i_TestSuiteDescription);
-    this.m_TestSuites.push(ts);
-    return ts;
-  }
-
-  async getAllTestSuitesResults(): Promise<ITestSuiteResult[]> {
+  async getResults(): Promise<ITestSuiteResult[]> {
     const results: ITestSuiteResult[] = [];
-    for (const ts of this.m_TestSuites) {
-      const testsResults = ts.getAllTestsResults();
-      const tsResults = new TestSuiteResult(ts.Description);
-      tsResults.TestsResults = testsResults;
-      results.push(tsResults)
-      // for (const testResult of testsResults) {
-      //   results.push(new TestSuiteResult(ts.Description, testResult));
-      // }
-    }
-
+    
     for (const ats of this.m_AsyncTestSuites) {
-      const testsResults = await ats.getAllTestsResults();
+      const testsResults = await ats.getResults();
       const tsResults = new TestSuiteResult(ats.Description);
       tsResults.TestsResults = testsResults;
       results.push(tsResults)
-      // for (const testResult of testsResults) {
-      //   results.push(new TestSuiteResult(ats.Description, testResult));
-      // }
     }
     return results;
   }
 
-  async getAllTestSuitesFailedResults(): Promise<ITestSuiteResult[]> {
+  async getFailed(): Promise<ITestSuiteResult[]> {
     const results: ITestSuiteResult[] = [];
-    for (const ts of this.m_TestSuites) {
-      const testsResults = ts.getFailedTestsResults();
-      const tsResults = new TestSuiteResult(ts.Description);
-      tsResults.TestsResults = testsResults;
-      results.push(tsResults)
-      // for (const testResult of testsResults) {
-      //   results.push(new TestSuiteResult(ts.Description, testResult));
-      // }
-    }
 
     for (const ats of this.m_AsyncTestSuites) {
-      const testsResults = await ats.getFailedTestsResults();
+      const testsResults = await ats.getFailed();
       const tsResults = new TestSuiteResult(ats.Description);
       tsResults.TestsResults = testsResults;
       results.push(tsResults)
-      // for (const testResult of testsResults) {
-      //   results.push(new TestSuiteResult(ats.Description, testResult));
-      // }
     }
     return results;
   }
 
-  async getAllTestSuitesPassedResults(): Promise<ITestSuiteResult[]> {
+  async getPassed(): Promise<ITestSuiteResult[]> {
     const results: ITestSuiteResult[] = [];
-    for (const ts of this.m_TestSuites) {
-      const testsResults = ts.getPassedTestsResults();
-      const tsResults = new TestSuiteResult(ts.Description);
-      tsResults.TestsResults = testsResults;
-      results.push(tsResults)
-      // for (const testResult of testsResults) {
-      //   results.push(new TestSuiteResult(ts.Description, testResult));
-      // }
-    }
 
     for (const ats of this.m_AsyncTestSuites) {
-      const testsResults = await ats.getPassedTestsResults();
+      const testsResults = await ats.getPassed();
       const tsResults = new TestSuiteResult(ats.Description);
       tsResults.TestsResults = testsResults;
       results.push(tsResults)
-      // for (const testResult of testsResults) {
-      //   results.push(new TestSuiteResult(ats.Description, testResult));
-      // }
     }
     return results;
   }
 
   async isAnyFailed(): Promise<boolean> {
     let flag = false;
-    for (const ts of this.m_TestSuites) {
-      const failed = ts.getFailedTestsResults();
-      if (failed) {
-        flag = true;
-      }
-    }
 
     for (const ats of this.m_AsyncTestSuites) {
-      const failed = await ats.getFailedTestsResults();
+      const failed = await ats.getFailed();
       if (failed) {
         flag = true;
+        break;
       }
     }
 
     return flag;
   }
 
-  async getAllTestSuitesResultsG(): Promise<ITestResult[]> {
+  async getResultsG(): Promise<ITestResult[]> {
     const results :ITestResult[]= []
 
-    for (const ts of this.m_TestSuites) {
-      const testsResults = ts.getAllTestsResults();
-      for (const testResult of testsResults) {
-        results.push(testResult);
-      }
-    }
-
     for (const ats of this.m_AsyncTestSuites) {
-      const testsResults = await ats.getAllTestsResults();
+      const testsResults = await ats.getResults();
       for (const testResult of testsResults) {
         results.push(testResult);
       }

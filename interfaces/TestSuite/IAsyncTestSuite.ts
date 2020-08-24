@@ -8,11 +8,11 @@ export interface IAsyncTestSuite extends ITestSuite{
     AfterEach: Function[];
   
     waitForTestsToBeResolved(): Promise<void>
-    addTest(i_test: string): IAsyncTest;
+    it(i_test: string): IAsyncTest;
     addBeforeEach(i_funcBefore: Function): IAsyncTestSuite;
     addAfterEach(i_funcAfter: Function): IAsyncTestSuite;
   
-    getAllTestsResults(): Promise<ITestResult[]>;
-    getPassedTestsResults(): Promise<ITestResult[]>;
-    getFailedTestsResults(): Promise<ITestResult[]>;
+    getResults(): Promise<ITestResult[]>;
+    getPassed(): Promise<ITestResult[]>;
+    getFailed(): Promise<ITestResult[]>;
 }
