@@ -51,7 +51,7 @@ export class AsyncTest implements IAsyncTest {
     this.m_AfterFunctions = val;
   }
 
-  public expectHandler(i_Result: any): AsyncMatcherProxy {
+  private expectHandler(i_Result: any): AsyncMatcherProxy {
     const resultAsyncFunctionWrapper = async ()=>{return i_Result};
     this.m_Matcher = new AsyncMatcherProxy(
       resultAsyncFunctionWrapper,
@@ -63,7 +63,7 @@ export class AsyncTest implements IAsyncTest {
     return this.m_Matcher;
   }
 
-  public asyncExpect(i_Func: AsyncFunction|Function): AsyncMatcherProxy {
+  private asyncExpect(i_Func: AsyncFunction|Function): AsyncMatcherProxy {
     this.m_Matcher = new AsyncMatcherProxy(
       i_Func,
       this.m_beforeFunctions,
