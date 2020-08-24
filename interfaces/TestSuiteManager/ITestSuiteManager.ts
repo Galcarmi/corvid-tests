@@ -11,6 +11,6 @@ export interface ITestSuiteManager{
     getPassed():Promise<ITestSuiteResult[]> ;
     getResultsG(): Promise<ITestResult[]> 
     isAnyFailed():Promise<boolean>;
-    execute():void;
+    execute(i_folderPath:string):void;
 
 }

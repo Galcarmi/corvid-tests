@@ -99,7 +99,7 @@ export class TestSuiteManager implements ITestSuiteManager {
     }
   }
 
-  async execute(): Promise<void> {
-    await executeTestsReader()
+  async execute(i_FolderPath:string): Promise<void> {
+    await executeTestsReader(i_FolderPath)
   }
 }
