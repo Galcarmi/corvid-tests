@@ -102,4 +102,8 @@ export class TestSuiteManager implements ITestSuiteManager {
   async execute(i_FolderPath:string): Promise<void> {
     await executeTestsReader(i_FolderPath)
   }
+
+  clearTests():void{
+    this.m_AsyncTestSuites = [];
+  }
 }
