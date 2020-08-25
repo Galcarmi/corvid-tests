@@ -7,18 +7,24 @@ exports.executeTestsReader = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const index_1 = require("../index");
-async function executeTestsReader() {
+async function executeTestsReader(i_FolderPath) {
     // console.log(path.join(__dirname + '/../'))
     // const filePath = path.join(__dirname + '/target.js')
     // const s = fs.readFileSync(filePath, 'utf8');
     // const x = eval(s);
     console.log('run tests');
-    const folderPath = path_1.default.join(__dirname + '/../../../../');
+    if (i_FolderPath === 'frontend') {
+        i_FolderPath = '/user-code/public';
+    }
+    else if (i_FolderPath === 'backend') {
+        i_FolderPath = '/user-code/backend';
+    }
+    const folderPath = i_FolderPath || path_1.default.join(__dirname + '/../../../../');
     await fromDir(folderPath, /\.ct.js$/, async (filename) => {
         console.log("-- found: ", filename);
         const s = fs_1.default.readFileSync(filename, "utf8");
         const x = eval(s);
-        await index_1.testSuiteManager.waitForAsyncTestsToBeResolved();
+        await index_1.tsm.waitForAsyncTestsToBeResolved();
     });
 }
 exports.executeTestsReader = executeTestsReader;

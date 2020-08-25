@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import {testSuiteManager} from '../index'
+import {tsm} from '../index'
 
 export async function executeTestsReader(i_FolderPath:string | undefined) {
   // console.log(path.join(__dirname + '/../'))
@@ -9,13 +9,19 @@ export async function executeTestsReader(i_FolderPath:string | undefined) {
   // const s = fs.readFileSync(filePath, 'utf8');
   // const x = eval(s);
   console.log('run tests')
+  if(i_FolderPath === 'frontend'){
+    i_FolderPath = '/user-code/public'
+  }
+  else if (i_FolderPath ==='backend'){
+    i_FolderPath = '/user-code/backend'
+  }
   
   const folderPath = i_FolderPath || path.join(__dirname + '/../../../../');
   await fromDir(folderPath, /\.ct.js$/, async (filename: string) => {
     console.log("-- found: ", filename);
     const s = fs.readFileSync(filename, "utf8");
     const x = eval(s);
-    await testSuiteManager.waitForAsyncTestsToBeResolved();
+    await tsm.waitForAsyncTestsToBeResolved();
     
   });
 }

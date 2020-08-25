@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("./index.js");
 const index_js_2 = require("./index.js");
 async function asyncTests() {
-    const ats = new index_js_1.AsyncTestSuite('my first async test suite !');
+    const ats = index_js_2.tsm.describe('my first async test suite !');
     ats.addBeforeEach(() => {
         'random before each function';
     });
@@ -35,17 +35,15 @@ async function tests() {
     console.log('sync test suite results', results);
 }
 async function testManager() {
-    const ts = index_js_2.testSuiteManager.describe('my test suite');
+    const ts = index_js_2.tsm.describe('my test suite');
     ts.it('new test').expect(5).toBe(5);
     ts.it('new test').expect(5).toBe(2);
-    const tss = index_js_2.testSuiteManager.describe('my second test suite');
+    const tss = index_js_2.tsm.describe('my second test suite');
     tss.it('new test').expect(3).toBe(3);
-    const results = await index_js_2.testSuiteManager.getPassed();
-    // const resultsG = await testSuiteManager.getAllTestSuitesResultsG();
+    const results = await index_js_2.tsm.getResults();
     for (const result of results) {
         console.log(result.TestSuiteDescription, result.TestsResults);
     }
-    // console.log(resultsG);
 }
 tests();
 asyncTests();

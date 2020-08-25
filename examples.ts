@@ -1,8 +1,8 @@
-import {AsyncTestSuite} from './index.js';
-import {testSuiteManager} from './index.js'
+import { AsyncTestSuite } from './index.js';
+import { tsm } from './index.js'
 
 async function asyncTests(){
-    const ats = new AsyncTestSuite('my first async test suite !');
+    const ats = tsm.describe('my first async test suite !');
 
     ats.addBeforeEach(()=>{'random before each function'});
     ats.addAfterEach(async ()=>{'random after each function'})
@@ -33,17 +33,15 @@ async function tests(){
 }
 
 async function testManager(){
-    const ts = testSuiteManager.describe('my test suite');
+    const ts = tsm.describe('my test suite');
     ts.it('new test').expect(5).toBe(5);
     ts.it('new test').expect(5).toBe(2);
-    const tss = testSuiteManager.describe('my second test suite');
+    const tss = tsm.describe('my second test suite');
     tss.it('new test').expect(3).toBe(3);
-    const results = await testSuiteManager.getPassed();
-    // const resultsG = await testSuiteManager.getAllTestSuitesResultsG();
+    const results = await tsm.getResults();
     for(const result of results){
         console.log(result.TestSuiteDescription,result.TestsResults);
     }
-    // console.log(resultsG);
 }
 
 

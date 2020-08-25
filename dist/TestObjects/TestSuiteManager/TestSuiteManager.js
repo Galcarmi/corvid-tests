@@ -75,8 +75,8 @@ class TestSuiteManager {
             await ats.waitForTestsToBeResolved();
         }
     }
-    async execute() {
-        await testsReader_js_1.executeTestsReader();
+    async execute(i_FolderPath) {
+        await testsReader_js_1.executeTestsReader(i_FolderPath);
     }
 }
 exports.TestSuiteManager = TestSuiteManager;
