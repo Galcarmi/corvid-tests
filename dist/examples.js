@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("./index.js");
-const index_js_2 = require("./index.js");
+const TestSuiteManager_js_1 = require("./TestObjects/TestSuiteManager/TestSuiteManager.js");
+const tsm = new TestSuiteManager_js_1.TestSuiteManager();
 async function asyncTests() {
-    const ats = index_js_2.tsm.describe('my first async test suite !');
+    const ats = tsm.describe('my first async test suite !');
     ats.addBeforeEach(() => {
         'random before each function';
     });
@@ -35,12 +36,12 @@ async function tests() {
     console.log('sync test suite results', results);
 }
 async function testManager() {
-    const ts = index_js_2.tsm.describe('my test suite');
+    const ts = tsm.describe('my test suite');
     ts.it('new test').expect(5).toBe(5);
     ts.it('new test').expect(5).toBe(2);
-    const tss = index_js_2.tsm.describe('my second test suite');
+    const tss = tsm.describe('my second test suite');
     tss.it('new test').expect(3).toBe(3);
-    const results = await index_js_2.tsm.getResults();
+    const results = await tsm.getResults();
     for (const result of results) {
         console.log(result.TestSuiteDescription, result.TestsResults);
     }

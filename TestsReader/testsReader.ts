@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
-import {tsm} from '../index'
+import { TestSuiteManager } from "../TestObjects/TestSuiteManager/TestSuiteManager";
 
-export async function executeTestsReader(i_FolderPath:string | undefined) {
+export async function executeTestsReader(i_FolderPath:string | undefined,tsm:TestSuiteManager) {
   // console.log(path.join(__dirname + '/../'))
 
   // const filePath = path.join(__dirname + '/target.js')
@@ -15,7 +15,7 @@ export async function executeTestsReader(i_FolderPath:string | undefined) {
   else if (i_FolderPath ==='backend'){
     i_FolderPath = '/user-code/backend'
   }
-  
+  console.log('executeTestsReader')
   const folderPath = i_FolderPath || path.join(__dirname + '/../../../../');
   await fromDir(folderPath, /\.ct.js$/, async (filename: string) => {
     console.log("-- found: ", filename);

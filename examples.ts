@@ -1,6 +1,7 @@
 import { AsyncTestSuite } from './index.js';
-import { tsm } from './index.js'
+import { TestSuiteManager } from './TestObjects/TestSuiteManager/TestSuiteManager.js';
 
+const tsm = new TestSuiteManager()
 async function asyncTests(){
     const ats = tsm.describe('my first async test suite !');
 

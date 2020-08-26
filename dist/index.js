@@ -1,8 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tsm = void 0;
 var AsyncTestSuite_js_1 = require("./TestObjects/TestSuites/AsyncTestSuite.js");
 Object.defineProperty(exports, "AsyncTestSuite", { enumerable: true, get: function () { return AsyncTestSuite_js_1.AsyncTestSuite; } });
-const TestSuiteManager_js_1 = require("./TestObjects/TestSuiteManager/TestSuiteManager.js");
-const tsm = new TestSuiteManager_js_1.TestSuiteManager();
-exports.tsm = tsm;
+var Matcher_js_1 = require("./TestObjects/Matchers/Matcher.js");
+Object.defineProperty(exports, "Matcher", { enumerable: true, get: function () { return Matcher_js_1.Matcher; } });
+var AsyncMatcherProxy_js_1 = require("./TestObjects/Matchers/AsyncMatcherProxy.js");
+Object.defineProperty(exports, "AsyncMatcherProxy", { enumerable: true, get: function () { return AsyncMatcherProxy_js_1.AsyncMatcherProxy; } });
+var AsyncTest_js_1 = require("./TestObjects/Tests/AsyncTest.js");
+Object.defineProperty(exports, "AsyncTest", { enumerable: true, get: function () { return AsyncTest_js_1.AsyncTest; } });
+var TestResult_js_1 = require("./TestObjects/Tests/TestResult.js");
+Object.defineProperty(exports, "TestResult", { enumerable: true, get: function () { return TestResult_js_1.TestResult; } });
+var TestSuiteManager_js_1 = require("./TestObjects/TestSuiteManager/TestSuiteManager.js");
+Object.defineProperty(exports, "TestSuiteManager", { enumerable: true, get: function () { return TestSuiteManager_js_1.TestSuiteManager; } });

@@ -76,7 +76,10 @@ class TestSuiteManager {
         }
     }
     async execute(i_FolderPath) {
-        await testsReader_js_1.executeTestsReader(i_FolderPath);
+        await testsReader_js_1.executeTestsReader(i_FolderPath, this);
+    }
+    clearTests() {
+        this.m_AsyncTestSuites = [];
     }
 }
 exports.TestSuiteManager = TestSuiteManager;

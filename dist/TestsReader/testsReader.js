@@ -6,8 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.executeTestsReader = void 0;
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const index_1 = require("../index");
-async function executeTestsReader(i_FolderPath) {
+async function executeTestsReader(i_FolderPath, tsm) {
     // console.log(path.join(__dirname + '/../'))
     // const filePath = path.join(__dirname + '/target.js')
     // const s = fs.readFileSync(filePath, 'utf8');
@@ -19,12 +18,13 @@ async function executeTestsReader(i_FolderPath) {
     else if (i_FolderPath === 'backend') {
         i_FolderPath = '/user-code/backend';
     }
+    console.log('executeTestsReader');
     const folderPath = i_FolderPath || path_1.default.join(__dirname + '/../../../../');
     await fromDir(folderPath, /\.ct.js$/, async (filename) => {
         console.log("-- found: ", filename);
         const s = fs_1.default.readFileSync(filename, "utf8");
         const x = eval(s);
-        await index_1.tsm.waitForAsyncTestsToBeResolved();
+        await tsm.waitForAsyncTestsToBeResolved();
     });
 }
 exports.executeTestsReader = executeTestsReader;
